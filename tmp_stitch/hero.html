@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>KOKENI.GE | Precision Embossing</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3089e8",
+                        "background-light": "#F5F2EC", /* Raw Vellum */
+                        "background-dark": "#111921",
+                        "surface": "#EBE7DF",
+                        "text-main": "#2C2C2C",
+                        "text-heavy": "#0A0A0A",
+                        "muted": "#D1CEC7",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "mono": ["JetBrains Mono", "monospace"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                    backgroundImage: {
+                        'engineering-grid': `
+                            linear-gradient(to right, #D1CEC7 1px, transparent 1px),
+                            linear-gradient(to bottom, #D1CEC7 1px, transparent 1px)
+                        `
+                    },
+                    backgroundSize: {
+                        'grid-size': '40px 40px'
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        /* Base Styles for the Brutalist Look */
+        body {
+            background-color: theme('colors.background-light');
+            color: theme('colors.text-main');
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* 40px Graphite Grid Overlay */
+        .grid-overlay {
+            position: absolute;
+            inset: 0;
+            background-image: theme('backgroundImage.engineering-grid');
+            background-size: theme('backgroundSize.grid-size');
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0;
+            animation: fadeIn 1.5s ease-in-out forwards;
+        }
+
+        /* Typography specific classes */
+        .font-brutalist {
+            font-family: theme('fontFamily.display');
+            font-weight: 700;
+            color: theme('colors.text-heavy');
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+            line-height: 0.9;
+        }
+
+        .font-technical {
+            font-family: theme('fontFamily.mono');
+            font-size: 12px;
+            color: theme('colors.text-main');
+        }
+
+        /* Heavy Borders */
+        .border-heavy {
+            border: 4px solid theme('colors.text-heavy');
+        }
+
+        /* SVG Path Drawing Animation */
+        .path-draw {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: drawPath 1.5s ease-in-out forwards;
+        }
+
+        @keyframes drawPath {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 0.5;
+            }
+        }
+
+        /* Bounding Box Hover Logic */
+        .sketch-container:hover .bounding-box {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .sketch-container:hover .sketch-svg {
+            stroke: theme('colors.primary');
+            transition: stroke 0.3s ease;
+        }
+
+        .bounding-box {
+            opacity: 0;
+            transform: scale(0.95);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 1px dashed theme('colors.primary');
+        }
+    </style>
+</head>
+<body class="relative min-h-screen w-full font-display selection:bg-primary selection:text-white">
+<!-- Global Grid -->
+<div class="grid-overlay"></div>
+<!-- Main Container -->
+<main class="relative z-10 flex h-screen w-full flex-col px-10 py-10 lg:px-16 lg:py-16">
+<!-- Registration Marks (Top Left) -->
+<div class="absolute top-8 left-8 flex flex-col items-center gap-2">
+<span class="material-symbols-outlined text-text-heavy text-base">add</span>
+<span class="font-technical">X:001</span>
+</div>
+<!-- Registration Marks (Top Right) -->
+<div class="absolute top-8 right-8 flex flex-col items-center gap-2">
+<span class="material-symbols-outlined text-text-heavy text-base">add</span>
+<span class="font-technical">Y:001</span>
+</div>
+<!-- Registration Marks (Bottom Left) -->
+<div class="absolute bottom-8 left-8 flex flex-col items-center gap-2">
+<span class="font-technical">Z:000</span>
+<span class="material-symbols-outlined text-text-heavy text-base">add</span>
+</div>
+<!-- Registration Marks (Bottom Right) -->
+<div class="absolute bottom-8 right-8 flex flex-col items-center gap-2">
+<span class="font-technical">V:1.0</span>
+<span class="material-symbols-outlined text-text-heavy text-base">add</span>
+</div>
+<!-- Content Layout -->
+<div class="flex h-full w-full flex-col justify-between pt-12 lg:flex-row lg:items-center lg:justify-between lg:pt-0">
+<!-- Left Side: Massive Typography & CTA -->
+<div class="flex flex-col gap-12 lg:w-3/5 lg:pr-12">
+<h1 class="font-brutalist text-[clamp(48px,8vw,120px)] break-words">
+                    KOKENI.GE /<br/>
+                    PRECISION<br/>
+                    EMBOSSING
+                </h1>
+<div class="mt-4">
+<button class="group relative flex h-[60px] w-[240px] items-center justify-center overflow-hidden border-heavy bg-transparent rounded-sm transition-colors duration-300 hover:bg-text-heavy">
+<span class="font-technical text-[14px] font-bold text-text-heavy transition-colors duration-300 group-hover:text-background-light">
+                            INITIALIZE PROJECT ↗
+                        </span>
+</button>
+</div>
+</div>
+<!-- Right Side: Colchian Sketch SVG -->
+<div class="sketch-container relative mt-16 flex items-center justify-center lg:mt-0 lg:w-2/5">
+<!-- Bounding Box Tooltip (Revealed on hover) -->
+<div class="bounding-box absolute inset-[-20px] z-20 flex flex-col justify-between p-2 pointer-events-none rounded-sm">
+<div class="flex justify-between w-full">
+<div class="h-2 w-2 border-l border-t border-primary"></div>
+<span class="font-technical text-primary">W: 450mm</span>
+<div class="h-2 w-2 border-r border-t border-primary"></div>
+</div>
+<div class="absolute right-[-40px] top-1/2 -translate-y-1/2 rotate-90">
+<span class="font-technical text-primary">H: 450mm</span>
+</div>
+<div class="flex justify-between w-full">
+<div class="h-2 w-2 border-l border-b border-primary"></div>
+<div class="h-2 w-2 border-r border-b border-primary"></div>
+</div>
+</div>
+<!-- Abstract Geometric Wireframe (Colchian inspired) -->
+<svg class="sketch-svg h-[400px] w-[400px] text-text-heavy lg:h-[500px] lg:w-[500px]" fill="none" viewbox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+<g stroke="currentColor" stroke-linejoin="bevel" stroke-width="2">
+<!-- Outer Hexagon -->
+<path class="path-draw" d="M250 50 L423.2 150 L423.2 350 L250 450 L76.8 350 L76.8 150 Z"></path>
+<!-- Inner Connections -->
+<path class="path-draw" d="M250 50 L250 450"></path>
+<path class="path-draw" d="M76.8 150 L423.2 350"></path>
+<path class="path-draw" d="M76.8 350 L423.2 150"></path>
+<!-- Inner Diamond -->
+<path class="path-draw" d="M250 150 L336.6 250 L250 350 L163.4 250 Z"></path>
+<!-- Core Detail -->
+<circle class="path-draw" cx="250" cy="250" r="40" stroke-width="1.5"></circle>
+<circle class="path-draw" cx="250" cy="250" r="20" stroke-width="1"></circle>
+<!-- Embossing Depth Lines (Isometric illusion) -->
+<path class="path-draw" d="M250 50 L270 70 L270 430 L250 450" stroke-dasharray="4 4" stroke-width="1"></path>
+<path class="path-draw" d="M423.2 150 L403.2 170 L403.2 330 L423.2 350" stroke-dasharray="4 4" stroke-width="1"></path>
+<path class="path-draw" d="M76.8 150 L96.8 170 L96.8 330 L76.8 350" stroke-dasharray="4 4" stroke-width="1"></path>
+</g>
+</svg>
+</div>
+</div>
+</main>
+</body></html>
