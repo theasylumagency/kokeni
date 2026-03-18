@@ -20,38 +20,45 @@ export default function Output({ dict }: { dict: any }) {
       </div>
 
       {/* Part 2: The Grid (3 columns) */}
-      <div className="m-12 grid grid-cols-1 lg:grid-cols-3">
+      <div className="m-12 flex flex-row justify-center max-sm:flex-col">
 
         {/* Column 1 */}
-        <div className="flex flex-col p-8 lg:p-3 pb-20">
-          <div className="relative w-full aspect-square mb-8 overflow-hidden bg-text-main">
-            <Image src="/images/home/home-section.webp" alt="Institutional" fill className="object-cover filter grayscale" />
+        <div className="w-[30px] h-auto max-sm:hidden bg-black"></div>
+        <div className="w-[30vw] max-sm:w-full flex flex-col">
+          <div className="relative w-full aspect-5/4 overflow-hidden bg-text-main">
+            <Image src="/images/home/institutional.webp" alt="Institutional" fill className="object-cover" />
           </div>
-          <h3 className="font-mono text-lg font-bold mb-2 uppercase">{dict.output.inst_title}</h3>
-          <p className="font-bold mb-4 uppercase text-sm">{dict.output.inst_subtitle}</p>
-          <p className="font-display text-sm leading-relaxed text-text-main/80">{dict.output.inst_desc}</p>
+          <div className="bg-background-light p-8">
+            <h3 className="font-mono text-lg font-bold mb-2 uppercase">{dict.output.inst_title}</h3>
+            <p className="font-bold mb-4 uppercase text-sm">{dict.output.inst_subtitle}</p>
+            <p className="font-display text-sm leading-relaxed text-text-main/80">{dict.output.inst_desc}</p>
+          </div>
         </div>
 
         {/* Column 2 */}
-        <div className="flex flex-col p-8 lg:p-3 pb-20">
-          <div className="relative w-full aspect-square mb-8 overflow-hidden bg-text-main">
-            <Image src="/images/home/home-section.webp" alt="Hospitality" fill className="object-cover filter grayscale" />
+        <div className="w-[30vw] max-sm:w-full flex flex-col">
+          <div className="relative w-full aspect-5/4 overflow-hidden bg-text-main">
+            <Image src="/images/home/restaurants.webp" alt="Hospitality" fill className="object-cover" />
           </div>
-          <h3 className="font-mono text-lg font-bold mb-2 uppercase">{dict.output.hosp_title}</h3>
-          <p className="font-bold mb-4 uppercase text-sm">{dict.output.hosp_subtitle}</p>
-          <p className="font-display text-sm leading-relaxed text-text-main/80">{dict.output.hosp_desc}</p>
+          <div className="bg-background-light p-8">
+            <h3 className="font-mono text-lg font-bold mb-2 uppercase">{dict.output.hosp_title}</h3>
+            <p className="font-bold mb-4 uppercase text-sm">{dict.output.hosp_subtitle}</p>
+            <p className="font-display text-sm leading-relaxed text-text-main/80">{dict.output.hosp_desc}</p>
+          </div>
         </div>
 
         {/* Column 3 */}
-        <div className="flex flex-col p-8 lg:p-3 pb-20">
-          <div className="relative w-full aspect-square mb-8 overflow-hidden bg-text-main">
-            <Image src="/images/home/home-section.webp" alt="Bespoke" fill className="object-cover filter grayscale" />
+        <div className="w-[30vw] max-sm:w-full flex flex-col">
+          <div className="relative w-full aspect-5/4 overflow-hidden bg-text-main">
+            <Image src="/images/home/diversity.webp" alt="Bespoke" fill className="object-cover" />
           </div>
-          <h3 className="font-mono text-lg font-bold mb-2 uppercase">{dict.output.bespoke_title}</h3>
-          <p className="font-bold mb-4 uppercase text-sm">{dict.output.bespoke_subtitle}</p>
-          <p className="font-display text-sm leading-relaxed text-text-main/80">{dict.output.bespoke_desc}</p>
+          <div className="bg-background-light p-8">
+            <h3 className="font-mono text-lg font-bold mb-2 uppercase">{dict.output.bespoke_title}</h3>
+            <p className="font-bold mb-4 uppercase text-sm">{dict.output.bespoke_subtitle}</p>
+            <p className="font-display text-sm leading-relaxed text-text-main/80">{dict.output.bespoke_desc}</p>
+          </div>
         </div>
-
+        <div className="w-[30px] h-auto max-sm:hidden bg-black"></div>
       </div>
     </section>
   );

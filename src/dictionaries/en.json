@@ -4,8 +4,8 @@
   },
   "hero": {
     "title1": "KOKENI.GE /",
-    "title2": "PRECISION",
-    "title3": "EMBOSSING",
+    "title2": "PREMIUM",
+    "title3": "MANUFACTURING",
     "subtitle": "THE STANDARD IN PREMIUM MANUFACTURING.",
     "description": "Advanced European printing technology meets uncompromising manual craftsmanship.",
     "cta": "INITIALIZE PROJECT ↗"
@@ -23,9 +23,9 @@
     "hosp_title": "02 / HOSPITALITY & COMMERCIAL",
     "hosp_subtitle": "Durable Luxury.",
     "hosp_desc": "Built for the rigorous demands of high-end gastronomy and premium commercial spaces. We manufacture tactile menus and check presenters that seamlessly match the elite physical aesthetic of a restaurant, maintaining their form under heavy daily volume.",
-    "bespoke_title": "03 / BESPOKE & HANDMADE",
-    "bespoke_subtitle": "The Atelier.",
-    "bespoke_desc": "Pure manual execution for absolute individuality. Utilizing genuine natural leather and proprietary cutting techniques, we produce highly exclusive, small-batch runs—down to 25 custom pieces—for clients demanding true artisan craftsmanship."
+    "bespoke_title": "03 / DIVERSITY OF POSSIBILITIES",
+    "bespoke_subtitle": "Perfect Individuality.",
+    "bespoke_desc": "Flexible choice of materials and technology. We have developed procedures to meet the most unusual requirements."
   },
   "blueprint": {
     "title": "APPENDIX A: TOTAL MANUFACTURING CAPABILITIES",
@@ -48,7 +48,11 @@
     "title": "COMMENCE PRODUCTION.",
     "subtitle": "Direct all manufacturing inquiries, bespoke commissions, and state tender requests to our central office.",
     "col1_title": "0160 / TBILISI",
-    "col1_lines": ["Shartava St. 35/37", "Georgia.", "(Client meetings and physical material reviews by appointment)."],
+    "col1_lines": [
+      "Shartava St. 35/37",
+      "Georgia.",
+      "(Client meetings and physical material reviews by appointment)."
+    ],
     "col2_title": "DIRECT COMMS",
     "col2_t": "T: +995 32 238 65 89",
     "col2_m": "M: +995 599 51 03 38",

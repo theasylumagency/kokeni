@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>KOKENI.GE - The Output</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "primary": "#3089e8",
+          "background-light": "#F5F2EC",
+          "background-dark": "#111921",
+          "black": "#0A0A0A",
+          "charcoal": "#2C2C2C",
+          "graphite": "#D1CEC7",
+          "surface": "#EBE7DF"
+        },
+        fontFamily: {
+          "display": ["Space Grotesk", "sans-serif"],
+          "mono": ["JetBrains Mono", "monospace"]
+        },
+        borderRadius: {"DEFAULT": "0.125rem", "sm": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+        backgroundImage: {
+          'grid-pattern': "linear-gradient(to right, #D1CEC7 1px, transparent 1px), linear-gradient(to bottom, #D1CEC7 1px, transparent 1px)"
+        }
+      },
+    },
+  }
+</script>
+<style>
+  body {
+    background-color: theme('colors.background-light');
+    background-size: 40px 40px;
+  }
+  
+  .output-card:hover .spec-list {
+    color: theme('colors.primary');
+  }
+
+  /* Structural lines */
+  .border-heavy { border-width: 4px; border-color: theme('colors.black'); }
+  .border-structural { border-width: 1px; border-color: theme('colors.black'); }
+</style>
+</head>
+<body class="bg-background-light dark:bg-background-dark bg-grid-pattern min-h-screen text-charcoal font-display antialiased selection:bg-primary selection:text-white">
+<!-- Cinematic Pause -->
+<div class="h-[307px] w-full border-b border-structural flex items-end justify-between px-8 pb-4">
+<span class="font-mono text-xs text-graphite tracking-widest">SEC.03 // THE OUTPUT</span>
+<span class="font-mono text-xs text-graphite tracking-widest">W: 100vw / H: 30vh</span>
+</div>
+<!-- Architectural Grid Container -->
+<main class="w-full max-w-[95vw] mx-auto py-16">
+<div class="flex flex-col lg:flex-row justify-center gap-0 border border-structural bg-black">
+<!-- Column 1: Institutional -->
+<article class="output-card group relative w-full lg:w-[30vw] aspect-square bg-background-light border border-structural overflow-hidden cursor-pointer transition-colors duration-200">
+<!-- Hover Border Overlay -->
+<div class="absolute inset-0 border-4 border-transparent group-hover:border-primary z-20 pointer-events-none transition-colors duration-200"></div>
+<div class="h-[70%] w-full relative border-b border-structural grayscale group-hover:grayscale-0 transition-all duration-300">
+<div class="w-full h-full bg-cover bg-center" data-alt="Stacks of crisp corporate documents" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCLz_AeMM_DwdzJk-K1T2vLZOg-GMjjhtkfT_xpd8xn4GuhTjmUMaUlBLPaVeis7EB-95ahuPXl9VFRWKngCiAmpXiwGq1D3ha1UO6rMLjcyswqaVIP3TUBdAofPNFwGSDh6sFhHCLgr2hY3DJb9jIbPKvcKkkEHNn42cYy9w6wU6Ot-HvPviiGU4m4gmO-Ik2RRyPwX7v_jZeKvDrreCpVjXLu3RO-QzC_o4tqU2G1uvlY-KipKAkSYHOdS35Lz5aivFe6ayLMojw');"></div>
+<div class="absolute top-4 left-4 bg-black text-background-light font-mono text-[10px] px-2 py-1 tracking-widest z-10">CAP: 10K/HR</div>
+</div>
+<div class="h-[30%] w-full p-6 flex flex-col justify-between bg-background-light group-hover:bg-surface transition-colors duration-200">
+<h2 class="text-black text-2xl font-bold tracking-tighter uppercase leading-none">Institutional</h2>
+<div class="spec-list font-mono text-xs text-charcoal transition-colors duration-200 flex flex-col gap-1">
+<div class="flex justify-between border-b border-graphite border-dashed pb-1">
+<span>Weight</span>
+<span class="font-bold">300gsm</span>
+</div>
+<div class="flex justify-between border-b border-graphite border-dashed pb-1">
+<span>Depth</span>
+<span class="font-bold">1.2mm</span>
+</div>
+</div>
+</div>
+</article>
+<!-- Column 2: Hospitality -->
+<article class="output-card group relative w-full lg:w-[30vw] aspect-square bg-background-light border border-structural overflow-hidden cursor-pointer transition-colors duration-200">
+<div class="absolute inset-0 border-4 border-transparent group-hover:border-primary z-20 pointer-events-none transition-colors duration-200"></div>
+<div class="h-[70%] w-full relative border-b border-structural contrast-125 group-hover:contrast-100 transition-all duration-300">
+<div class="w-full h-full bg-cover bg-center" data-alt="High contrast luxury restaurant menu" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA-QxcnTtlHH-HW6iGdjItBEYoq8RDJUWqHtV1tk8If1Wf77Baya_UV6hm8LX0wol131t5SrdM5I89ez5wCGA4HCC_-oorDiPCgWERERNPZJxWB4VHTLUcHCN0Lbfp8URQ2NWp88CoWxc0-2lGpKa0GdBQcUw80p5uxl3Ojia-A1PKkhhnG97YjE7IyiYs9vIY2xjQj83UgXPHXV7pzQPSkGYDF_UeXykHXBfbSDIXC9HLSH_GhzM7zqy0kkNz-6JICv5N6rIl-Nm4');"></div>
+<div class="absolute top-4 left-4 bg-black text-background-light font-mono text-[10px] px-2 py-1 tracking-widest z-10">SPEC: FOIL</div>
+</div>
+<div class="h-[30%] w-full p-6 flex flex-col justify-between bg-background-light group-hover:bg-surface transition-colors duration-200">
+<h2 class="text-black text-2xl font-bold tracking-tighter uppercase leading-none">Hospitality</h2>
+<div class="spec-list font-mono text-xs text-charcoal transition-colors duration-200 flex flex-col gap-1">
+<div class="flex justify-between border-b border-graphite border-dashed pb-1">
+<span>Weight</span>
+<span class="font-bold">600gsm duplex</span>
+</div>
+<div class="flex justify-between border-b border-graphite border-dashed pb-1">
+<span>Foil</span>
+<span class="font-bold">Gold 24k</span>
+</div>
+</div>
+</div>
+</article>
+<!-- Column 3: Bespoke -->
+<article class="output-card group relative w-full lg:w-[30vw] aspect-square bg-background-light border border-structural overflow-hidden cursor-pointer transition-colors duration-200">
+<div class="absolute inset-0 border-4 border-transparent group-hover:border-primary z-20 pointer-events-none transition-colors duration-200"></div>
+<div class="h-[70%] w-full relative border-b border-structural transition-all duration-300">
+<div class="w-full h-full bg-cover bg-center scale-110 group-hover:scale-100 transition-transform duration-500" data-alt="Macro detail of textured paper" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDdHGnMuaMDibO8NLPBR_dMSl9r2opPXjLnQtmdsnVhh2QyyRsiq4qRZdyQxjMBKs2Y9JtrafWmARyu8nDttLvYy4d6WzWsH-G4fuSJjKqds0SmfR_OHgRD-8y7OR5eJ1CMrQoi9YRq98a_Ko4yWZ7KQbXGdAwmxfR7fXCUSavvagp-CdHeDw_nEYmx0FDdzEI56-o1kEulri07TtCiX_DlBwoqqO2mChkvNccpOlRzicm9WUnO_AAlRa7KbT7W8riz-ceIW2bqRm8');"></div>
+<div class="absolute top-4 left-4 bg-black text-background-light font-mono text-[10px] px-2 py-1 tracking-widest z-10">TOL: 0.01</div>
+</div>
+<div class="h-[30%] w-full p-6 flex flex-col justify-between bg-background-light group-hover:bg-surface transition-colors duration-200">
+<h2 class="text-black text-2xl font-bold tracking-tighter uppercase leading-none">Bespoke</h2>
+<div class="spec-list font-mono text-xs text-charcoal transition-colors duration-200 flex flex-col gap-1">
+<div class="flex justify-between border-b border-graphite border-dashed pb-1">
+<span>Tolerance</span>
+<span class="font-bold">0.01mm</span>
+</div>
+<div class="flex justify-between border-b border-graphite border-dashed pb-1">
+<span>Material</span>
+<span class="font-bold">Custom Blend</span>
+</div>
+</div>
+</div>
+</article>
+</div>
+<!-- Case Study Action Banner (Static representation of the modal trigger/manifest) -->
+<div class="mt-16 border-heavy bg-surface p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 hover:bg-black hover:text-background-light transition-colors duration-300 group cursor-pointer">
+<div class="flex flex-col gap-2">
+<h3 class="text-2xl font-bold tracking-tight group-hover:text-primary transition-colors">INSTITUTIONAL MANIFEST_V1</h3>
+<p class="font-mono text-sm text-charcoal group-hover:text-graphite max-w-2xl">
+          Full technical case studies, production scale metrics, and raw data manifests for institutional buyers. Access secure server partition.
+        </p>
+</div>
+<button class="shrink-0 flex items-center justify-center border-2 border-current px-6 py-3 font-mono text-sm font-bold tracking-widest uppercase hover:bg-primary hover:border-primary hover:text-white transition-all">
+<span class="material-symbols-outlined mr-2 text-lg">download</span>
+        Fetch Data
+      </button>
+</div>
+</main>
+<!-- Decorative Corner Marks -->
+<div class="fixed top-4 right-4 font-mono text-xs text-graphite hidden md:block z-0">Y:001 <span class="material-symbols-outlined text-[10px] align-middle ml-1">add</span></div>
+<div class="fixed bottom-4 left-4 font-mono text-xs text-graphite hidden md:block z-0"><span class="material-symbols-outlined text-[10px] align-middle mr-1">add</span> X:001</div>
+</body></html>
