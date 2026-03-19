@@ -1,6 +1,7 @@
 import Image from "next/image";
+import type { Dictionary } from "@/utils/getDictionary";
 
-export default function Hero({ dict }: { dict: any }) {
+export default function Hero({ dict }: { dict: Dictionary }) {
     return (
         <section className="relative flex min-h-screen w-full flex-col px-10 py-10 lg:px-16 lg:py-16">
             {/* Registration Marks (Top Left) */}
@@ -72,7 +73,7 @@ export default function Hero({ dict }: { dict: any }) {
             {/* Scroll Indicator */}
             <div className="absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2 z-20 opacity-80 animate-pulse">
                 <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-text-heavy">
-                    {dict.hero?.scroll || "Scroll"}
+                    Scroll
                 </span>
                 <span className="material-symbols-outlined text-text-heavy text-sm">
                     south

@@ -1,0 +1,80 @@
+[
+  {
+    "id": "05fe5faf-ffb4-4c93-82f9-d42e0d5d21ee",
+    "groupId": "e7307e1c-9f15-49f5-9c79-746b41b52332",
+    "slug": "მენიუს-ყდა",
+    "order": 1,
+    "name": {
+      "ka": "მენიუს ყდა"
+    },
+    "isActive": true,
+    "createdAt": "2026-03-19T06:34:52.902Z",
+    "updatedAt": "2026-03-19T07:17:12.059Z",
+    "showOnHome": true
+  },
+  {
+    "id": "16561bbb-2e97-4ae0-92c0-65365b4019cb",
+    "groupId": "e7307e1c-9f15-49f5-9c79-746b41b52332",
+    "slug": "მენიუ",
+    "order": 2,
+    "name": {
+      "ka": "მენიუ"
+    },
+    "isActive": true,
+    "showOnHome": true,
+    "createdAt": "2026-03-19T08:00:31.513Z",
+    "updatedAt": "2026-03-19T08:00:53.603Z"
+  },
+  {
+    "id": "e83bd10d-4b67-488a-8a8b-1843961e62c3",
+    "groupId": "e7307e1c-9f15-49f5-9c79-746b41b52332",
+    "slug": "მიმტანის-ბლოკნოტი",
+    "order": 3,
+    "name": {
+      "ka": "მიმტანის ბლოკნოტი"
+    },
+    "isActive": true,
+    "showOnHome": true,
+    "createdAt": "2026-03-19T07:59:22.797Z",
+    "updatedAt": "2026-03-19T07:59:22.797Z"
+  },
+  {
+    "id": "3a29a1af-983e-4ab2-ad53-a8c8bde46e6f",
+    "groupId": "fa4a3efe-fc8e-455e-a013-1fc6ad0e8518",
+    "slug": "დიპლომის-ყდები",
+    "order": 1,
+    "name": {
+      "ka": "დიპლომის ყდები"
+    },
+    "isActive": true,
+    "createdAt": "2026-03-19T05:19:15.116Z",
+    "updatedAt": "2026-03-19T07:17:01.637Z",
+    "showOnHome": true
+  },
+  {
+    "id": "5878b95d-69ef-4d8c-812c-93dd41cca3b4",
+    "groupId": "fa4a3efe-fc8e-455e-a013-1fc6ad0e8518",
+    "slug": "ოფიციალური-დოკუმენტის-ყდები",
+    "order": 2,
+    "name": {
+      "ka": "ოფიციალური დოკუმენტის ყდები"
+    },
+    "isActive": true,
+    "showOnHome": true,
+    "createdAt": "2026-03-19T07:58:09.187Z",
+    "updatedAt": "2026-03-19T07:58:09.187Z"
+  },
+  {
+    "id": "ab1ecba8-7d8a-42ae-bbb6-ec53e97c6bfe",
+    "groupId": "fa4a3efe-fc8e-455e-a013-1fc6ad0e8518",
+    "slug": "ბლანკები-და-ჟურნალები",
+    "order": 3,
+    "name": {
+      "ka": "ბლანკები და ჟურნალები"
+    },
+    "isActive": true,
+    "showOnHome": true,
+    "createdAt": "2026-03-19T07:58:50.947Z",
+    "updatedAt": "2026-03-19T07:58:50.947Z"
+  }
+]

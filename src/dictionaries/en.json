@@ -6,15 +6,15 @@
     "title1": "KOKENI.GE /",
     "title2": "PREMIUM",
     "title3": "MANUFACTURING",
-    "subtitle": "THE STANDARD IN PREMIUM MANUFACTURING.",
-    "description": "Advanced European printing technology meets uncompromising manual craftsmanship.",
+    "subtitle": "DESIGN, PROTOTYPE, MANUFACTURE.",
+    "description": "European quality printing and stationery manufacturing — from concept to final product.",
     "cta": "INITIALIZE PROJECT ↗"
   },
   "capacity": {
     "title1": "01 / HIGH-VOLUME MANUFACTURE",
     "desc1": "Engineered for scale. Utilizing advanced European offset, digital, and thermal binding technology, our production floor is built to execute massive institutional mandates with uncompromising precision. From university diplomas to national government contracts, we deliver volume without sacrificing a single micron of quality.",
     "title2": "02 / THE ATELIER",
-    "desc2": "Uncompromising manual execution. For projects that demand absolute individuality—down to a limited run of 25 bespoke, genuine leather notebooks—we bypass the automated line. Combining proprietary know-how with pure manual craftsmanship, we engineer tactile perfection for the individual client."
+    "desc2": "Our exclusive line of handmade products will satisfy the most refined tastes. Even the most ordinary notebook retains its premium look for years to come. Our products are created by hand using the highest quality materials and technologies."
   },
   "output": {
     "inst_title": "01 / INSTITUTIONAL & ACADEMIC",
@@ -43,6 +43,15 @@
     "item3_2": "Branded Journals",
     "item3_3": "Presentation Folders",
     "view": "[ View ]"
+  },
+  "catalog": {
+    "title": "THE CATALOG",
+    "subtitle": "DIRECTORY OF MANUFACTURED ASSETS",
+    "index": "INDEX #",
+    "view_product": "VIEW_MANIFEST",
+    "price_contact": "PRICE: CONTACT_US",
+    "price_value": "PRICE:",
+    "empty": "NO_ASSETS_FOUND"
   },
   "terminal": {
     "title": "COMMENCE PRODUCTION.",

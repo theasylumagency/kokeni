@@ -1,4 +1,6 @@
-export default function Terminal({ dict }: { dict: any }) {
+import type { Dictionary } from "@/utils/getDictionary";
+
+export default function Terminal({ dict }: { dict: Dictionary }) {
   return (
     <footer className="relative z-10 w-full flex flex-col bg-text-heavy text-background-light pt-20 px-10 lg:px-16 pb-10 overflow-hidden">
       {/* Faint Dark-Mode Grid Overlay for Footer */}
@@ -26,7 +28,7 @@ export default function Terminal({ dict }: { dict: any }) {
           <div className="flex flex-col gap-4">
             <h4 className="font-bold uppercase text-primary">{dict.terminal.col1_title}</h4>
             <div className="flex flex-col text-muted">
-              {dict.terminal.col1_lines.map((line: string, i: number) => (
+              {dict.terminal.col1_lines.map((line, i) => (
                 <span key={i}>{line}</span>
               ))}
             </div>

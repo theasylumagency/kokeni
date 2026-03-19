@@ -1,6 +1,7 @@
 import Image from "next/image";
+import type { Dictionary } from "@/utils/getDictionary";
 
-export default function Output({ dict }: { dict: any }) {
+export default function Output({ dict }: { dict: Dictionary }) {
   return (
     <section className="flex flex-col w-full border-t border-text-heavy">
       {/* Part 1: The Atmosphere */}

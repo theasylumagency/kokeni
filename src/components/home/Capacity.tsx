@@ -1,6 +1,7 @@
 import Image from "next/image";
+import type { Dictionary } from "@/utils/getDictionary";
 
-export default function Capacity({ dict }: { dict: any }) {
+export default function Capacity({ dict }: { dict: Dictionary }) {
   return (
     <section className="flex flex-col lg:flex-row min-h-screen w-full border-t border-text-heavy">
       {/* Left Column (The Machine) */}
