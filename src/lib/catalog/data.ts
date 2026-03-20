@@ -94,7 +94,6 @@ type CatalogSnapshot = {
 };
 
 export async function getCatalogSnapshot(): Promise<CatalogSnapshot> {
-  noStore();
   return readCatalogSnapshot();
 }
 
@@ -105,8 +104,6 @@ export async function getAdminCatalogSnapshot(): Promise<CatalogSnapshot> {
 export async function getHomeDirections(
   locale: Locale
 ): Promise<HomeDirectionGroup[]> {
-  noStore();
-
   const { groups, categories } = await readCatalogSnapshot();
 
   return groups

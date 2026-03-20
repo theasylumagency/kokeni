@@ -4,7 +4,6 @@ import { getCatalogSnapshot } from "@/lib/catalog/data";
 import CatalogHero from "@/components/catalog/CatalogHero";
 import CategoryBlock from "@/components/catalog/CategoryBlock";
 
-export const dynamic = "force-dynamic";
 
 export default async function CatalogPage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;

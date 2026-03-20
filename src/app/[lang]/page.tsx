@@ -7,7 +7,7 @@ import Blueprint from "@/components/home/Blueprint";
 import Terminal from "@/components/home/Terminal";
 import { getHomeDirections } from "@/lib/catalog/data";
 
-export const dynamic = "force-dynamic";
+
 
 export default async function Home({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
