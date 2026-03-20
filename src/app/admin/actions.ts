@@ -362,9 +362,8 @@ function assertRequiredPhotoSlots(imagesJson: string): void {
 }
 
 function revalidateCatalogPaths(): void {
-  revalidatePath("/admin");
-  revalidatePath("/ka");
-  revalidatePath("/en");
+  // Purges the entire router and data cache tree so users see identical data across all languages and pages instantly.
+  revalidatePath("/", "layout");
 }
 
 function handleActionError(error: unknown, tab?: string): never {
