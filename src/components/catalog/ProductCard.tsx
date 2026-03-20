@@ -12,12 +12,12 @@ export default function ProductCard({ product, dict }: ProductCardProps) {
 
   return (
     <div className="group relative flex flex-col h-full min-h-[460px] cursor-pointer">
-      
+
       {/* Product Image Area */}
-      <div className="relative flex-grow flex items-center justify-center p-8 overflow-hidden bg-text-heavy/[0.03] rounded-sm transition-all duration-500 ease-out z-10">
-        
+      <div className="relative flex-grow flex items-center justify-center overflow-hidden bg-text-heavy/[0.03] rounded-sm transition-all duration-500 ease-out z-10">
+
         {mainImage ? (
-          <div className="relative w-full h-full min-h-[300px] z-10 transition-transform duration-[800ms] ease-[cubic-bezier(0.19,1,0.22,1)] group-hover:scale-110">
+          <div className="aspect-square relative w-full h-full min-h-[300px] z-10 transition-transform duration-[800ms] ease-[cubic-bezier(0.19,1,0.22,1)] group-hover:scale-110">
             <Image
               src={mainImage}
               alt={product.name.ka}
@@ -47,8 +47,8 @@ export default function ProductCard({ product, dict }: ProductCardProps) {
 
         <div className="flex items-center justify-between mt-6">
           <span className="font-mono text-xs font-bold tracking-[0.1em] text-text-heavy">
-            {product.price.mode === "contact" 
-              ? dict.catalog.price_contact 
+            {product.price.mode === "contact"
+              ? dict.catalog.price_contact
               : `${product.price.amount} ${product.price.currency}`
             }
           </span>
