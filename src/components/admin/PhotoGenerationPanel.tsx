@@ -2,7 +2,6 @@
 
 import {
   useEffect,
-  useRef,
   useState,
   type ChangeEvent,
 } from "react";
@@ -81,14 +80,11 @@ export default function PhotoGenerationPanel({
   const [nameKa, setNameKa] = useState("");
   const [hasManualName, setHasManualName] = useState(false);
   const [slotFiles, setSlotFiles] = useState<SlotFileMap>(initialSlotFiles);
-  const [slotPreviews, setSlotPreviews] =
-    useState<SlotImageMap>(initialSlotImages);
   const [aiImages, setAiImages] = useState<SlotImageMap>(initialSlotImages);
   const [generatingSlot, setGeneratingSlot] = useState<
     ProductPhotoKind | "all" | null
   >(null);
   const [uploadError, setUploadError] = useState<string | null>(null);
-  const previewRef = useRef<SlotImageMap>(initialSlotImages);
 
   const visibleCategories = selectedGroupId
     ? categories.filter((category) => category.groupId === selectedGroupId)
@@ -99,18 +95,6 @@ export default function PhotoGenerationPanel({
   const suggestedName = selectedCategory
     ? buildSuggestedPhotoProductName(selectedCategory, products)
     : "";
-
-  useEffect(() => {
-    previewRef.current = slotPreviews;
-  }, [slotPreviews]);
-
-  useEffect(() => {
-    return () => {
-      Object.values(previewRef.current).forEach((preview) => {
-        revokeObjectUrlIfNeeded(preview);
-      });
-    };
-  }, []);
 
   useEffect(() => {
     if (!selectedGroupId || !selectedCategoryId) {
@@ -172,13 +156,6 @@ export default function PhotoGenerationPanel({
       ...current,
       [slotKey]: null,
     }));
-    setSlotPreviews((current) => {
-      revokeObjectUrlIfNeeded(current[slotKey]);
-      return {
-        ...current,
-        [slotKey]: null,
-      };
-    });
   }
 
   async function handlePhotoSelection(
@@ -197,20 +174,11 @@ export default function PhotoGenerationPanel({
       return;
     }
 
-    const nextPreview = URL.createObjectURL(file);
-
     setUploadError(null);
     setSlotFiles((current) => ({
       ...current,
       [slotKey]: file,
     }));
-    setSlotPreviews((current) => {
-      revokeObjectUrlIfNeeded(current[slotKey]);
-      return {
-        ...current,
-        [slotKey]: nextPreview,
-      };
-    });
     setAiImages((current) => ({
       ...current,
       [slotKey]: null,
@@ -446,7 +414,7 @@ export default function PhotoGenerationPanel({
 
           <div className="grid gap-4">
             {photoSlots.map((slot) => {
-              const previewSrc = slotPreviews[slot.key];
+              const rawPhotoReady = Boolean(slotFiles[slot.key]);
               const aiSrc = aiImages[slot.key];
               const isGenerating =
                 generatingSlot === slot.key || generatingSlot === "all";
@@ -468,12 +436,20 @@ export default function PhotoGenerationPanel({
                     />
 
                     <div className="relative aspect-[4/5] overflow-hidden border-2 border-black bg-white transition-colors hover:border-[#0d59f2]">
-                      {previewSrc ? (
-                        <img
-                          src={previewSrc}
-                          alt={slot.title}
-                          className="h-full w-full object-cover"
-                        />
+                      {rawPhotoReady ? (
+                        <div className="flex h-full flex-col items-center justify-center gap-3 px-4 text-center">
+                          <span className="material-symbols-outlined text-[40px] text-[#0a5c36]">
+                            check_circle
+                          </span>
+                          <div className="space-y-1">
+                            <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#0a5c36]">
+                              ფოტო მიღებულია
+                            </p>
+                            <p className="text-[11px] leading-5 text-black/55">
+                              სურვილის შემთხვევაში ხელახლა შეეხეთ და თავიდან გადაიღეთ.
+                            </p>
+                          </div>
+                        </div>
                       ) : aiSrc ? (
                         <div className="flex h-full items-center justify-center px-4 text-center text-xs font-bold uppercase tracking-[0.18em] text-black/35">
                           საწყისი ფოტო გასუფთავებულია
@@ -484,7 +460,7 @@ export default function PhotoGenerationPanel({
                         </div>
                       )}
 
-                      {previewSrc ? (
+                      {rawPhotoReady ? (
                         <button
                           type="button"
                           aria-label="ფოტოს წაშლა"
@@ -555,14 +531,14 @@ export default function PhotoGenerationPanel({
                           className={`border px-2 py-1 text-[10px] font-bold uppercase tracking-[0.18em] ${
                             aiSrc
                               ? "border-[#0a5c36] bg-[#daf2e6] text-[#0a5c36]"
-                              : previewSrc
+                              : rawPhotoReady
                                 ? "border-[#7a4f00] bg-[#fff1cc] text-[#7a4f00]"
                                 : "border-[#93000a] bg-[#ffdad6] text-[#93000a]"
                           }`}
                         >
                           {aiSrc
                             ? "გენერირებულია"
-                            : previewSrc
+                            : rawPhotoReady
                               ? "მზადაა გენერაციისთვის"
                               : "სავალდებულოა"}
                         </span>
@@ -571,7 +547,7 @@ export default function PhotoGenerationPanel({
                     </div>
 
                     <div className="space-y-3">
-                      {previewSrc ? (
+                      {rawPhotoReady ? (
                         <button
                           type="button"
                           onClick={() => handleGenerateAi(slot.key)}
@@ -589,7 +565,7 @@ export default function PhotoGenerationPanel({
                           საბოლოო AI ფოტო შენახულია. თუ შეცვლა გინდათ, თავიდან
                           გადაიღეთ საწყისი ფოტო.
                         </p>
-                      ) : previewSrc ? (
+                      ) : rawPhotoReady ? (
                         <p className="text-sm font-bold text-black/65">
                           საწყისი ფოტო დროებით ინახება მხოლოდ Gemini-სთვის.
                         </p>
@@ -681,12 +657,6 @@ async function uploadPhoto(
   }
 
   return payload.image;
-}
-
-function revokeObjectUrlIfNeeded(value: string | null) {
-  if (value?.startsWith("blob:")) {
-    URL.revokeObjectURL(value);
-  }
 }
 
 function base64ToBlob(base64: string, mimeType: string): Blob {
