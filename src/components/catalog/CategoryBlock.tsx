@@ -12,31 +12,23 @@ export default function CategoryBlock({ category, products, dict }: CategoryBloc
   if (products.length === 0) return null;
 
   return (
-    <section 
+    <section
       id={`category-${category.slug}`}
-      className="relative flex flex-col lg:flex-row w-full border-b border-text-heavy/30 bg-surface scroll-mt-[135px]"
+      className="relative flex flex-col w-full bg-background-light py-24 scroll-mt-[135px] border-b border-text-heavy/10 last:border-0"
     >
-      {/* Category Monolith (Sticky on Desktop) */}
-      <div className="w-full lg:w-[350px] xl:w-[400px] shrink-0 border-b lg:border-b-0 lg:border-r border-text-heavy/30 bg-[#E8E5E1] p-10 lg:p-16 flex flex-col justify-between items-start">
-        <div className="sticky top-[200px] flex flex-col gap-4">
-          <p className="font-mono text-[10px] font-bold tracking-[0.2em] uppercase text-text-main/50">
-            INDEX DIRECTORY
-          </p>
-          <h2 className="font-bold text-3xl md:text-5xl uppercase tracking-tighter text-text-heavy leading-none break-words">
-            {category.name.ka}
-          </h2>
-          <div className="h-[2px] w-12 bg-primary mt-4"></div>
-        </div>
-
-        <div className="hidden lg:flex w-full items-end justify-between font-mono text-[10px] uppercase tracking-widest text-text-main/40 mt-32">
-          <span>{products.length} PRODUCTS</span>
-          <span>{category.slug.toUpperCase()}</span>
-        </div>
+      {/* Category Header (Elegant Top-aligned) */}
+      <div className="w-full px-6 lg:px-16 flex flex-col items-center md:items-start mb-16 lg:mb-20">
+        <p className="font-mono text-[10px] font-bold tracking-[0.3em] uppercase text-primary/80 mb-4">
+          — {products.length} {dict.catalog.title}
+        </p>
+        <h2 className="font-bold text-4xl lg:text-5xl xl:text-6xl uppercase tracking-tighter text-text-heavy leading-[0.9] text-center md:text-left break-words max-w-4xl">
+          {category.name.ka}
+        </h2>
       </div>
 
-      {/* Product dossiers matrix */}
-      <div className="flex-grow p-6 lg:p-12 bg-background-light">
-        <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-8">
+      {/* Product Grid */}
+      <div className="w-full px-6 lg:px-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-x-8 gap-y-16 lg:gap-x-12 lg:gap-y-24">
           {products.map((product) => (
             <ProductCard key={product.id} product={product} dict={dict} />
           ))}
