@@ -1,7 +1,11 @@
 "use client";
 
-import Image from "next/image";
-import { useEffect, useState, type ChangeEvent } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type ChangeEvent,
+} from "react";
 import { useFormStatus } from "react-dom";
 
 import { createPhotoProductAction } from "@/app/admin/actions";
@@ -23,6 +27,7 @@ type PhotoGenerationPanelProps = {
 };
 
 type SlotImageMap = Record<ProductPhotoKind, string | null>;
+type SlotFileMap = Record<ProductPhotoKind, File | null>;
 
 type PhotoSlotDefinition = {
   key: ProductPhotoKind;
@@ -54,12 +59,17 @@ const initialSlotImages: SlotImageMap = {
   detail_spine: null,
 };
 
+const initialSlotFiles: SlotFileMap = {
+  front_closed: null,
+  interior_open: null,
+  detail_spine: null,
+};
+
 const panelClass = "border-2 border-black bg-white";
 const inputClass =
   "w-full rounded-none border-2 border-black bg-[#F5F2ED] px-4 py-4 text-base text-black outline-none transition-colors focus:border-[#0d59f2]";
-const labelClass = "mb-2 block text-[11px] font-bold tracking-[0.18em] uppercase text-black/60";
-const PHOTO_UPLOAD_MAX_DIMENSION = 1280;
-const PHOTO_UPLOAD_QUALITY = 0.82;
+const labelClass =
+  "mb-2 block text-[11px] font-bold uppercase tracking-[0.18em] text-black/60";
 
 export default function PhotoGenerationPanel({
   groups,
@@ -70,11 +80,15 @@ export default function PhotoGenerationPanel({
   const [selectedCategoryId, setSelectedCategoryId] = useState("");
   const [nameKa, setNameKa] = useState("");
   const [hasManualName, setHasManualName] = useState(false);
-  const [slotImages, setSlotImages] = useState<SlotImageMap>(initialSlotImages);
+  const [slotFiles, setSlotFiles] = useState<SlotFileMap>(initialSlotFiles);
+  const [slotPreviews, setSlotPreviews] =
+    useState<SlotImageMap>(initialSlotImages);
   const [aiImages, setAiImages] = useState<SlotImageMap>(initialSlotImages);
-  const [uploadingSlot, setUploadingSlot] = useState<ProductPhotoKind | null>(null);
-  const [generatingSlot, setGeneratingSlot] = useState<ProductPhotoKind | "all" | null>(null);
+  const [generatingSlot, setGeneratingSlot] = useState<
+    ProductPhotoKind | "all" | null
+  >(null);
   const [uploadError, setUploadError] = useState<string | null>(null);
+  const previewRef = useRef<SlotImageMap>(initialSlotImages);
 
   const visibleCategories = selectedGroupId
     ? categories.filter((category) => category.groupId === selectedGroupId)
@@ -85,6 +99,18 @@ export default function PhotoGenerationPanel({
   const suggestedName = selectedCategory
     ? buildSuggestedPhotoProductName(selectedCategory, products)
     : "";
+
+  useEffect(() => {
+    previewRef.current = slotPreviews;
+  }, [slotPreviews]);
+
+  useEffect(() => {
+    return () => {
+      Object.values(previewRef.current).forEach((preview) => {
+        revokeObjectUrlIfNeeded(preview);
+      });
+    };
+  }, []);
 
   useEffect(() => {
     if (!selectedGroupId || !selectedCategoryId) {
@@ -126,13 +152,34 @@ export default function PhotoGenerationPanel({
     })
   );
 
-  const allPhotosReady = REQUIRED_PHOTO_KINDS.every(
-    (slotKey) => slotImages[slotKey]
-  );
-  
+  const allPhotosReady = REQUIRED_PHOTO_KINDS.every((slotKey) => slotFiles[slotKey]);
   const allAiPhotosReady = REQUIRED_PHOTO_KINDS.every(
     (slotKey) => aiImages[slotKey]
   );
+
+  function handleNameChange(event: ChangeEvent<HTMLInputElement>) {
+    setHasManualName(true);
+    setNameKa(event.target.value);
+  }
+
+  function handleResetSuggestedName() {
+    setHasManualName(false);
+    setNameKa(suggestedName);
+  }
+
+  function clearRawSlot(slotKey: ProductPhotoKind) {
+    setSlotFiles((current) => ({
+      ...current,
+      [slotKey]: null,
+    }));
+    setSlotPreviews((current) => {
+      revokeObjectUrlIfNeeded(current[slotKey]);
+      return {
+        ...current,
+        [slotKey]: null,
+      };
+    });
+  }
 
   async function handlePhotoSelection(
     slotKey: ProductPhotoKind,
@@ -150,28 +197,28 @@ export default function PhotoGenerationPanel({
       return;
     }
 
+    const nextPreview = URL.createObjectURL(file);
+
     setUploadError(null);
-    setUploadingSlot(slotKey);
-
-    try {
-      const uploadedImage = await uploadPhoto(file, slotKey);
-      setSlotImages((current) => ({
+    setSlotFiles((current) => ({
+      ...current,
+      [slotKey]: file,
+    }));
+    setSlotPreviews((current) => {
+      revokeObjectUrlIfNeeded(current[slotKey]);
+      return {
         ...current,
-        [slotKey]: uploadedImage,
-      }));
-    } catch (error) {
-      console.error(error);
-      setUploadError("ფოტოს ატვირთვა ვერ მოხერხდა. სცადეთ თავიდან.");
-    } finally {
-      setUploadingSlot(null);
-    }
-  }
-
-  function handleRemovePhoto(slotKey: ProductPhotoKind) {
-    setSlotImages((current) => ({
+        [slotKey]: nextPreview,
+      };
+    });
+    setAiImages((current) => ({
       ...current,
       [slotKey]: null,
     }));
+  }
+
+  function handleRemovePhoto(slotKey: ProductPhotoKind) {
+    clearRawSlot(slotKey);
     setAiImages((current) => ({
       ...current,
       [slotKey]: null,
@@ -183,43 +230,49 @@ export default function PhotoGenerationPanel({
     setGeneratingSlot(slotKey);
 
     try {
-      const slotsToGenerate = slotKey === "all" ? REQUIRED_PHOTO_KINDS : [slotKey];
+      const slotsToGenerate =
+        slotKey === "all" ? [...REQUIRED_PHOTO_KINDS] : [slotKey];
 
-      for (const slot of slotsToGenerate) {
-        const rawSrc = slotImages[slot];
-        if (!rawSrc) continue;
+      for (const currentSlot of slotsToGenerate) {
+        const rawFile = slotFiles[currentSlot];
 
-        const res = await fetch("/api/admin/generate-photo", {
+        if (!rawFile) {
+          continue;
+        }
+
+        const formData = new FormData();
+        formData.append("slotKey", currentSlot);
+        formData.append("categoryName", nameKa || suggestedName || "პროდუქტი");
+        formData.append("image", rawFile, rawFile.name || `${currentSlot}.jpg`);
+
+        const response = await fetch("/api/admin/generate-photo", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            slotKey: slot,
-            rawImageUrl: rawSrc,
-            categoryName: nameKa || suggestedName || "Product",
-          }),
+          body: formData,
         });
 
-        const payload = await res.json();
+        const payload = (await response.json()) as {
+          success?: boolean;
+          imageBase64?: string;
+          error?: string;
+        };
 
-        if (!res.ok || !payload.success || !payload.imageBase64) {
+        if (!response.ok || !payload.success || !payload.imageBase64) {
           throw new Error(payload.error || "Generation failed");
         }
 
-        const byteCharacters = atob(payload.imageBase64);
-        const byteNumbers = new Array(byteCharacters.length);
-        for (let i = 0; i < byteCharacters.length; i++) {
-          byteNumbers[i] = byteCharacters.charCodeAt(i);
-        }
-        const byteArray = new Uint8Array(byteNumbers);
-        const blob = new Blob([byteArray], { type: "image/webp" });
+        const generatedFile = new File(
+          [base64ToBlob(payload.imageBase64, "image/webp")],
+          `${currentSlot}-ai.webp`,
+          { type: "image/webp" }
+        );
 
-        const file = new File([blob], `${slot}-ai.webp`, { type: "image/webp" });
-        const uploadedAiImage = await uploadPhoto(file, slot as ProductPhotoKind);
+        const uploadedAiImage = await uploadPhoto(generatedFile, currentSlot);
 
         setAiImages((current) => ({
           ...current,
-          [slot]: uploadedAiImage,
+          [currentSlot]: uploadedAiImage,
         }));
+        clearRawSlot(currentSlot);
       }
     } catch (error) {
       console.error(error);
@@ -227,16 +280,6 @@ export default function PhotoGenerationPanel({
     } finally {
       setGeneratingSlot(null);
     }
-  }
-
-  function handleNameChange(event: ChangeEvent<HTMLInputElement>) {
-    setHasManualName(true);
-    setNameKa(event.target.value);
-  }
-
-  function handleResetSuggestedName() {
-    setHasManualName(false);
-    setNameKa(suggestedName);
   }
 
   if (!categories.length) {
@@ -265,9 +308,9 @@ export default function PhotoGenerationPanel({
             ფოტოებით პროდუქტის შექმნა
           </h2>
           <p className="text-sm leading-6 text-black/70">
-            აირჩიეთ ჯგუფი და კატეგორია, დაადასტურეთ რეკომენდებული დასახელება და
-            ატვირთეთ სამი სავალდებულო ფოტო. თუ ჯგუფს არ აირჩევთ, კატეგორიების
-            სრული სია გამოჩნდება.
+            აირჩიეთ ჯგუფი და კატეგორია, დაადასტურეთ რეკომენდებული დასახელება,
+            გადაიღეთ სამი ფოტო, შემდეგ გაუშვით Gemini-ზე გენერაცია. საწყისი
+            ფოტოები მხოლოდ დროებით გამოიყენება და არ ინახება პროექტში.
           </p>
         </div>
       </div>
@@ -395,17 +438,16 @@ export default function PhotoGenerationPanel({
           <div className="space-y-2">
             <p className={labelClass}>სავალდებულო ფოტოები</p>
             <p className="text-sm leading-6 text-black/70">
-              გადაიღეთ ზუსტად სამი ფოტო. ცარიელ ფრეიმზე დაჭერისას კამერა
-              პირდაპირ გაიხსნება, ხოლო უკვე ატვირთული ფოტოს წაშლას ზედა მარჯვენა
-              კუთხეში ნახავთ.
+              ცარიელ ფრეიმზე დაჭერისას კამერა პირდაპირ გაიხსნება. გადაღებული
+              ფოტო მხოლოდ დროებით გამოიყენება Gemini-სთვის და საბოლოოდ ინახება
+              მხოლოდ გენერირებული შედეგი.
             </p>
           </div>
 
           <div className="grid gap-4">
             {photoSlots.map((slot) => {
-              const previewSrc = slotImages[slot.key];
+              const previewSrc = slotPreviews[slot.key];
               const aiSrc = aiImages[slot.key];
-              const isUploading = uploadingSlot === slot.key;
               const isGenerating =
                 generatingSlot === slot.key || generatingSlot === "all";
 
@@ -427,23 +469,20 @@ export default function PhotoGenerationPanel({
 
                     <div className="relative aspect-[4/5] overflow-hidden border-2 border-black bg-white transition-colors hover:border-[#0d59f2]">
                       {previewSrc ? (
-                        <Image
+                        <img
                           src={previewSrc}
                           alt={slot.title}
-                          fill
-                          className="object-cover"
+                          className="h-full w-full object-cover"
                         />
+                      ) : aiSrc ? (
+                        <div className="flex h-full items-center justify-center px-4 text-center text-xs font-bold uppercase tracking-[0.18em] text-black/35">
+                          საწყისი ფოტო გასუფთავებულია
+                        </div>
                       ) : (
                         <div className="flex h-full items-center justify-center px-4 text-center text-xs font-bold uppercase tracking-[0.18em] text-black/40">
                           ფოტოს გადასაღებად შეეხეთ
                         </div>
                       )}
-
-                      {isUploading ? (
-                        <div className="absolute inset-x-0 bottom-0 bg-[#0d59f2] px-3 py-2 text-center text-[11px] font-bold uppercase tracking-[0.18em] text-white">
-                          იტვირთება...
-                        </div>
-                      ) : null}
 
                       {previewSrc ? (
                         <button
@@ -469,11 +508,10 @@ export default function PhotoGenerationPanel({
 
                   <div className="relative aspect-[4/5] overflow-hidden border-2 border-black bg-white">
                     {aiSrc ? (
-                      <Image
+                      <img
                         src={aiSrc}
                         alt={`AI ${slot.title}`}
-                        fill
-                        className="object-cover"
+                        className="h-full w-full object-cover"
                       />
                     ) : (
                       <div className="flex h-full flex-col items-center justify-center px-4 text-center text-xs font-bold uppercase tracking-[0.18em] text-black/40">
@@ -485,21 +523,23 @@ export default function PhotoGenerationPanel({
                       </div>
                     )}
 
-                    {aiSrc && !isGenerating && previewSrc ? (
+                    {aiSrc ? (
                       <button
                         type="button"
-                        aria-label="ხელახლა გენერაცია"
-                        onClick={(event) => {
-                          event.preventDefault();
-                          handleGenerateAi(slot.key);
-                        }}
-                        className="absolute right-2 top-2 z-10 flex h-10 w-10 items-center justify-center rounded-full border-2 border-black bg-white text-black shadow-[3px_3px_0_#000] transition-colors hover:bg-black hover:text-white"
+                        aria-label="AI ფოტოს წაშლა"
+                        onClick={() =>
+                          setAiImages((current) => ({
+                            ...current,
+                            [slot.key]: null,
+                          }))
+                        }
+                        className="absolute right-2 top-2 z-10 flex h-10 w-10 items-center justify-center rounded-full border-2 border-black bg-white text-black shadow-[3px_3px_0_#000] transition-colors hover:bg-[#ba1a1a] hover:text-white"
                       >
                         <span
                           className="material-symbols-outlined"
                           style={{ fontSize: "20px" }}
                         >
-                          autorenew
+                          delete
                         </span>
                       </button>
                     ) : null}
@@ -516,29 +556,49 @@ export default function PhotoGenerationPanel({
                             aiSrc
                               ? "border-[#0a5c36] bg-[#daf2e6] text-[#0a5c36]"
                               : previewSrc
-                              ? "border-[#7a4f00] bg-[#fff1cc] text-[#7a4f00]"
-                              : "border-[#93000a] bg-[#ffdad6] text-[#93000a]"
+                                ? "border-[#7a4f00] bg-[#fff1cc] text-[#7a4f00]"
+                                : "border-[#93000a] bg-[#ffdad6] text-[#93000a]"
                           }`}
                         >
-                          {aiSrc ? "გენერირებულია" : previewSrc ? "სამზადისში" : "სავალდებულოა"}
+                          {aiSrc
+                            ? "გენერირებულია"
+                            : previewSrc
+                              ? "მზადაა გენერაციისთვის"
+                              : "სავალდებულოა"}
                         </span>
                       </div>
                       <p className="text-sm leading-6 text-black/70">{slot.hint}</p>
                     </div>
 
-                    {aiSrc ? (
-                      <p className="text-sm font-bold text-black/65">
-                        შეგიძლიათ ხელახლა დააგენერიროთ მხოლოდ ეს ფოტო.
-                      </p>
-                    ) : previewSrc ? (
-                      <p className="text-sm font-bold text-black/65">
-                        ფოტოზე დაჭერით შეგიძლიათ თავიდან გადაიღოთ ორიგინალი.
-                      </p>
-                    ) : (
-                      <p className="text-sm font-bold text-black/65">
-                        ცარიელ ფრეიმზე დაჭერით კამერა გაიხსნება.
-                      </p>
-                    )}
+                    <div className="space-y-3">
+                      {previewSrc ? (
+                        <button
+                          type="button"
+                          onClick={() => handleGenerateAi(slot.key)}
+                          disabled={generatingSlot !== null}
+                          className="w-full border-2 border-black bg-white px-4 py-3 text-[11px] font-bold uppercase tracking-[0.18em] text-black transition-colors hover:bg-black hover:text-white disabled:cursor-not-allowed disabled:opacity-40"
+                        >
+                          {isGenerating
+                            ? "მიმდინარეობს გენერაცია..."
+                            : "ამ ფოტოს გენერაცია"}
+                        </button>
+                      ) : null}
+
+                      {aiSrc ? (
+                        <p className="text-sm font-bold text-black/65">
+                          საბოლოო AI ფოტო შენახულია. თუ შეცვლა გინდათ, თავიდან
+                          გადაიღეთ საწყისი ფოტო.
+                        </p>
+                      ) : previewSrc ? (
+                        <p className="text-sm font-bold text-black/65">
+                          საწყისი ფოტო დროებით ინახება მხოლოდ Gemini-სთვის.
+                        </p>
+                      ) : (
+                        <p className="text-sm font-bold text-black/65">
+                          ცარიელ ფრეიმზე დაჭერით კამერა გაიხსნება.
+                        </p>
+                      )}
+                    </div>
                   </div>
                 </div>
               );
@@ -557,7 +617,7 @@ export default function PhotoGenerationPanel({
             <button
               type="button"
               onClick={() => handleGenerateAi("all")}
-              disabled={generatingSlot !== null || uploadingSlot !== null}
+              disabled={generatingSlot !== null}
               className="w-full border-2 border-black bg-white px-6 py-5 text-center text-sm font-black uppercase tracking-[0.22em] text-black transition-colors hover:bg-black hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
             >
               {generatingSlot === "all"
@@ -570,12 +630,12 @@ export default function PhotoGenerationPanel({
             პროდუქტი შეიქმნება როგორც დრაფტი. თუ საჯაროდ გამოქვეყნება დაგჭირდებათ,
             შემდეგ შეგიძლიათ პროდუქტების სექციაში გახსნათ და დაარედაქტიროთ.
           </p>
+
           <SubmitButton
             disabled={
               !selectedCategoryId ||
               !nameKa.trim() ||
               !allAiPhotosReady ||
-              uploadingSlot !== null ||
               generatingSlot !== null
             }
           />
@@ -603,10 +663,8 @@ async function uploadPhoto(
   file: File,
   slotKey: ProductPhotoKind
 ): Promise<string> {
-  const processedBlob = await createUploadBlob(file, PHOTO_UPLOAD_MAX_DIMENSION);
-
   const formData = new FormData();
-  formData.append("file1600", processedBlob, `${slotKey}-large.webp`);
+  formData.append("file1600", file, file.name || `${slotKey}.jpg`);
 
   const response = await fetch("/api/admin/images", {
     method: "POST",
@@ -625,80 +683,19 @@ async function uploadPhoto(
   return payload.image;
 }
 
-async function createUploadBlob(
-  file: File,
-  maxDimension: number
-): Promise<Blob> {
-  const sourceUrl = URL.createObjectURL(file);
-
-  try {
-    const image = await loadImage(sourceUrl);
-    const { width, height } = getScaledDimensions(
-      image.naturalWidth,
-      image.naturalHeight,
-      maxDimension
-    );
-
-    const canvas = document.createElement("canvas");
-    canvas.width = width;
-    canvas.height = height;
-
-    const context = canvas.getContext("2d");
-
-    if (!context) {
-      throw new Error("Canvas context is unavailable");
-    }
-
-    context.imageSmoothingEnabled = true;
-    context.imageSmoothingQuality = "high";
-    context.drawImage(image, 0, 0, width, height);
-
-    image.onload = null;
-    image.onerror = null;
-    image.src = "";
-
-    const blob = await new Promise<Blob | null>((resolve) => {
-      canvas.toBlob(resolve, "image/webp", PHOTO_UPLOAD_QUALITY);
-    });
-
-    context.clearRect(0, 0, width, height);
-    canvas.width = 0;
-    canvas.height = 0;
-
-    if (!blob) {
-      throw new Error("Blob creation failed");
-    }
-
-    return blob;
-  } finally {
-    URL.revokeObjectURL(sourceUrl);
+function revokeObjectUrlIfNeeded(value: string | null) {
+  if (value?.startsWith("blob:")) {
+    URL.revokeObjectURL(value);
   }
 }
 
-function loadImage(sourceUrl: string): Promise<HTMLImageElement> {
-  return new Promise((resolve, reject) => {
-    const image = new window.Image();
-    image.onload = () => resolve(image);
-    image.onerror = () => reject(new Error("Image loading failed"));
-    image.src = sourceUrl;
-  });
-}
+function base64ToBlob(base64: string, mimeType: string): Blob {
+  const byteCharacters = atob(base64);
+  const byteNumbers = new Array(byteCharacters.length);
 
-function getScaledDimensions(
-  width: number,
-  height: number,
-  maxDimension: number
-) {
-  const longestSide = Math.max(width, height);
-
-  if (longestSide <= maxDimension) {
-    return { width, height };
+  for (let index = 0; index < byteCharacters.length; index += 1) {
+    byteNumbers[index] = byteCharacters.charCodeAt(index);
   }
 
-  const scale = maxDimension / longestSide;
-
-  return {
-    width: Math.max(1, Math.round(width * scale)),
-    height: Math.max(1, Math.round(height * scale)),
-  };
+  return new Blob([new Uint8Array(byteNumbers)], { type: mimeType });
 }

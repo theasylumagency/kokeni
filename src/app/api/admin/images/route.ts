@@ -61,9 +61,10 @@ export async function POST(request: Request) {
       );
     }
 
+    const extension = getImageExtension(file1600);
     const uuid = randomUUID();
-    const mainFileName = `${uuid}.webp`;
-    const mobileFileName = `${uuid}-mobile.webp`;
+    const mainFileName = `${uuid}.${extension}`;
+    const mobileFileName = `${uuid}-mobile.${extension}`;
 
     const mainPath = path.join(PRODUCT_UPLOAD_DIRECTORY, mainFileName);
     const mobilePath = path.join(PRODUCT_UPLOAD_DIRECTORY, mobileFileName);
@@ -95,4 +96,32 @@ async function ensureStorage(): Promise<void> {
   } catch (e) {
     // Ignore error if directory exists
   }
+}
+
+function getImageExtension(file: File): string {
+  const mimeType = file.type.toLowerCase();
+
+  if (mimeType === "image/png") {
+    return "png";
+  }
+
+  if (mimeType === "image/webp") {
+    return "webp";
+  }
+
+  if (mimeType === "image/jpeg" || mimeType === "image/jpg") {
+    return "jpg";
+  }
+
+  const fileName = file.name.toLowerCase();
+
+  if (fileName.endsWith(".png")) {
+    return "png";
+  }
+
+  if (fileName.endsWith(".webp")) {
+    return "webp";
+  }
+
+  return "jpg";
 }
