@@ -1,1 +1,33 @@
-[]
+[
+  {
+    "id": "b75c7557-5bcb-4c7b-a6b0-04098fdcd85d",
+    "slug": "diary",
+    "categoryId": "e284f287-2846-4517-bc0d-9e9b3a878467",
+    "order": 1,
+    "name": {
+      "ka": "ყოველდღიური",
+      "en": "Diary"
+    },
+    "shortDescription": {
+      "ka": "ლორემ იპსუმ",
+      "en": "lorem ipsum"
+    },
+    "longDescription": {
+      "ka": "ლორემ იპსუმ",
+      "en": "lorem ipsum"
+    },
+    "price": {
+      "mode": "contact"
+    },
+    "images": [
+      {
+        "id": "uv2pjpcn",
+        "src": "/uploads/products/6b306acc-ac29-45ea-b3bf-98a8650e8273.webp",
+        "order": 1
+      }
+    ],
+    "isPublished": true,
+    "createdAt": "2026-03-20T05:59:38.649Z",
+    "updatedAt": "2026-03-20T05:59:38.649Z"
+  }
+]

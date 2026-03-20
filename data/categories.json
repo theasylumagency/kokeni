@@ -1,5 +1,33 @@
 [
   {
+    "id": "2ee8a456-afb0-4145-9e23-9404475ba438",
+    "groupId": "327680ac-7c07-42d7-bd22-a5f3a4306bf9",
+    "slug": "notebook",
+    "order": 1,
+    "name": {
+      "ka": "ბლოკნოტი",
+      "en": "notebook"
+    },
+    "isActive": true,
+    "showOnHome": true,
+    "createdAt": "2026-03-20T05:53:22.902Z",
+    "updatedAt": "2026-03-20T05:53:22.902Z"
+  },
+  {
+    "id": "e284f287-2846-4517-bc0d-9e9b3a878467",
+    "groupId": "327680ac-7c07-42d7-bd22-a5f3a4306bf9",
+    "slug": "diaryweekly-planner",
+    "order": 2,
+    "name": {
+      "ka": "ყოველდღიური/ყოველკვირეული",
+      "en": "Diary/weekly planner"
+    },
+    "isActive": true,
+    "showOnHome": true,
+    "createdAt": "2026-03-20T05:56:59.364Z",
+    "updatedAt": "2026-03-20T05:56:59.364Z"
+  },
+  {
     "id": "05fe5faf-ffb4-4c93-82f9-d42e0d5d21ee",
     "groupId": "e7307e1c-9f15-49f5-9c79-746b41b52332",
     "slug": "მენიუს-ყდა",
@@ -15,15 +43,16 @@
   {
     "id": "16561bbb-2e97-4ae0-92c0-65365b4019cb",
     "groupId": "e7307e1c-9f15-49f5-9c79-746b41b52332",
-    "slug": "მენიუ",
+    "slug": "restaurant-receipt-presenter",
     "order": 2,
     "name": {
-      "ka": "მენიუ"
+      "ka": "რესტორნის ანგარიშის ჩასადები",
+      "en": "restaurant receipt presenter"
     },
     "isActive": true,
     "showOnHome": true,
     "createdAt": "2026-03-19T08:00:31.513Z",
-    "updatedAt": "2026-03-19T08:00:53.603Z"
+    "updatedAt": "2026-03-20T05:49:24.704Z"
   },
   {
     "id": "e83bd10d-4b67-488a-8a8b-1843961e62c3",
@@ -41,14 +70,15 @@
   {
     "id": "3a29a1af-983e-4ab2-ad53-a8c8bde46e6f",
     "groupId": "fa4a3efe-fc8e-455e-a013-1fc6ad0e8518",
-    "slug": "დიპლომის-ყდები",
+    "slug": "diploma-cover",
     "order": 1,
     "name": {
-      "ka": "დიპლომის ყდები"
+      "ka": "დიპლომის ყდები",
+      "en": "diploma cover"
     },
     "isActive": true,
     "createdAt": "2026-03-19T05:19:15.116Z",
-    "updatedAt": "2026-03-19T07:17:01.637Z",
+    "updatedAt": "2026-03-20T05:50:17.252Z",
     "showOnHome": true
   },
   {
@@ -67,14 +97,15 @@
   {
     "id": "ab1ecba8-7d8a-42ae-bbb6-ec53e97c6bfe",
     "groupId": "fa4a3efe-fc8e-455e-a013-1fc6ad0e8518",
-    "slug": "ბლანკები-და-ჟურნალები",
+    "slug": "document-and-card-holder",
     "order": 3,
     "name": {
-      "ka": "ბლანკები და ჟურნალები"
+      "ka": "საბუთების ჩასადები",
+      "en": "document and card holder"
     },
     "isActive": true,
     "showOnHome": true,
     "createdAt": "2026-03-19T07:58:50.947Z",
-    "updatedAt": "2026-03-19T07:58:50.947Z"
+    "updatedAt": "2026-03-20T05:51:37.733Z"
   }
 ]

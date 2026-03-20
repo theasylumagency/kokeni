@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@formatjs/intl-localematcher": "^0.8.2",
+    "@google/genai": "^1.46.0",
     "negotiator": "^1.0.0",
     "next": "16.1.7",
     "react": "19.2.3",

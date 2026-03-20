@@ -32,10 +32,16 @@ export type Category = {
   updatedAt: string;
 };
 
+export type ProductPhotoKind =
+  | "front_closed"
+  | "interior_open"
+  | "detail_spine";
+
 export type ProductImage = {
   id: string;
   src: string;
   order: number;
+  kind?: ProductPhotoKind;
 };
 
 export type ProductPrice =

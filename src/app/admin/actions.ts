@@ -16,6 +16,9 @@ import {
   updateProductRecord,
 } from "@/lib/catalog/data";
 import {
+  REQUIRED_PHOTO_KINDS,
+} from "@/lib/catalog/photoProduct";
+import {
   createAdminSession,
   destroyAdminSession,
   isAdminConfigured,
@@ -170,6 +173,29 @@ export async function createProductAction(formData: FormData): Promise<void> {
   redirectWithStatus("product_created");
 }
 
+export async function createPhotoProductAction(formData: FormData): Promise<void> {
+  await requireAdminAuth();
+
+  try {
+    const imagesJson = getRequiredTextValue(formData, "imagesJson");
+    assertRequiredPhotoSlots(imagesJson);
+
+    await createProductRecord({
+      categoryId: getRequiredTextValue(formData, "categoryId"),
+      nameKa: getRequiredTextValue(formData, "nameKa"),
+      shortDescriptionKa: getRequiredTextValue(formData, "nameKa"),
+      priceMode: "contact",
+      isPublished: false,
+      imagesJson,
+    });
+  } catch (error) {
+    handleActionError(error, "photo-generation");
+  }
+
+  revalidateCatalogPaths();
+  redirectWithStatus("photo_product_created", "photo-generation");
+}
+
 export async function updateProductAction(formData: FormData): Promise<void> {
   await requireAdminAuth();
 
@@ -297,7 +323,43 @@ function getPriceMode(formData: FormData): "contact" | "fixed" {
   return getTextValue(formData, "priceMode") === "fixed" ? "fixed" : "contact";
 }
 
+function assertRequiredPhotoSlots(imagesJson: string): void {
+  let parsedValue: unknown;
 
+  try {
+    parsedValue = JSON.parse(imagesJson);
+  } catch {
+    throw new CatalogMutationError("invalid_images", "ფოტოების სია არასწორია.");
+  }
+
+  if (!Array.isArray(parsedValue)) {
+    throw new CatalogMutationError("invalid_images", "ფოტოების სია არასწორია.");
+  }
+
+  const availableKinds = new Set(
+    parsedValue
+      .map((item) => {
+        if (!item || typeof item !== "object") {
+          return null;
+        }
+
+        const maybeKind = (item as { kind?: unknown }).kind;
+        return typeof maybeKind === "string" ? maybeKind : null;
+      })
+      .filter((kind): kind is string => Boolean(kind))
+  );
+
+  const hasAllRequiredPhotos = REQUIRED_PHOTO_KINDS.every((kind) =>
+    availableKinds.has(kind)
+  );
+
+  if (!hasAllRequiredPhotos) {
+    throw new CatalogMutationError(
+      "missing_required_photos",
+      "პროდუქტის შესაქმნელად სამივე სავალდებულო ფოტო უნდა აიტვირთოს."
+    );
+  }
+}
 
 function revalidateCatalogPaths(): void {
   revalidatePath("/admin");
@@ -305,19 +367,34 @@ function revalidateCatalogPaths(): void {
   revalidatePath("/en");
 }
 
-function handleActionError(error: unknown): never {
+function handleActionError(error: unknown, tab?: string): never {
   if (error instanceof CatalogMutationError) {
-    redirectWithError(error.code);
+    redirectWithError(error.code, tab);
   }
 
   console.error(error);
-  redirectWithError("unexpected");
+  redirectWithError("unexpected", tab);
 }
 
-function redirectWithStatus(code: string): never {
-  redirect(`/admin?status=${encodeURIComponent(code)}`);
+function redirectWithStatus(code: string, tab?: string): never {
+  redirect(buildAdminUrl(code, "status", tab));
 }
 
-function redirectWithError(code: string): never {
-  redirect(`/admin?error=${encodeURIComponent(code)}`);
+function redirectWithError(code: string, tab?: string): never {
+  redirect(buildAdminUrl(code, "error", tab));
+}
+
+function buildAdminUrl(
+  code: string,
+  kind: "status" | "error",
+  tab?: string
+): string {
+  const searchParams = new URLSearchParams();
+  searchParams.set(kind, code);
+
+  if (tab) {
+    searchParams.set("tab", tab);
+  }
+
+  return `/admin?${searchParams.toString()}`;
 }

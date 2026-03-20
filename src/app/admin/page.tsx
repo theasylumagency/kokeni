@@ -4,6 +4,7 @@ import { logoutAction } from "@/app/admin/actions";
 import AdminLogin from "@/components/admin/AdminLogin";
 import CategoryPanel from "@/components/admin/CategoryPanel";
 import GroupPanel from "@/components/admin/GroupPanel";
+import PhotoGenerationPanel from "@/components/admin/PhotoGenerationPanel";
 import ProductPanel from "@/components/admin/ProductPanel";
 import { isAdminAuthenticated, isAdminConfigured } from "@/lib/admin/auth";
 import { getAdminCatalogSnapshot } from "@/lib/catalog/data";
@@ -30,6 +31,7 @@ const statusMessages: Record<string, string> = {
   product_created: "პროდუქტი დაემატა.",
   product_updated: "პროდუქტი განახლდა.",
   product_deleted: "პროდუქტი წაიშალა.",
+  photo_product_created: "პროდუქტი დრაფტად შეიქმნა.",
 };
 
 const errorMessages: Record<string, string> = {
@@ -41,14 +43,18 @@ const errorMessages: Record<string, string> = {
   invalid_order: "მიმდევრობის ველი უნდა იყოს დადებითი მთელი რიცხვი.",
   invalid_price: "ფასის ველი უნდა იყოს სწორი რიცხვითი მნიშვნელობა.",
   invalid_image_type: "დასაშვებია მხოლოდ JPG, PNG და WEBP სურათები.",
+  invalid_images: "ფოტოების მონაცემები არასწორია.",
   group_has_categories:
-    "ჯგუფის წაშლამდე მასში არსებული კატეგორიები უნდა წაიშალოს ან სხვა ჯგუფში გადავიდეს.",
+    "ჯგუფის წაშლამდე მასში არსებული კატეგორიები უნდა წაიშალოს ან სხვა ჯგუფში გადაიტანოთ.",
   category_has_products:
-    "კატეგორიის წაშლამდე მასში არსებული პროდუქტები უნდა წაიშალოს ან სხვა კატეგორიაში გადავიდეს.",
+    "კატეგორიის წაშლამდე მასში არსებული პროდუქტები უნდა წაიშალოს ან სხვა კატეგორიაში გადაიტანოთ.",
   group_not_found: "მითითებული ჯგუფი ვერ მოიძებნა.",
   category_not_found: "მითითებული კატეგორია ვერ მოიძებნა.",
   product_not_found: "მითითებული პროდუქტი ვერ მოიძებნა.",
-  too_many_home_categories: "მთავარ გვერდზე საჩვენებლად დაშვებულია მხოლოდ 3 კატეგორია ერთ ჯგუფში.",
+  too_many_home_categories:
+    "მთავარ გვერდზე საჩვენებლად ერთ ჯგუფში მხოლოდ 3 კატეგორია შეიძლება იყოს მონიშნული.",
+  missing_required_photos:
+    "ახალი პროდუქტის შესაქმნელად სამივე ფოტო აუცილებელია.",
   unexpected: "მოულოდნელი შეცდომა მოხდა. სცადეთ თავიდან.",
 };
 
@@ -58,125 +64,248 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
     Promise.resolve(isAdminConfigured()),
     searchParams,
   ]);
+
   const notice = getNotice(params);
   const catalog = authState ? await getAdminCatalogSnapshot() : null;
-  const currentTab = getSingleParam(params.tab) || "categories";
+  const requestedTab = getSingleParam(params.tab);
+  const currentTab =
+    requestedTab === "products" || requestedTab === "photo-generation"
+      ? requestedTab
+      : "categories";
 
   return (
-    <div className="flex h-screen overflow-hidden bg-[#F5F2ED] text-[#1A1A1A] font-mono selection:bg-[#0d59f2] selection:text-white">
-      {/* SideNavBar */}
-      {authState && (
-        <aside className="hidden md:flex flex-col h-full border-r-2 border-black bg-[#F5F2ED] w-[260px] shrink-0 overflow-y-auto [&::-webkit-scrollbar]:hidden">
-          <div className="p-6 border-b-2 border-black">
-            <div className="text-xl font-black tracking-tighter text-black uppercase">KOKENI MFG.</div>
-            <div className="font-mono uppercase tracking-widest text-[10px] mt-1 opacity-60">ADMIN_v2.0</div>
+    <div className="flex h-screen overflow-hidden bg-[#F5F2ED] font-mono text-[#1A1A1A] selection:bg-[#0d59f2] selection:text-white">
+      {authState ? <AdminSidebar currentTab={currentTab} /> : null}
+
+      <main className="relative flex min-w-0 flex-1 flex-col overflow-hidden bg-[radial-gradient(#1A1A1A22_1px,transparent_1px)] [background-size:24px_24px]">
+        <header className="sticky top-0 z-10 flex w-full shrink-0 items-center justify-between border-b-2 border-black bg-white px-6 py-4">
+          <div className="flex items-center gap-8">
+            <div className="border-2 border-black bg-white px-2 text-2xl font-black uppercase tracking-tighter">
+              SYSTEM_MANIFEST
+            </div>
           </div>
-          <nav className="flex-1 px-4 py-8 space-y-2">
-            <div className="font-mono uppercase tracking-widest text-[10px] mb-4 opacity-40 px-4">SYSTEM_NAV</div>
-            <Link
-              href="/admin?tab=categories"
-              className={`flex items-center gap-3 px-4 py-3 font-mono uppercase tracking-widest text-[11px] transition-colors duration-75 ${
-                currentTab === 'categories'
-                  ? 'bg-black text-white font-bold border-y border-black translate-x-1'
-                  : 'text-black opacity-70 hover:opacity-100 hover:bg-[#0d59f2] hover:text-white'
+          {authState ? (
+            <div className="flex items-center gap-4">
+              <div className="flex h-8 w-8 items-center justify-center bg-black text-white">
+                <span
+                  className="material-symbols-outlined"
+                  style={{ fontSize: "20px" }}
+                >
+                  account_circle
+                </span>
+              </div>
+            </div>
+          ) : null}
+        </header>
+
+        <div className="mx-auto flex w-full max-w-[1600px] flex-1 flex-col space-y-8 overflow-y-auto p-6 lg:p-12 [&::-webkit-scrollbar]:hidden">
+          {authState ? <AdminMobileNav currentTab={currentTab} /> : null}
+
+          {notice ? (
+            <div
+              className={`border-2 px-5 py-4 text-[11px] font-bold uppercase tracking-widest ${
+                notice.type === "error"
+                  ? "border-[#ba1a1a] bg-[#ffdad6] text-[#93000a]"
+                  : "border-black bg-[#dce1ff] text-black"
               }`}
             >
-              <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>category</span>
-              <span>CATEGORIES</span>
-            </Link>
-            <Link
-              href="/admin?tab=products"
-              className={`flex items-center gap-3 px-4 py-3 font-mono uppercase tracking-widest text-[11px] transition-colors duration-75 ${
-                currentTab === 'products'
-                  ? 'bg-black text-white font-bold border-y border-black translate-x-1'
-                  : 'text-black opacity-70 hover:opacity-100 hover:bg-[#0d59f2] hover:text-white'
-              }`}
-            >
-              <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>inventory_2</span>
-              <span>PRODUCTS</span>
-            </Link>
-          </nav>
-          <div className="p-4 mt-auto border-t-2 border-black">
-            <Link
-              href="/ka"
-              className="flex items-center gap-3 px-4 py-3 text-black opacity-70 hover:opacity-100 hover:bg-[#0d59f2] hover:text-white transition-colors duration-75 font-mono uppercase tracking-widest text-[11px]"
-            >
-              <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>public</span>
-              <span>VIEW_SITE</span>
-            </Link>
-            <form action={logoutAction} className="mt-2">
-              <button
-                type="submit"
-                className="w-full flex items-center gap-3 px-4 py-3 text-[#ba1a1a] opacity-80 hover:opacity-100 font-mono uppercase tracking-widest text-[11px] transition-colors"
-              >
-                <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>logout</span>
-                <span>LOGOUT</span>
-              </button>
-            </form>
-          </div>
-        </aside>
-      )}
+              [NOTICE] {notice.message}
+            </div>
+          ) : null}
 
-      {/* Main Content Canvas */}
-      <main className="flex-1 flex flex-col min-w-0 overflow-hidden relative bg-[radial-gradient(#1A1A1A22_1px,transparent_1px)] [background-size:24px_24px]">
-         {/* TopAppBar */}
-         <header className="flex justify-between items-center w-full px-6 py-4 bg-white border-b-2 border-black shrink-0 z-10 sticky top-0">
-           <div className="flex items-center gap-8">
-             <div className="font-black text-2xl tracking-tighter border-2 border-black px-2 uppercase bg-white">SYSTEM_MANIFEST</div>
-           </div>
-           {authState && (
-             <div className="flex items-center gap-4">
-               <div className="w-8 h-8 bg-black flex items-center justify-center text-white cursor-pointer active:scale-95">
-                 <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>account_circle</span>
-               </div>
-             </div>
-           )}
-         </header>
+          {!configured ? (
+            <div className="space-y-4 border-2 border-black bg-white p-8">
+              <h2 className="text-2xl font-black uppercase">
+                CONFIGURATION_MISSING
+              </h2>
+              <p className="text-sm opacity-70">
+                ADMIN_PASSWORD and ADMIN_SESSION_SECRET need to be set in the
+                environment variables.
+              </p>
+            </div>
+          ) : null}
 
-         {/* Workspace */}
-         <div className="flex-1 overflow-y-auto p-6 lg:p-12 space-y-12 [&::-webkit-scrollbar]:hidden max-w-[1600px] mx-auto w-full">
-            {notice ? (
-              <div
-                className={`border-2 px-5 py-4 text-sm font-bold uppercase tracking-widest text-[11px] ${
-                  notice.type === "error"
-                    ? "border-[#ba1a1a] bg-[#ffdad6] text-[#93000a]"
-                    : "border-black bg-[#dce1ff] text-black"
-                }`}
-              >
-                [NOTICE] {notice.message}
+          {!authState && configured ? (
+            <div className="mx-auto mt-20 max-w-md">
+              <AdminLogin configured={configured} />
+            </div>
+          ) : null}
+
+          {authState ? (
+            currentTab === "categories" ? (
+              <div className="space-y-12">
+                <CategoryPanel
+                  groups={catalog?.groups ?? []}
+                  categories={catalog?.categories ?? []}
+                  products={catalog?.products ?? []}
+                />
+                <GroupPanel
+                  groups={catalog?.groups ?? []}
+                  categories={catalog?.categories ?? []}
+                  products={catalog?.products ?? []}
+                />
               </div>
-            ) : null}
-
-            {!configured ? (
-              <div className="border-2 border-black bg-white p-8 space-y-4">
-                <h2 className="font-black text-2xl uppercase">CONFIGURATION_MISSING</h2>
-                <p className="font-mono text-sm opacity-70">
-                  ADMIN_PASSWORD and ADMIN_SESSION_SECRET need to be set in the environment variables.
-                </p>
+            ) : currentTab === "products" ? (
+              <div className="space-y-12">
+                <ProductPanel
+                  groups={catalog?.groups ?? []}
+                  categories={catalog?.categories ?? []}
+                  products={catalog?.products ?? []}
+                />
               </div>
-            ) : null}
-
-            {!authState && configured ? (
-              <div className="max-w-md mx-auto mt-20">
-                <AdminLogin configured={configured} />
+            ) : (
+              <div className="space-y-12">
+                <PhotoGenerationPanel
+                  groups={catalog?.groups ?? []}
+                  categories={catalog?.categories ?? []}
+                  products={catalog?.products ?? []}
+                />
               </div>
-            ) : null}
-
-            {authState ? (
-              currentTab === 'categories' ? (
-                <div className="space-y-12">
-                   <CategoryPanel groups={catalog?.groups ?? []} categories={catalog?.categories ?? []} products={catalog?.products ?? []} />
-                   <GroupPanel groups={catalog?.groups ?? []} categories={catalog?.categories ?? []} products={catalog?.products ?? []} />
-                </div>
-              ) : (
-                <div className="space-y-12">
-                   <ProductPanel groups={catalog?.groups ?? []} categories={catalog?.categories ?? []} products={catalog?.products ?? []} />
-                </div>
-              )
-            ) : null}
-         </div>
+            )
+          ) : null}
+        </div>
       </main>
     </div>
+  );
+}
+
+function AdminSidebar({ currentTab }: { currentTab: string }) {
+  return (
+    <aside className="hidden h-full w-[260px] shrink-0 flex-col overflow-y-auto border-r-2 border-black bg-[#F5F2ED] md:flex [&::-webkit-scrollbar]:hidden">
+      <div className="border-b-2 border-black p-6">
+        <div className="text-xl font-black uppercase tracking-tighter text-black">
+          KOKENI MFG.
+        </div>
+        <div className="mt-1 text-[10px] uppercase tracking-widest opacity-60">
+          ADMIN_v2.0
+        </div>
+      </div>
+
+      <nav className="flex-1 space-y-2 px-4 py-8">
+        <div className="mb-4 px-4 text-[10px] uppercase tracking-widest opacity-40">
+          SYSTEM_NAV
+        </div>
+        <AdminSidebarLink
+          href="/admin?tab=categories"
+          icon="category"
+          label="CATEGORIES"
+          active={currentTab === "categories"}
+        />
+        <AdminSidebarLink
+          href="/admin?tab=products"
+          icon="inventory_2"
+          label="PRODUCTS"
+          active={currentTab === "products"}
+        />
+        <AdminSidebarLink
+          href="/admin?tab=photo-generation"
+          icon="photo_camera"
+          label="ფოტოებით შექმნა"
+          active={currentTab === "photo-generation"}
+        />
+      </nav>
+
+      <div className="mt-auto border-t-2 border-black p-4">
+        <Link
+          href="/ka"
+          className="flex items-center gap-3 px-4 py-3 text-[11px] uppercase tracking-widest text-black opacity-70 transition-colors duration-75 hover:bg-[#0d59f2] hover:text-white hover:opacity-100"
+        >
+          <span
+            className="material-symbols-outlined"
+            style={{ fontSize: "20px" }}
+          >
+            public
+          </span>
+          <span>VIEW_SITE</span>
+        </Link>
+
+        <form action={logoutAction} className="mt-2">
+          <button
+            type="submit"
+            className="flex w-full items-center gap-3 px-4 py-3 text-[11px] uppercase tracking-widest text-[#ba1a1a] opacity-80 transition-colors hover:opacity-100"
+          >
+            <span
+              className="material-symbols-outlined"
+              style={{ fontSize: "20px" }}
+            >
+              logout
+            </span>
+            <span>LOGOUT</span>
+          </button>
+        </form>
+      </div>
+    </aside>
+  );
+}
+
+function AdminSidebarLink({
+  href,
+  icon,
+  label,
+  active,
+}: {
+  href: string;
+  icon: string;
+  label: string;
+  active: boolean;
+}) {
+  return (
+    <Link
+      href={href}
+      className={`flex items-center gap-3 px-4 py-3 text-[11px] uppercase tracking-widest transition-colors duration-75 ${
+        active
+          ? "translate-x-1 border-y border-black bg-black font-bold text-white"
+          : "text-black opacity-70 hover:bg-[#0d59f2] hover:text-white hover:opacity-100"
+      }`}
+    >
+      <span className="material-symbols-outlined" style={{ fontSize: "20px" }}>
+        {icon}
+      </span>
+      <span>{label}</span>
+    </Link>
+  );
+}
+
+function AdminMobileNav({ currentTab }: { currentTab: string }) {
+  return (
+    <nav className="flex gap-3 overflow-x-auto pb-2 md:hidden [&::-webkit-scrollbar]:hidden">
+      <AdminMobileNavLink
+        href="/admin?tab=categories"
+        label="კატეგორიები"
+        active={currentTab === "categories"}
+      />
+      <AdminMobileNavLink
+        href="/admin?tab=products"
+        label="პროდუქტები"
+        active={currentTab === "products"}
+      />
+      <AdminMobileNavLink
+        href="/admin?tab=photo-generation"
+        label="ფოტოებით შექმნა"
+        active={currentTab === "photo-generation"}
+      />
+    </nav>
+  );
+}
+
+function AdminMobileNavLink({
+  href,
+  label,
+  active,
+}: {
+  href: string;
+  label: string;
+  active: boolean;
+}) {
+  return (
+    <Link
+      href={href}
+      className={`shrink-0 border-2 border-black px-4 py-3 text-[11px] font-bold uppercase tracking-[0.18em] ${
+        active ? "bg-black text-white" : "bg-white text-black"
+      }`}
+    >
+      {label}
+    </Link>
   );
 }
 
