@@ -2,13 +2,21 @@ import { NextResponse } from "next/server";
 import { GoogleGenAI } from "@google/genai";
 
 import { requireAdminAuth } from "@/lib/admin/auth";
+import { REQUIRED_PHOTO_KINDS } from "@/lib/catalog/photoProduct";
+import type { ProductPhotoKind } from "@/lib/catalog/types";
 
 export const dynamic = "force-dynamic";
 
 const apiKey = process.env.GEMINI_API_KEY;
 const ai = apiKey ? new GoogleGenAI({ apiKey }) : null;
 
-const SYSTEM_INSTRUCTION = `You are an expert e-commerce product photographer and retoucher. Your primary directive is to preserve the exact physical geometry, material texture, and natural color variations of the main product in the provided image. Do not alter, redraw, or hallucinate text or logos on the product. Your job is exclusively to enhance the lighting, remove unwanted background elements, and generate a high-end, photorealistic environment around the unaltered core product. Output in a 1:1 aspect ratio.`;
+const SYSTEM_INSTRUCTION = `You are an expert e-commerce product photographer and retoucher. Your primary directive is to preserve the exact physical geometry, material texture, and natural color variations of the same product shown across all provided reference images. Do not alter, redraw, or hallucinate text or logos on the product. Your job is exclusively to enhance lighting, clean the composition, and generate a premium photorealistic presentation around the unaltered product. Output in a 1:1 aspect ratio.`;
+
+const referenceLabels: Record<ProductPhotoKind, string> = {
+  front_closed: "Reference 1 shows the product closed from the front.",
+  interior_open: "Reference 2 shows the product opened from the interior.",
+  detail_spine: "Reference 3 shows a close-up of the spine and material detail.",
+};
 
 type GeneratedInlineDataPart = {
   inlineData?: {
@@ -25,6 +33,15 @@ type GenerateContentResponseShape = {
   }>;
 };
 
+type PreparedReference = {
+  key: ProductPhotoKind;
+  label: string;
+  inlineData: {
+    data: string;
+    mimeType: string;
+  };
+};
+
 export async function POST(request: Request) {
   try {
     await requireAdminAuth();
@@ -37,62 +54,58 @@ export async function POST(request: Request) {
     }
 
     const formData = await request.formData();
-    const slotKey = formData.get("slotKey");
-    const categoryName = formData.get("categoryName");
-    const image = formData.get("image");
+    const categoryName =
+      typeof formData.get("categoryName") === "string"
+        ? ((formData.get("categoryName") as string).trim() || "product")
+        : "product";
 
-    if (
-      typeof slotKey !== "string" ||
-      typeof categoryName !== "string" ||
-      !(image instanceof File)
-    ) {
+    const preparedReferences = await prepareReferenceImages(formData);
+
+    if (!preparedReferences) {
       return NextResponse.json(
-        { error: "Missing required fields" },
+        { error: "Missing required reference images." },
         { status: 400 }
       );
     }
 
-    const imageBuffer = Buffer.from(await image.arrayBuffer());
-    const mimeType = getMimeType(image);
-    const promptText = getPromptForSlot(slotKey, categoryName);
+    const images = {} as Record<
+      ProductPhotoKind,
+      { base64: string; mimeType: string }
+    >;
 
-    const response = await ai.models.generateContent({
-      model: "gemini-3.1-flash-image-preview",
-      contents: [
-        {
-          inlineData: {
-            data: imageBuffer.toString("base64"),
-            mimeType,
+    for (const slotKey of REQUIRED_PHOTO_KINDS) {
+      const response = await ai.models.generateContent({
+        model: "gemini-3.1-flash-image-preview",
+        contents: buildContentsForSlot(preparedReferences, slotKey, categoryName),
+        config: {
+          systemInstruction: SYSTEM_INSTRUCTION,
+          responseModalities: ["TEXT", "IMAGE"],
+          imageConfig: {
+            aspectRatio: "1:1",
           },
         },
-        promptText,
-      ],
-      config: {
-        systemInstruction: SYSTEM_INSTRUCTION,
-        responseModalities: ["TEXT", "IMAGE"],
-        imageConfig: {
-          aspectRatio: "1:1",
-        },
-      },
-    });
+      });
 
-    const imageBase64 = extractImageBase64(
-      response as unknown as GenerateContentResponseShape
-    );
-
-    if (!imageBase64) {
-      return NextResponse.json(
-        { error: "Model did not return an image." },
-        { status: 502 }
+      const generatedImage = extractGeneratedImage(
+        response as unknown as GenerateContentResponseShape
       );
+
+      if (!generatedImage) {
+        return NextResponse.json(
+          { error: `Model did not return an image for ${slotKey}.` },
+          { status: 502 }
+        );
+      }
+
+      images[slotKey] = generatedImage;
     }
 
     return NextResponse.json({
       success: true,
-      imageBase64,
+      images,
     });
   } catch (error) {
-    console.error("Failed to generate AI photo:", error);
+    console.error("Failed to generate AI photos:", error);
     return NextResponse.json(
       { error: "An unexpected error occurred during generation." },
       { status: 500 }
@@ -100,20 +113,58 @@ export async function POST(request: Request) {
   }
 }
 
-function getPromptForSlot(slotKey: string, categoryName: string): string {
+async function prepareReferenceImages(
+  formData: FormData
+): Promise<PreparedReference[] | null> {
+  const preparedReferences: PreparedReference[] = [];
+
+  for (const slotKey of REQUIRED_PHOTO_KINDS) {
+    const entry = formData.get(slotKey);
+
+    if (!(entry instanceof File)) {
+      return null;
+    }
+
+    preparedReferences.push({
+      key: slotKey,
+      label: referenceLabels[slotKey],
+      inlineData: {
+        data: Buffer.from(await entry.arrayBuffer()).toString("base64"),
+        mimeType: getMimeType(entry),
+      },
+    });
+  }
+
+  return preparedReferences;
+}
+
+function buildContentsForSlot(
+  references: PreparedReference[],
+  slotKey: ProductPhotoKind,
+  categoryName: string
+) {
+  return [
+    "All reference images show the exact same product from different angles. Use the entire reference set together and keep the product identical across every generated result.",
+    references[0].label,
+    { inlineData: references[0].inlineData },
+    references[1].label,
+    { inlineData: references[1].inlineData },
+    references[2].label,
+    { inlineData: references[2].inlineData },
+    getPromptForSlot(slotKey, categoryName),
+  ];
+}
+
+function getPromptForSlot(slotKey: ProductPhotoKind, categoryName: string): string {
   if (slotKey === "front_closed") {
-    return `Using the provided image as the base, generate a high-quality, professional e-commerce hero shot of this ${categoryName}. Strictly preserve the natural color variations and texture of the leather. Remove the current background and place the item squarely in the center of a minimalist, seamless light-grey studio backdrop. Apply soft, diffused top-down studio lighting to gently highlight the leather's grain and the embossed logo without washing it out. Crisp focus, 1:1 aspect ratio.`;
+    return `Generate a premium e-commerce hero image of this ${categoryName} in the closed front view. Match the exterior shape from the closed reference, preserve leather grain, preserve natural color variation, keep any logo or embossing untouched, and place it on a clean minimal light-grey studio background with soft diffused lighting. Crisp focus. 1:1 aspect ratio.`;
   }
 
   if (slotKey === "interior_open") {
-    return `Using the provided image as the base, generate a realistic lifestyle e-commerce shot of this opened ${categoryName}. Strictly preserve the internal layout, the color of the leather, and the exact appearance of the paper, money, or coins inside. Place the product naturally on a smooth dark wooden cafe table. In the background, create a beautifully blurred (bokeh) warmly lit environment like a modern coffee shop. Add soft, natural morning sunlight streaming in from the side, casting gentle, realistic shadows. 1:1 aspect ratio.`;
+    return `Generate a premium e-commerce image of this ${categoryName} in the opened interior view. Match the open structure from the interior reference, preserve the internal construction and visible materials exactly, keep color and texture faithful to the references, and present it on a tasteful warm tabletop with soft natural light. 1:1 aspect ratio.`;
   }
 
-  if (slotKey === "detail_spine") {
-    return `Using the provided image as the base, create a moody, cinematic detail photograph focusing on the material craftsmanship. Keep the central logo and the immediate surrounding leather texture in laser-sharp focus, preserving all natural color inconsistencies and grain. Apply directional, low-key side lighting to create deep shadows and bright highlights on the material's surface, making it look incredibly tactile and premium. Blur the edges of the frame significantly to draw the eye to the center. 1:1 aspect ratio.`;
-  }
-
-  return `Create a beautiful 1:1 aspect ratio product photo of this ${categoryName}.`;
+  return `Generate a premium close detail image of this ${categoryName} focused on the spine and craftsmanship. Match the spine geometry and nearby material detail from the references, preserve texture and stitching, use directional dramatic side light, and keep the composition photorealistic with shallow depth of field. 1:1 aspect ratio.`;
 }
 
 function getMimeType(file: File): string {
@@ -134,14 +185,17 @@ function getMimeType(file: File): string {
   return "image/jpeg";
 }
 
-function extractImageBase64(
+function extractGeneratedImage(
   response: GenerateContentResponseShape
-): string | null {
+): { base64: string; mimeType: string } | null {
   const parts = response?.candidates?.[0]?.content?.parts ?? [];
 
   for (const part of parts) {
     if (part?.inlineData?.data) {
-      return part.inlineData.data;
+      return {
+        base64: part.inlineData.data,
+        mimeType: part.inlineData.mimeType || "image/png",
+      };
     }
   }
 

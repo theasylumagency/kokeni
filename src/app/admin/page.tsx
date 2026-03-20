@@ -103,11 +103,10 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
 
           {notice ? (
             <div
-              className={`border-2 px-5 py-4 text-[11px] font-bold uppercase tracking-widest ${
-                notice.type === "error"
+              className={`border-2 px-5 py-4 text-[11px] font-bold uppercase tracking-widest ${notice.type === "error"
                   ? "border-[#ba1a1a] bg-[#ffdad6] text-[#93000a]"
                   : "border-black bg-[#dce1ff] text-black"
-              }`}
+                }`}
             >
               [NOTICE] {notice.message}
             </div>
@@ -252,11 +251,10 @@ function AdminSidebarLink({
   return (
     <Link
       href={href}
-      className={`flex items-center gap-3 px-4 py-3 text-[11px] uppercase tracking-widest transition-colors duration-75 ${
-        active
+      className={`flex items-center gap-3 px-4 py-3 text-[11px] uppercase tracking-widest transition-colors duration-75 ${active
           ? "translate-x-1 border-y border-black bg-black font-bold text-white"
           : "text-black opacity-70 hover:bg-[#0d59f2] hover:text-white hover:opacity-100"
-      }`}
+        }`}
     >
       <span className="material-symbols-outlined" style={{ fontSize: "20px" }}>
         {icon}
@@ -268,7 +266,7 @@ function AdminSidebarLink({
 
 function AdminMobileNav({ currentTab }: { currentTab: string }) {
   return (
-    <nav className="flex gap-3 overflow-x-auto pb-2 md:hidden [&::-webkit-scrollbar]:hidden">
+    <nav className="flex gap-3 overflow-x-auto pb-2 min-h-fit md:hidden [&::-webkit-scrollbar]:hidden">
       <AdminMobileNavLink
         href="/admin?tab=categories"
         label="კატეგორიები"
@@ -300,9 +298,8 @@ function AdminMobileNavLink({
   return (
     <Link
       href={href}
-      className={`shrink-0 border-2 border-black px-4 py-3 text-[11px] font-bold uppercase tracking-[0.18em] ${
-        active ? "bg-black text-white" : "bg-white text-black"
-      }`}
+      className={`shrink-0 border-2 border-black px-4 py-3 text-[11px] font-bold uppercase tracking-[0.18em] ${active ? "bg-black text-white" : "bg-white text-black"
+        }`}
     >
       {label}
     </Link>
