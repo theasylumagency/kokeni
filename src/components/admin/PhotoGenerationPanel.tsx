@@ -109,6 +109,20 @@ export default function PhotoGenerationPanel({
 
   const isGeneratingAny = isGeneratingAll || isGeneratingSlot !== null;
 
+  const rawFileUrls = useRef<Record<ProductPhotoKind, string | null>>({
+    front_closed: null,
+    interior_open: null,
+    detail_spine: null,
+  });
+
+  useEffect(() => {
+    return () => {
+      Object.values(rawFileUrls.current).forEach((url) => {
+        if (url) URL.revokeObjectURL(url);
+      });
+    };
+  }, []);
+
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const galleryInputRefs = useRef<Record<ProductPhotoKind, HTMLInputElement | null>>(
     createEmptyInputRefMap()
@@ -212,16 +226,20 @@ export default function PhotoGenerationPanel({
   }
 
   function setRawFile(slotKey: ProductPhotoKind, file: File | null) {
+    if (rawFileUrls.current[slotKey]) {
+      URL.revokeObjectURL(rawFileUrls.current[slotKey]!);
+    }
+    rawFileUrls.current[slotKey] = file ? URL.createObjectURL(file) : null;
+
     setRawFiles((current) => ({
       ...current,
       [slotKey]: file,
     }));
-    clearGeneratedImages();
     setPanelError(null);
     setPanelMessage(
       file
         ? "სამივე ხედის მიღების შემდეგ დააჭირეთ Gemini-ის გენერაციას."
-        : "წაშლის შემდეგ გენერირებული ფოტოები განულდა. გადაიღეთ საჭირო კადრები თავიდან."
+        : "რეფერენს ფოტო წაიშალა."
     );
   }
 
@@ -606,230 +624,240 @@ export default function PhotoGenerationPanel({
             </div>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-6">
             <div className="space-y-2">
-              <p className={labelClass}>სამი reference ფოტო</p>
+              <h3 className="text-xl font-black tracking-tight border-b-2 border-black pb-2">
+                1. Reference ფოტოები
+              </h3>
               <p className="text-sm leading-6 text-black/70">
-                ცარიელ ფრეიმზე დაჭერით პირდაპირ გაიხსნება ბრაუზერის კამერა. თუ
-                კამერა ვერ ჩაირთო, იმავე ხედისთვის შეგიძლიათ გალერეიდან აირჩიოთ
-                ფოტო.
+                გადაიღეთ ან ატვირთეთ პროდუქტის სამი ხედი. ეს ფოტოები გამოიყენება Gemini-სთვის რეფერენსად.
               </p>
             </div>
 
-            <div className="grid gap-4">
+            <div className="grid gap-4 md:grid-cols-3">
               {photoSlots.map((slot) => {
                 const rawFile = rawFiles[slot.key];
-                const aiSrc = aiImages[slot.key];
+                const previewUrl = rawFileUrls.current[slot.key];
 
                 return (
                   <div
                     key={slot.key}
-                    className="grid gap-4 border-2 border-black bg-[#F5F2ED] p-4 sm:grid-cols-[minmax(0,170px)_minmax(0,170px)_minmax(0,1fr)]"
+                    className="flex flex-col border-2 border-black bg-[#F5F2ED] p-4"
                   >
-                    <div className="space-y-3">
-                      <input
-                        ref={(node) => {
-                          galleryInputRefs.current[slot.key] = node;
-                        }}
-                        type="file"
-                        accept="image/*"
-                        className="hidden"
-                        onChange={(event) =>
-                          handleGallerySelection(slot.key, event)
-                        }
-                      />
+                    <div className="mb-4 flex flex-1 flex-col justify-between space-y-3">
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <h4 className="text-sm font-black tracking-tight text-black">
+                            {slot.title}
+                          </h4>
+                          <span
+                            className={`flex h-4 w-4 items-center justify-center rounded-full border ${
+                              rawFile
+                                ? "border-[#0a5c36] bg-[#0a5c36] text-white"
+                                : "border-black/30"
+                            }`}
+                          >
+                            {rawFile && (
+                              <span className="material-symbols-outlined text-[10px]">
+                                check
+                              </span>
+                            )}
+                          </span>
+                        </div>
+                        <p className="text-xs leading-5 text-black/70">{slot.hint}</p>
+                      </div>
 
-                      <div className="relative">
+                      <div className="pt-2">
+                        <input
+                          ref={(node) => {
+                            galleryInputRefs.current[slot.key] = node;
+                          }}
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          onChange={(event) =>
+                            handleGallerySelection(slot.key, event)
+                          }
+                        />
                         <button
                           type="button"
-                          onClick={() => void openCamera(slot.key)}
+                          onClick={() => openGallery(slot.key)}
                           disabled={isGeneratingAny}
-                          className="block w-full overflow-hidden border-2 border-black bg-white text-left transition-colors hover:border-[#0d59f2] disabled:cursor-not-allowed disabled:opacity-60"
+                          className="text-xs font-bold text-[#0d59f2] underline underline-offset-4 transition-colors hover:text-black disabled:cursor-not-allowed disabled:opacity-50"
                         >
-                          <div className="aspect-[4/5]">
-                            {rawFile ? (
-                              <div className="flex h-full flex-col items-center justify-center gap-3 px-4 text-center">
-                                <span className="material-symbols-outlined text-[42px] text-[#0a5c36]">
-                                  check_circle
-                                </span>
-                                <div className="space-y-1">
-                                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#0a5c36]">
-                                    ფოტო მიღებულია
-                                  </p>
-                                  <p className="text-[11px] leading-5 text-black/55">
-                                    ხელახლა გადასაღებად ისევ შეეხეთ ფრეიმს.
-                                  </p>
-                                </div>
-                              </div>
-                            ) : (
-                              <div className="flex h-full flex-col items-center justify-center gap-3 px-4 text-center">
-                                <span className="material-symbols-outlined text-[42px] text-black/50">
-                                  photo_camera
-                                </span>
-                                <div className="space-y-1">
-                                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-black/70">
-                                    ფოტოს გადასაღებად შეეხეთ
-                                  </p>
-                                  <p className="text-[11px] leading-5 text-black/50">
-                                    ბრაუზერის კამერა გაიხსნება პირდაპირ.
-                                  </p>
-                                </div>
-                              </div>
-                            )}
-                          </div>
+                          გალერეიდან არჩევა
                         </button>
-
-                        {rawFile ? (
-                          <button
-                            type="button"
-                            aria-label="ფოტოს წაშლა"
-                            onClick={() => handleRemoveRaw(slot.key)}
-                            className="absolute right-2 top-2 z-10 flex h-10 w-10 items-center justify-center rounded-full border-2 border-black bg-white text-black shadow-[3px_3px_0_#000] transition-colors hover:bg-[#ba1a1a] hover:text-white"
-                          >
-                            <span
-                              className="material-symbols-outlined"
-                              style={{ fontSize: "20px" }}
-                            >
-                              delete
-                            </span>
-                          </button>
-                        ) : null}
                       </div>
                     </div>
 
                     <div className="relative overflow-hidden border-2 border-black bg-white">
-                      <div className="aspect-[4/5]">
-                        {aiSrc ? (
-                          <div className="relative h-full w-full">
-                            <Image
-                              src={aiSrc}
-                              alt={slot.title}
-                              fill
-                              sizes="(min-width: 640px) 170px, 44vw"
-                              className="object-cover"
-                            />
-                          </div>
+                      <div className="aspect-[4/5] w-full">
+                        {previewUrl ? (
+                          <img
+                            src={previewUrl}
+                            alt="Preview"
+                            className="h-full w-full object-cover"
+                          />
                         ) : (
-                          <div className="flex h-full flex-col items-center justify-center px-4 text-center">
-                            <span className="material-symbols-outlined text-[42px] text-black/30">
-                              auto_awesome
+                          <button
+                            type="button"
+                            onClick={() => void openCamera(slot.key)}
+                            disabled={isGeneratingAny}
+                            className="flex h-full w-full flex-col items-center justify-center gap-3 px-4 text-center text-black/50 transition-colors hover:bg-black/5 disabled:cursor-not-allowed disabled:opacity-50"
+                          >
+                            <span className="material-symbols-outlined text-[32px]">
+                              photo_camera
                             </span>
-                            <p className="mt-3 text-xs font-bold uppercase tracking-[0.18em] text-black/40">
-                              {isGeneratingAll || isGeneratingSlot === slot.key
-                                ? "გენერაცია მიმდინარეობს"
-                                : "AI შედეგი"}
-                            </p>
-                          </div>
+                            <span className="text-[10px] font-bold uppercase tracking-[0.1em]">
+                              კამერის ჩართვა
+                            </span>
+                          </button>
                         )}
                       </div>
 
-                      {aiSrc ? (
+                      {previewUrl ? (
                         <button
                           type="button"
-                          aria-label="AI ფოტოს წაშლა"
-                          onClick={() => handleRemoveAi(slot.key)}
-                          className="absolute right-2 top-2 z-10 flex h-10 w-10 items-center justify-center rounded-full border-2 border-black bg-white text-black shadow-[3px_3px_0_#000] transition-colors hover:bg-[#ba1a1a] hover:text-white"
+                          aria-label="ფოტოს წაშლა"
+                          onClick={() => handleRemoveRaw(slot.key)}
+                          className="absolute right-2 top-2 z-10 flex h-8 w-8 items-center justify-center rounded-full border-2 border-[#ba1a1a] bg-white text-[#ba1a1a] shadow-[2px_2px_0_#ba1a1a] transition-all hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[1px_1px_0_#ba1a1a]"
                         >
                           <span
                             className="material-symbols-outlined"
-                            style={{ fontSize: "20px" }}
+                            style={{ fontSize: "16px" }}
                           >
                             delete
                           </span>
                         </button>
                       ) : null}
                     </div>
-
-                    <div className="flex flex-col justify-between gap-4">
-                      <div className="space-y-3">
-                        <div className="flex flex-wrap items-center gap-2">
-                          <h3 className="text-lg font-black tracking-tight text-black">
-                            {slot.title}
-                          </h3>
-                          <span
-                            className={`border px-2 py-1 text-[10px] font-bold uppercase tracking-[0.18em] ${
-                              rawFile
-                                ? "border-[#0a5c36] bg-[#daf2e6] text-[#0a5c36]"
-                                : "border-[#93000a] bg-[#ffdad6] text-[#93000a]"
-                            }`}
-                          >
-                            {rawFile ? "reference მზადაა" : "reference აკლია"}
-                          </span>
-                          <span
-                            className={`border px-2 py-1 text-[10px] font-bold uppercase tracking-[0.18em] ${
-                              aiSrc
-                                ? "border-[#0d59f2] bg-[#dce1ff] text-[#0d59f2]"
-                                : "border-black/30 bg-white text-black/45"
-                            }`}
-                          >
-                            {aiSrc ? "AI მზადაა" : "AI ჯერ არ არის"}
-                          </span>
-                        </div>
-
-                        <p className="text-sm leading-6 text-black/70">{slot.hint}</p>
-                      </div>
-
-                      <div className="space-y-3">
-                        <button
-                          type="button"
-                          onClick={() => openGallery(slot.key)}
-                          disabled={isGeneratingAny}
-                          className="text-sm font-bold text-black/70 underline underline-offset-4 transition-colors hover:text-black disabled:cursor-not-allowed disabled:opacity-50 inline-block text-left"
-                        >
-                          გალერეიდან არჩევა
-                        </button>
-                        {hasAllRawPhotos ? (
-                          <button
-                            type="button"
-                            onClick={() => void handleRegenerateSingle(slot.key)}
-                            disabled={isGeneratingAny}
-                            className="text-sm font-bold text-[#0d59f2] underline underline-offset-4 transition-colors hover:text-black disabled:cursor-not-allowed disabled:opacity-50 inline-block text-left"
-                          >
-                            ხელახლა გენერაცია
-                          </button>
-                        ) : null}
-                      </div>
-                      <p className="text-sm text-black/60">
-                        {hasAllRawPhotos 
-                          ? "შეგიძლიათ მხოლოდ ამ ხედის თავიდან გენერაცია ღილაკზე დაჭერით." 
-                          : "სამივე ფოტო აუცილებელია გენერაციისთვის."}
-                      </p>
-                    </div>
                   </div>
                 );
               })}
             </div>
+
+            <div className="mt-8">
+              <button
+                type="button"
+                onClick={() => void handleGenerateAll()}
+                disabled={!selectedCategory || !hasAllRawPhotos || isGeneratingAny}
+                className="w-full border-2 border-black bg-black px-6 py-4 text-center text-sm font-black uppercase tracking-[0.2em] text-white transition-colors hover:bg-[#0d59f2] disabled:cursor-not-allowed disabled:bg-black/30"
+              >
+                {isGeneratingAny && !isGeneratingSlot
+                  ? "მიმდინარეობს გენერაცია..."
+                  : "სამივე ფოტოს გენერაცია Gemini-ით"}
+              </button>
+              {!hasAllRawPhotos && (
+                <p className="mt-3 text-center text-xs text-black/60">
+                  გენერაციის დასაწყებად აუცილებელია სამივე რეფერენს ფოტოს ატვირთვა.
+                </p>
+              )}
+            </div>
           </div>
 
+          {(Object.values(aiImages).some((src) => src !== null) || isGeneratingAny) && (
+            <div className="space-y-6 border-t-2 border-black pt-8">
+              <div className="space-y-2">
+                <h3 className="text-xl font-black tracking-tight border-b-2 border-black pb-2">
+                  2. გენერირებული AI ფოტოები
+                </h3>
+                <p className="text-sm leading-6 text-black/70">
+                  ეს არის Gemini-ს მიერ შექმნილი საბოლოო ფოტოები, რომლებიც პროდუქტზე მიებმება. საჭიროების შემთხვევაში დააჭირეთ ერთეულ გენერაციას.
+                </p>
+              </div>
+
+              <div className="grid gap-4 md:grid-cols-3">
+                {photoSlots.map((slot) => {
+                  const aiSrc = aiImages[slot.key];
+                  const isLoadingThis = isGeneratingAll || isGeneratingSlot === slot.key;
+
+                  return (
+                    <div key={slot.key} className="space-y-3">
+                      <div className="relative overflow-hidden border-2 border-black bg-[#E7E1D8]">
+                        <div className="aspect-[4/5] w-full">
+                          {aiSrc && !isLoadingThis ? (
+                            <img
+                              src={aiSrc}
+                              alt={slot.title}
+                              className="h-full w-full object-cover"
+                            />
+                          ) : (
+                            <div className="flex h-full flex-col items-center justify-center px-4 text-center">
+                              {isLoadingThis ? (
+                                <>
+                                  <span className="material-symbols-outlined animate-spin text-[32px] text-[#0d59f2]">
+                                    sync
+                                  </span>
+                                  <p className="mt-3 text-[10px] font-bold uppercase tracking-[0.1em] text-[#0d59f2]">
+                                    მუშავდება...
+                                  </p>
+                                </>
+                              ) : (
+                                <>
+                                  <span className="material-symbols-outlined text-[32px] text-black/20">
+                                    image
+                                  </span>
+                                  <p className="mt-3 text-[10px] font-bold uppercase tracking-[0.1em] text-black/30">
+                                    მოლოდინში
+                                  </p>
+                                </>
+                              )}
+                            </div>
+                          )}
+                        </div>
+
+                        {aiSrc && !isLoadingThis ? (
+                          <button
+                            type="button"
+                            aria-label="AI ფოტოს წაშლა"
+                            onClick={() => handleRemoveAi(slot.key)}
+                            className="absolute right-2 top-2 z-10 flex h-8 w-8 items-center justify-center rounded-full border-2 border-[#ba1a1a] bg-white text-[#ba1a1a] shadow-[2px_2px_0_#ba1a1a] transition-all hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[1px_1px_0_#ba1a1a]"
+                          >
+                            <span
+                              className="material-symbols-outlined"
+                              style={{ fontSize: "16px" }}
+                            >
+                              delete
+                            </span>
+                          </button>
+                        ) : null}
+                      </div>
+
+                      <div className="flex flex-wrap items-center justify-between gap-1">
+                        <span className="text-xs font-bold text-black">
+                          {slot.title}
+                        </span>
+                        {hasAllRawPhotos && (aiSrc || !isLoadingThis) && (
+                          <button
+                            type="button"
+                            onClick={() => void handleRegenerateSingle(slot.key)}
+                            disabled={isGeneratingAny}
+                            className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#0d59f2] transition-colors hover:text-black disabled:cursor-not-allowed disabled:opacity-50"
+                          >
+                            <span className="border-b border-[#0d59f2]">Regenerate</span>
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
           {panelMessage ? (
-            <div className="border-2 border-black bg-[#dce1ff] px-4 py-3 text-sm text-black">
+            <div className="border-2 border-black bg-[#dce1ff] px-4 py-3 text-sm font-bold text-black mt-8">
               {panelMessage}
             </div>
           ) : null}
 
           {panelError ? (
-            <div className="border-2 border-[#ba1a1a] bg-[#ffdad6] px-4 py-3 text-sm text-[#93000a]">
+            <div className="border-2 border-[#ba1a1a] bg-[#ffdad6] px-4 py-3 text-sm font-bold text-[#93000a] mt-8">
               {panelError}
             </div>
           ) : null}
 
-          <div className="space-y-4 border-t-2 border-black pt-6">
-            <button
-              type="button"
-              onClick={() => void handleGenerateAll()}
-              disabled={!selectedCategory || !hasAllRawPhotos || isGeneratingAny}
-              className="w-full border-2 border-black bg-black px-6 py-5 text-center text-sm font-black uppercase tracking-[0.22em] text-white transition-colors hover:bg-[#0d59f2] disabled:cursor-not-allowed disabled:bg-black/30"
-            >
-              {isGeneratingAny
-                ? "მიმდინარეობს გენერაცია..."
-                : "სამივე ფოტოს გენერაცია"}
-            </button>
-
-            <p className="text-sm leading-6 text-black/70">
-              პროდუქტი შეიქმნება როგორც დრაფტი. `products.json` შეიცვლება მხოლოდ
-              მაშინ, როცა ქვემოთ დააჭერთ ახალი პროდუქტის შექმნას.
-            </p>
-
+          <div className="space-y-4 border-t-2 border-black pt-8 mt-8">
             <SubmitButton
               disabled={
                 !selectedCategoryId ||
@@ -838,6 +866,9 @@ export default function PhotoGenerationPanel({
                 isGeneratingAny
               }
             />
+            <p className="text-center text-[11px] leading-5 text-black/60">
+              `products.json` შეიცვლება მხოლოდ დადასტურების შემდეგ. საბოლოო სურათები უკვე მოიცავს მცირე და დიდ ვერსიებს.
+            </p>
           </div>
         </form>
       </section>
