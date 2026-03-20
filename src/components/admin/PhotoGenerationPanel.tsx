@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  useEffect,
-  useState,
-  type ChangeEvent,
-} from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 import { useFormStatus } from "react-dom";
 
 import { createPhotoProductAction } from "@/app/admin/actions";
@@ -26,7 +22,6 @@ type PhotoGenerationPanelProps = {
 };
 
 type SlotImageMap = Record<ProductPhotoKind, string | null>;
-type SlotFileMap = Record<ProductPhotoKind, File | null>;
 
 type PhotoSlotDefinition = {
   key: ProductPhotoKind;
@@ -58,12 +53,6 @@ const initialSlotImages: SlotImageMap = {
   detail_spine: null,
 };
 
-const initialSlotFiles: SlotFileMap = {
-  front_closed: null,
-  interior_open: null,
-  detail_spine: null,
-};
-
 const panelClass = "border-2 border-black bg-white";
 const inputClass =
   "w-full rounded-none border-2 border-black bg-[#F5F2ED] px-4 py-4 text-base text-black outline-none transition-colors focus:border-[#0d59f2]";
@@ -79,10 +68,9 @@ export default function PhotoGenerationPanel({
   const [selectedCategoryId, setSelectedCategoryId] = useState("");
   const [nameKa, setNameKa] = useState("");
   const [hasManualName, setHasManualName] = useState(false);
-  const [slotFiles, setSlotFiles] = useState<SlotFileMap>(initialSlotFiles);
   const [aiImages, setAiImages] = useState<SlotImageMap>(initialSlotImages);
   const [generatingSlot, setGeneratingSlot] = useState<
-    ProductPhotoKind | "all" | null
+    ProductPhotoKind | null
   >(null);
   const [uploadError, setUploadError] = useState<string | null>(null);
 
@@ -136,27 +124,9 @@ export default function PhotoGenerationPanel({
     })
   );
 
-  const allPhotosReady = REQUIRED_PHOTO_KINDS.every((slotKey) => slotFiles[slotKey]);
   const allAiPhotosReady = REQUIRED_PHOTO_KINDS.every(
     (slotKey) => aiImages[slotKey]
   );
-
-  function handleNameChange(event: ChangeEvent<HTMLInputElement>) {
-    setHasManualName(true);
-    setNameKa(event.target.value);
-  }
-
-  function handleResetSuggestedName() {
-    setHasManualName(false);
-    setNameKa(suggestedName);
-  }
-
-  function clearRawSlot(slotKey: ProductPhotoKind) {
-    setSlotFiles((current) => ({
-      ...current,
-      [slotKey]: null,
-    }));
-  }
 
   async function handlePhotoSelection(
     slotKey: ProductPhotoKind,
@@ -175,79 +145,44 @@ export default function PhotoGenerationPanel({
     }
 
     setUploadError(null);
-    setSlotFiles((current) => ({
-      ...current,
-      [slotKey]: file,
-    }));
-    setAiImages((current) => ({
-      ...current,
-      [slotKey]: null,
-    }));
-  }
-
-  function handleRemovePhoto(slotKey: ProductPhotoKind) {
-    clearRawSlot(slotKey);
-    setAiImages((current) => ({
-      ...current,
-      [slotKey]: null,
-    }));
-  }
-
-  async function handleGenerateAi(slotKey: ProductPhotoKind | "all") {
-    setUploadError(null);
     setGeneratingSlot(slotKey);
+    setAiImages((current) => ({
+      ...current,
+      [slotKey]: null,
+    }));
 
     try {
-      const slotsToGenerate =
-        slotKey === "all" ? [...REQUIRED_PHOTO_KINDS] : [slotKey];
+      const uploadedAiImage = await generateAiImage(slotKey, file, {
+        categoryName: nameKa || suggestedName || "პროდუქტი",
+      });
 
-      for (const currentSlot of slotsToGenerate) {
-        const rawFile = slotFiles[currentSlot];
-
-        if (!rawFile) {
-          continue;
-        }
-
-        const formData = new FormData();
-        formData.append("slotKey", currentSlot);
-        formData.append("categoryName", nameKa || suggestedName || "პროდუქტი");
-        formData.append("image", rawFile, rawFile.name || `${currentSlot}.jpg`);
-
-        const response = await fetch("/api/admin/generate-photo", {
-          method: "POST",
-          body: formData,
-        });
-
-        const payload = (await response.json()) as {
-          success?: boolean;
-          imageBase64?: string;
-          error?: string;
-        };
-
-        if (!response.ok || !payload.success || !payload.imageBase64) {
-          throw new Error(payload.error || "Generation failed");
-        }
-
-        const generatedFile = new File(
-          [base64ToBlob(payload.imageBase64, "image/webp")],
-          `${currentSlot}-ai.webp`,
-          { type: "image/webp" }
-        );
-
-        const uploadedAiImage = await uploadPhoto(generatedFile, currentSlot);
-
-        setAiImages((current) => ({
-          ...current,
-          [currentSlot]: uploadedAiImage,
-        }));
-        clearRawSlot(currentSlot);
-      }
+      setAiImages((current) => ({
+        ...current,
+        [slotKey]: uploadedAiImage,
+      }));
     } catch (error) {
       console.error(error);
-      setUploadError("AI გენერაცია ვერ მოხერხდა. სცადეთ თავიდან.");
+      setUploadError("ფოტოს დამუშავება ვერ მოხერხდა. სცადეთ თავიდან.");
     } finally {
       setGeneratingSlot(null);
     }
+  }
+
+  function handleRemoveAi(slotKey: ProductPhotoKind) {
+    setAiImages((current) => ({
+      ...current,
+      [slotKey]: null,
+    }));
+  }
+
+  function handleNameChange(event: ChangeEvent<HTMLInputElement>) {
+    setHasManualName(true);
+    setNameKa(event.target.value);
+  }
+
+  function handleResetSuggestedName() {
+    setHasManualName(false);
+    setNameKa(suggestedName);
   }
 
   if (!categories.length) {
@@ -276,9 +211,9 @@ export default function PhotoGenerationPanel({
             ფოტოებით პროდუქტის შექმნა
           </h2>
           <p className="text-sm leading-6 text-black/70">
-            აირჩიეთ ჯგუფი და კატეგორია, დაადასტურეთ რეკომენდებული დასახელება,
-            გადაიღეთ სამი ფოტო, შემდეგ გაუშვით Gemini-ზე გენერაცია. საწყისი
-            ფოტოები მხოლოდ დროებით გამოიყენება და არ ინახება პროექტში.
+            აირჩიეთ ჯგუფი და კატეგორია, დაადასტურეთ რეკომენდებული დასახელება და
+            თითოეული ფოტო არჩევისთანავე პირდაპირ გაუშვით Gemini-ზე. საწყისი
+            ფოტოები არც სერვერზე და არც გვერდის state-ში არ ინახება.
           </p>
         </div>
       </div>
@@ -406,18 +341,16 @@ export default function PhotoGenerationPanel({
           <div className="space-y-2">
             <p className={labelClass}>სავალდებულო ფოტოები</p>
             <p className="text-sm leading-6 text-black/70">
-              ცარიელ ფრეიმზე დაჭერისას კამერა პირდაპირ გაიხსნება. გადაღებული
-              ფოტო მხოლოდ დროებით გამოიყენება Gemini-სთვის და საბოლოოდ ინახება
-              მხოლოდ გენერირებული შედეგი.
+              ფრეიმზე დაჭერისას გაიხსნება სისტემური არჩევანი კამერისა და გალერეისთვის.
+              არჩევისთანავე ფოტო პირდაპირ Gemini-ზე გაიგზავნება და დარჩება მხოლოდ
+              საბოლოო AI შედეგი.
             </p>
           </div>
 
           <div className="grid gap-4">
             {photoSlots.map((slot) => {
-              const rawPhotoReady = Boolean(slotFiles[slot.key]);
               const aiSrc = aiImages[slot.key];
-              const isGenerating =
-                generatingSlot === slot.key || generatingSlot === "all";
+              const isGenerating = generatingSlot === slot.key;
 
               return (
                 <div
@@ -428,57 +361,57 @@ export default function PhotoGenerationPanel({
                     <input
                       type="file"
                       accept="image/*"
-                      capture="environment"
                       className="hidden"
+                      disabled={generatingSlot !== null}
                       onChange={(event) =>
                         void handlePhotoSelection(slot.key, event)
                       }
                     />
 
                     <div className="relative aspect-[4/5] overflow-hidden border-2 border-black bg-white transition-colors hover:border-[#0d59f2]">
-                      {rawPhotoReady ? (
+                      {isGenerating ? (
+                        <div className="flex h-full flex-col items-center justify-center gap-3 px-4 text-center">
+                          <span className="material-symbols-outlined text-[40px] text-[#0d59f2]">
+                            hourglass_top
+                          </span>
+                          <div className="space-y-1">
+                            <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#0d59f2]">
+                              მიმდინარეობს დამუშავება
+                            </p>
+                            <p className="text-[11px] leading-5 text-black/55">
+                              გთხოვთ დაელოდოთ, სანამ Gemini ფოტოს დაამუშავებს.
+                            </p>
+                          </div>
+                        </div>
+                      ) : aiSrc ? (
                         <div className="flex h-full flex-col items-center justify-center gap-3 px-4 text-center">
                           <span className="material-symbols-outlined text-[40px] text-[#0a5c36]">
                             check_circle
                           </span>
                           <div className="space-y-1">
                             <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#0a5c36]">
-                              ფოტო მიღებულია
+                              ფოტო დამუშავებულია
                             </p>
                             <p className="text-[11px] leading-5 text-black/55">
-                              სურვილის შემთხვევაში ხელახლა შეეხეთ და თავიდან გადაიღეთ.
+                              ხელახლა შესაცვლელად ფრეიმზე თავიდან დაჭერაა საკმარისი.
                             </p>
                           </div>
                         </div>
-                      ) : aiSrc ? (
-                        <div className="flex h-full items-center justify-center px-4 text-center text-xs font-bold uppercase tracking-[0.18em] text-black/35">
-                          საწყისი ფოტო გასუფთავებულია
-                        </div>
                       ) : (
-                        <div className="flex h-full items-center justify-center px-4 text-center text-xs font-bold uppercase tracking-[0.18em] text-black/40">
-                          ფოტოს გადასაღებად შეეხეთ
+                        <div className="flex h-full flex-col items-center justify-center gap-3 px-4 text-center">
+                          <span className="material-symbols-outlined text-[40px] text-black/50">
+                            add_a_photo
+                          </span>
+                          <div className="space-y-1">
+                            <p className="text-xs font-bold uppercase tracking-[0.18em] text-black/70">
+                              ფოტოს ასარჩევად შეეხეთ
+                            </p>
+                            <p className="text-[11px] leading-5 text-black/50">
+                              კამერით გადაღება ან გალერეიდან არჩევა.
+                            </p>
+                          </div>
                         </div>
                       )}
-
-                      {rawPhotoReady ? (
-                        <button
-                          type="button"
-                          aria-label="ფოტოს წაშლა"
-                          onClick={(event) => {
-                            event.preventDefault();
-                            event.stopPropagation();
-                            handleRemovePhoto(slot.key);
-                          }}
-                          className="absolute right-2 top-2 z-10 flex h-10 w-10 items-center justify-center rounded-full border-2 border-black bg-white text-black shadow-[3px_3px_0_#000] transition-colors hover:bg-[#ba1a1a] hover:text-white"
-                        >
-                          <span
-                            className="material-symbols-outlined"
-                            style={{ fontSize: "20px" }}
-                          >
-                            delete
-                          </span>
-                        </button>
-                      ) : null}
                     </div>
                   </label>
 
@@ -503,12 +436,7 @@ export default function PhotoGenerationPanel({
                       <button
                         type="button"
                         aria-label="AI ფოტოს წაშლა"
-                        onClick={() =>
-                          setAiImages((current) => ({
-                            ...current,
-                            [slot.key]: null,
-                          }))
-                        }
+                        onClick={() => handleRemoveAi(slot.key)}
                         className="absolute right-2 top-2 z-10 flex h-10 w-10 items-center justify-center rounded-full border-2 border-black bg-white text-black shadow-[3px_3px_0_#000] transition-colors hover:bg-[#ba1a1a] hover:text-white"
                       >
                         <span
@@ -531,50 +459,35 @@ export default function PhotoGenerationPanel({
                           className={`border px-2 py-1 text-[10px] font-bold uppercase tracking-[0.18em] ${
                             aiSrc
                               ? "border-[#0a5c36] bg-[#daf2e6] text-[#0a5c36]"
-                              : rawPhotoReady
-                                ? "border-[#7a4f00] bg-[#fff1cc] text-[#7a4f00]"
+                              : isGenerating
+                                ? "border-[#0d59f2] bg-[#dce1ff] text-[#0d59f2]"
                                 : "border-[#93000a] bg-[#ffdad6] text-[#93000a]"
                           }`}
                         >
                           {aiSrc
                             ? "გენერირებულია"
-                            : rawPhotoReady
-                              ? "მზადაა გენერაციისთვის"
+                            : isGenerating
+                              ? "მუშავდება"
                               : "სავალდებულოა"}
                         </span>
                       </div>
                       <p className="text-sm leading-6 text-black/70">{slot.hint}</p>
                     </div>
 
-                    <div className="space-y-3">
-                      {rawPhotoReady ? (
-                        <button
-                          type="button"
-                          onClick={() => handleGenerateAi(slot.key)}
-                          disabled={generatingSlot !== null}
-                          className="w-full border-2 border-black bg-white px-4 py-3 text-[11px] font-bold uppercase tracking-[0.18em] text-black transition-colors hover:bg-black hover:text-white disabled:cursor-not-allowed disabled:opacity-40"
-                        >
-                          {isGenerating
-                            ? "მიმდინარეობს გენერაცია..."
-                            : "ამ ფოტოს გენერაცია"}
-                        </button>
-                      ) : null}
-
-                      {aiSrc ? (
-                        <p className="text-sm font-bold text-black/65">
-                          საბოლოო AI ფოტო შენახულია. თუ შეცვლა გინდათ, თავიდან
-                          გადაიღეთ საწყისი ფოტო.
-                        </p>
-                      ) : rawPhotoReady ? (
-                        <p className="text-sm font-bold text-black/65">
-                          საწყისი ფოტო დროებით ინახება მხოლოდ Gemini-სთვის.
-                        </p>
-                      ) : (
-                        <p className="text-sm font-bold text-black/65">
-                          ცარიელ ფრეიმზე დაჭერით კამერა გაიხსნება.
-                        </p>
-                      )}
-                    </div>
+                    {aiSrc ? (
+                      <p className="text-sm font-bold text-black/65">
+                        საბოლოო AI ფოტო მზადაა. თუ შეცვლა გინდათ, უბრალოდ ხელახლა
+                        აირჩიეთ სხვა ფოტო.
+                      </p>
+                    ) : isGenerating ? (
+                      <p className="text-sm font-bold text-black/65">
+                        ახლა საწყისი ფოტო იგზავნება პირდაპირ Gemini-ზე.
+                      </p>
+                    ) : (
+                      <p className="text-sm font-bold text-black/65">
+                        ამ ეტაპზე საწყისი ფოტო არ ინახება, მხოლოდ საბოლოო AI შედეგი.
+                      </p>
+                    )}
                   </div>
                 </div>
               );
@@ -589,19 +502,6 @@ export default function PhotoGenerationPanel({
         </div>
 
         <div className="space-y-4 border-t-2 border-black pt-6">
-          {allPhotosReady && !allAiPhotosReady ? (
-            <button
-              type="button"
-              onClick={() => handleGenerateAi("all")}
-              disabled={generatingSlot !== null}
-              className="w-full border-2 border-black bg-white px-6 py-5 text-center text-sm font-black uppercase tracking-[0.22em] text-black transition-colors hover:bg-black hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              {generatingSlot === "all"
-                ? "მიმდინარეობს გენერაცია..."
-                : "ყველა ფოტოს AI-ით გენერაცია"}
-            </button>
-          ) : null}
-
           <p className="text-sm leading-6 text-black/70">
             პროდუქტი შეიქმნება როგორც დრაფტი. თუ საჯაროდ გამოქვეყნება დაგჭირდებათ,
             შემდეგ შეგიძლიათ პროდუქტების სექციაში გახსნათ და დაარედაქტიროთ.
@@ -633,6 +533,40 @@ function SubmitButton({ disabled }: { disabled: boolean }) {
       {pending ? "ინახება..." : "ახალი პროდუქტის შექმნა"}
     </button>
   );
+}
+
+async function generateAiImage(
+  slotKey: ProductPhotoKind,
+  file: File,
+  { categoryName }: { categoryName: string }
+): Promise<string> {
+  const formData = new FormData();
+  formData.append("slotKey", slotKey);
+  formData.append("categoryName", categoryName);
+  formData.append("image", file, file.name || `${slotKey}.jpg`);
+
+  const response = await fetch("/api/admin/generate-photo", {
+    method: "POST",
+    body: formData,
+  });
+
+  const payload = (await response.json()) as {
+    success?: boolean;
+    imageBase64?: string;
+    error?: string;
+  };
+
+  if (!response.ok || !payload.success || !payload.imageBase64) {
+    throw new Error(payload.error || "Generation failed");
+  }
+
+  const generatedFile = new File(
+    [base64ToBlob(payload.imageBase64, "image/webp")],
+    `${slotKey}-ai.webp`,
+    { type: "image/webp" }
+  );
+
+  return uploadPhoto(generatedFile, slotKey);
 }
 
 async function uploadPhoto(
