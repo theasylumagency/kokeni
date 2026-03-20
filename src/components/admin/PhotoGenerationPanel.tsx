@@ -58,6 +58,8 @@ const panelClass = "border-2 border-black bg-white";
 const inputClass =
   "w-full rounded-none border-2 border-black bg-[#F5F2ED] px-4 py-4 text-base text-black outline-none transition-colors focus:border-[#0d59f2]";
 const labelClass = "mb-2 block text-[11px] font-bold tracking-[0.18em] uppercase text-black/60";
+const PHOTO_UPLOAD_MAX_DIMENSION = 1280;
+const PHOTO_UPLOAD_QUALITY = 0.82;
 
 export default function PhotoGenerationPanel({
   groups,
@@ -601,79 +603,76 @@ async function uploadPhoto(
   file: File,
   slotKey: ProductPhotoKind
 ): Promise<string> {
+  const processedBlob = await createUploadBlob(file, PHOTO_UPLOAD_MAX_DIMENSION);
+
+  const formData = new FormData();
+  formData.append("file1600", processedBlob, `${slotKey}-large.webp`);
+
+  const response = await fetch("/api/admin/images", {
+    method: "POST",
+    body: formData,
+  });
+
+  const payload = (await response.json()) as {
+    success?: boolean;
+    image?: string;
+  };
+
+  if (!response.ok || !payload.success || !payload.image) {
+    throw new Error("Upload failed");
+  }
+
+  return payload.image;
+}
+
+async function createUploadBlob(
+  file: File,
+  maxDimension: number
+): Promise<Blob> {
   const sourceUrl = URL.createObjectURL(file);
 
   try {
-    const file1600 = await createResizedBlob(sourceUrl, 1600);
-    const file800 = await createResizedBlob(sourceUrl, 800);
+    const image = await loadImage(sourceUrl);
+    const { width, height } = getScaledDimensions(
+      image.naturalWidth,
+      image.naturalHeight,
+      maxDimension
+    );
 
-    const formData = new FormData();
-    formData.append("file1600", file1600, `${slotKey}-large.webp`);
-    formData.append("file800", file800, `${slotKey}-mobile.webp`);
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
 
-    const response = await fetch("/api/admin/images", {
-      method: "POST",
-      body: formData,
-    });
+    const context = canvas.getContext("2d");
 
-    const payload = (await response.json()) as {
-      success?: boolean;
-      image?: string;
-    };
-
-    if (!response.ok || !payload.success || !payload.image) {
-      throw new Error("Upload failed");
+    if (!context) {
+      throw new Error("Canvas context is unavailable");
     }
 
-    return payload.image;
+    context.imageSmoothingEnabled = true;
+    context.imageSmoothingQuality = "high";
+    context.drawImage(image, 0, 0, width, height);
+
+    image.onload = null;
+    image.onerror = null;
+    image.src = "";
+
+    const blob = await new Promise<Blob | null>((resolve) => {
+      canvas.toBlob(resolve, "image/webp", PHOTO_UPLOAD_QUALITY);
+    });
+
+    context.clearRect(0, 0, width, height);
+    canvas.width = 0;
+    canvas.height = 0;
+
+    if (!blob) {
+      throw new Error("Blob creation failed");
+    }
+
+    return blob;
   } finally {
     URL.revokeObjectURL(sourceUrl);
   }
-}
-
-async function createResizedBlob(
-  sourceUrl: string,
-  maxDimension: number
-): Promise<Blob> {
-  let image: HTMLImageElement | null = await loadImage(sourceUrl);
-  const { width, height } = getScaledDimensions(
-    image.naturalWidth,
-    image.naturalHeight,
-    maxDimension
-  );
-
-  const canvas = document.createElement("canvas");
-  canvas.width = width;
-  canvas.height = height;
-
-  const context = canvas.getContext("2d");
-
-  if (!context) {
-    throw new Error("Canvas context is unavailable");
-  }
-
-  context.drawImage(image, 0, 0, width, height);
-
-  // Aggressively free original image memory to prevent Out of Memory (OOM) on mobile OS
-  image.onerror = null;
-  image.onload = null;
-  image.src = "";
-  image = null;
-
-  const blob = await new Promise<Blob | null>((resolve) => {
-    canvas.toBlob(resolve, "image/webp", 0.9);
-  });
-
-  // Aggressively free canvas memory
-  context.clearRect(0, 0, width, height);
-  canvas.width = 0;
-  canvas.height = 0;
-
-  if (!blob) {
-    throw new Error("Blob creation failed");
-  }
-
-  return blob;
 }
 
 function loadImage(sourceUrl: string): Promise<HTMLImageElement> {

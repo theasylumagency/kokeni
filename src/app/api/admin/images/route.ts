@@ -54,9 +54,9 @@ export async function POST(request: Request) {
     const file1600 = formData.get("file1600") as File | null;
     const file800 = formData.get("file800") as File | null;
 
-    if (!file1600 || !file800) {
+    if (!file1600) {
       return NextResponse.json(
-        { error: "Missing required files" },
+        { error: "Missing required file" },
         { status: 400 }
       );
     }
@@ -69,7 +69,9 @@ export async function POST(request: Request) {
     const mobilePath = path.join(PRODUCT_UPLOAD_DIRECTORY, mobileFileName);
 
     const mainBuffer = Buffer.from(await file1600.arrayBuffer());
-    const mobileBuffer = Buffer.from(await file800.arrayBuffer());
+    const mobileBuffer = file800
+      ? Buffer.from(await file800.arrayBuffer())
+      : Buffer.from(mainBuffer);
 
     await fs.writeFile(mainPath, mainBuffer);
     await fs.writeFile(mobilePath, mobileBuffer);
