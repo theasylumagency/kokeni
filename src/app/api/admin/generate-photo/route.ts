@@ -58,6 +58,8 @@ export async function POST(request: Request) {
       typeof formData.get("categoryName") === "string"
         ? ((formData.get("categoryName") as string).trim() || "product")
         : "product";
+    
+    const singleSlotParam = formData.get("slotKey") as ProductPhotoKind | null;
 
     const preparedReferences = await prepareReferenceImages(formData);
 
@@ -73,7 +75,11 @@ export async function POST(request: Request) {
       { base64: string; mimeType: string }
     >;
 
-    for (const slotKey of REQUIRED_PHOTO_KINDS) {
+    const targetSlots = singleSlotParam
+      ? ([singleSlotParam] as ProductPhotoKind[]) 
+      : REQUIRED_PHOTO_KINDS;
+
+    for (const slotKey of targetSlots) {
       const response = await ai.models.generateContent({
         model: "gemini-3.1-flash-image-preview",
         contents: buildContentsForSlot(preparedReferences, slotKey, categoryName),

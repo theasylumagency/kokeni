@@ -103,8 +103,11 @@ export default function PhotoGenerationPanel({
   const [cameraReady, setCameraReady] = useState(false);
   const [cameraError, setCameraError] = useState<string | null>(null);
   const [isGeneratingAll, setIsGeneratingAll] = useState(false);
+  const [isGeneratingSlot, setIsGeneratingSlot] = useState<ProductPhotoKind | null>(null);
   const [panelMessage, setPanelMessage] = useState<string | null>(null);
   const [panelError, setPanelError] = useState<string | null>(null);
+
+  const isGeneratingAny = isGeneratingAll || isGeneratingSlot !== null;
 
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const galleryInputRefs = useRef<Record<ProductPhotoKind, HTMLInputElement | null>>(
@@ -223,7 +226,7 @@ export default function PhotoGenerationPanel({
   }
 
   async function openCamera(slotKey: ProductPhotoKind) {
-    if (isGeneratingAll) {
+    if (isGeneratingAny) {
       return;
     }
 
@@ -350,12 +353,54 @@ export default function PhotoGenerationPanel({
       [slotKey]: null,
     }));
     setPanelMessage(
-      "AI ფოტო წაიშალა. იგივე სამი reference ფოტოთი შეგიძლიათ გენერაცია თავიდან გაუშვათ."
+      "AI ფოტო წაიშალა. შეგიძლიათ დააჭიროთ 'ხელახლა გენერაცია'-ს მხოლოდ ამ ხედისთვის, ან თავიდან გაუშვათ სრული გენერაცია."
     );
   }
 
+  async function handleRegenerateSingle(slotKey: ProductPhotoKind) {
+    if (!selectedCategory || !hasAllRawPhotos || isGeneratingAny) {
+      return;
+    }
+
+    setIsGeneratingSlot(slotKey);
+    setPanelError(null);
+    setPanelMessage("მიმდინარეობს ერთი ხედის ხელახლა გენერაცია...");
+
+    try {
+      const response = await requestGeneratedImages(
+        selectedCategory.name.en || selectedCategory.name.ka,
+        rawFiles,
+        slotKey
+      );
+
+      const generatedImage = response[slotKey];
+      if (!generatedImage) {
+        throw new Error(`Missing generated image for ${slotKey}`);
+      }
+
+      setPanelMessage("გენერირებული ფოტო ინახება სერვერზე 1600 და 800 ზომებში.");
+      const uploadedImage = await uploadGeneratedPhoto(slotKey, generatedImage);
+
+      setAiImages((current) => ({
+        ...current,
+        [slotKey]: uploadedImage,
+      }));
+
+      setPanelMessage(
+        `${photoSlots.find((s) => s.key === slotKey)?.title} - ფოტო წარმატებით განახლდა.`
+      );
+    } catch (error) {
+      console.error("Failed to regenerate single product photo:", error);
+      setPanelError(
+        "ერთეული გენერაცია ან სერვერზე შენახვა ვერ დასრულდა. გთხოვთ სცადოთ თავიდან."
+      );
+    } finally {
+      setIsGeneratingSlot(null);
+    }
+  }
+
   async function handleGenerateAll() {
-    if (!selectedCategory || !hasAllRawPhotos) {
+    if (!selectedCategory || !hasAllRawPhotos || isGeneratingAny) {
       return;
     }
 
@@ -366,7 +411,7 @@ export default function PhotoGenerationPanel({
 
     try {
       const response = await requestGeneratedImages(
-        selectedCategory.name.ka,
+        selectedCategory.name.en || selectedCategory.name.ka,
         rawFiles
       );
 
@@ -598,7 +643,7 @@ export default function PhotoGenerationPanel({
                         <button
                           type="button"
                           onClick={() => void openCamera(slot.key)}
-                          disabled={isGeneratingAll}
+                          disabled={isGeneratingAny}
                           className="block w-full overflow-hidden border-2 border-black bg-white text-left transition-colors hover:border-[#0d59f2] disabled:cursor-not-allowed disabled:opacity-60"
                         >
                           <div className="aspect-[4/5]">
@@ -670,7 +715,9 @@ export default function PhotoGenerationPanel({
                               auto_awesome
                             </span>
                             <p className="mt-3 text-xs font-bold uppercase tracking-[0.18em] text-black/40">
-                              {isGeneratingAll ? "გენერაცია მიმდინარეობს" : "AI შედეგი"}
+                              {isGeneratingAll || isGeneratingSlot === slot.key
+                                ? "გენერაცია მიმდინარეობს"
+                                : "AI შედეგი"}
                             </p>
                           </div>
                         )}
@@ -726,16 +773,27 @@ export default function PhotoGenerationPanel({
                         <button
                           type="button"
                           onClick={() => openGallery(slot.key)}
-                          disabled={isGeneratingAll}
-                          className="text-sm font-bold text-black/70 underline underline-offset-4 transition-colors hover:text-black disabled:cursor-not-allowed disabled:opacity-50"
+                          disabled={isGeneratingAny}
+                          className="text-sm font-bold text-black/70 underline underline-offset-4 transition-colors hover:text-black disabled:cursor-not-allowed disabled:opacity-50 inline-block text-left"
                         >
                           გალერეიდან არჩევა
                         </button>
-                        <p className="text-sm text-black/60">
-                          ერთი ხედის შეცვლაც კი გაანულებს ძველ AI შედეგს, რადგან
-                          გენერაცია სამივე reference ფოტოთი ერთიანად სრულდება.
-                        </p>
+                        {hasAllRawPhotos ? (
+                          <button
+                            type="button"
+                            onClick={() => void handleRegenerateSingle(slot.key)}
+                            disabled={isGeneratingAny}
+                            className="text-sm font-bold text-[#0d59f2] underline underline-offset-4 transition-colors hover:text-black disabled:cursor-not-allowed disabled:opacity-50 inline-block text-left"
+                          >
+                            ხელახლა გენერაცია
+                          </button>
+                        ) : null}
                       </div>
+                      <p className="text-sm text-black/60">
+                        {hasAllRawPhotos 
+                          ? "შეგიძლიათ მხოლოდ ამ ხედის თავიდან გენერაცია ღილაკზე დაჭერით." 
+                          : "სამივე ფოტო აუცილებელია გენერაციისთვის."}
+                      </p>
                     </div>
                   </div>
                 );
@@ -759,11 +817,11 @@ export default function PhotoGenerationPanel({
             <button
               type="button"
               onClick={() => void handleGenerateAll()}
-              disabled={!selectedCategory || !hasAllRawPhotos || isGeneratingAll}
+              disabled={!selectedCategory || !hasAllRawPhotos || isGeneratingAny}
               className="w-full border-2 border-black bg-black px-6 py-5 text-center text-sm font-black uppercase tracking-[0.22em] text-white transition-colors hover:bg-[#0d59f2] disabled:cursor-not-allowed disabled:bg-black/30"
             >
-              {isGeneratingAll
-                ? "Gemini ამუშავებს სამივე ხედს..."
+              {isGeneratingAny
+                ? "მიმდინარეობს გენერაცია..."
                 : "სამივე ფოტოს გენერაცია"}
             </button>
 
@@ -777,7 +835,7 @@ export default function PhotoGenerationPanel({
                 !selectedCategoryId ||
                 !nameKa.trim() ||
                 !hasAllAiPhotos ||
-                isGeneratingAll
+                isGeneratingAny
               }
             />
           </div>
@@ -936,10 +994,15 @@ function fitWithinBounds(
 
 async function requestGeneratedImages(
   categoryName: string,
-  rawFiles: SlotFileMap
-): Promise<GeneratedImagesResponse> {
+  rawFiles: SlotFileMap,
+  targetSlot?: ProductPhotoKind
+): Promise<Partial<GeneratedImagesResponse>> {
   const formData = new FormData();
   formData.append("categoryName", categoryName);
+  
+  if (targetSlot) {
+    formData.append("slotKey", targetSlot);
+  }
 
   for (const slotKey of REQUIRED_PHOTO_KINDS) {
     const file = rawFiles[slotKey];
@@ -968,7 +1031,9 @@ async function requestGeneratedImages(
 
   const images = payload.images;
 
-  for (const slotKey of REQUIRED_PHOTO_KINDS) {
+  const targetSlots = targetSlot ? [targetSlot] : REQUIRED_PHOTO_KINDS;
+
+  for (const slotKey of targetSlots) {
     const image = images[slotKey];
 
     if (!image?.base64 || !image?.mimeType) {
@@ -976,7 +1041,7 @@ async function requestGeneratedImages(
     }
   }
 
-  return images as GeneratedImagesResponse;
+  return images;
 }
 
 async function uploadGeneratedPhoto(
