@@ -604,10 +604,8 @@ async function uploadPhoto(
   const sourceUrl = URL.createObjectURL(file);
 
   try {
-    const [file1600, file800] = await Promise.all([
-      createResizedBlob(sourceUrl, 1600),
-      createResizedBlob(sourceUrl, 800),
-    ]);
+    const file1600 = await createResizedBlob(sourceUrl, 1600);
+    const file800 = await createResizedBlob(sourceUrl, 800);
 
     const formData = new FormData();
     formData.append("file1600", file1600, `${slotKey}-large.webp`);
@@ -637,7 +635,7 @@ async function createResizedBlob(
   sourceUrl: string,
   maxDimension: number
 ): Promise<Blob> {
-  const image = await loadImage(sourceUrl);
+  let image: HTMLImageElement | null = await loadImage(sourceUrl);
   const { width, height } = getScaledDimensions(
     image.naturalWidth,
     image.naturalHeight,
@@ -656,9 +654,20 @@ async function createResizedBlob(
 
   context.drawImage(image, 0, 0, width, height);
 
+  // Aggressively free original image memory to prevent Out of Memory (OOM) on mobile OS
+  image.onerror = null;
+  image.onload = null;
+  image.src = "";
+  image = null;
+
   const blob = await new Promise<Blob | null>((resolve) => {
     canvas.toBlob(resolve, "image/webp", 0.9);
   });
+
+  // Aggressively free canvas memory
+  context.clearRect(0, 0, width, height);
+  canvas.width = 0;
+  canvas.height = 0;
 
   if (!blob) {
     throw new Error("Blob creation failed");

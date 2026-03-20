@@ -72,11 +72,13 @@ export default function AdvancedImageUploader({
     pixelCrop: Area,
     finalSize: number
   ): Promise<Blob> => {
-    const image = new window.Image();
+    let image: HTMLImageElement | null = new window.Image();
     image.src = imageSrc;
     await new Promise((resolve, reject) => {
-      image.onload = resolve;
-      image.onerror = reject;
+      if (image) {
+         image.onload = resolve;
+         image.onerror = reject;
+      }
     });
 
     const canvas = document.createElement("canvas");
@@ -84,7 +86,7 @@ export default function AdvancedImageUploader({
     canvas.height = finalSize;
     const ctx = canvas.getContext("2d");
 
-    if (!ctx) throw new Error("Could not get canvas context");
+    if (!ctx || !image) throw new Error("Could not get canvas context or image");
 
     ctx.drawImage(
       image,
@@ -98,16 +100,27 @@ export default function AdvancedImageUploader({
       finalSize
     );
 
-    return new Promise((resolve, reject) => {
+    // Aggressively free image memory
+    image.onload = null;
+    image.onerror = null;
+    image.src = "";
+    image = null;
+
+    const blob = await new Promise<Blob | null>((resolve) => {
       canvas.toBlob(
-        (blob) => {
-          if (!blob) reject(new Error("Empty blob"));
-          else resolve(blob);
-        },
+        (b) => resolve(b),
         "image/webp",
         0.9
       );
     });
+
+    // Aggressively free canvas memory
+    ctx.clearRect(0, 0, finalSize, finalSize);
+    canvas.width = 0;
+    canvas.height = 0;
+
+    if (!blob) throw new Error("Empty blob");
+    return blob;
   };
 
   const handleCropAndUpload = async () => {
