@@ -1,6 +1,11 @@
 {
   "nav": {
-    "switch_lang": "KA"
+    "switch_lang": "KA",
+    "shop": "CATALOG",
+    "about": "ABOUT US",
+    "contact": "CONTACT",
+    "profile": "PROFILE",
+    "cart": "CART"
   },
   "hero": {
     "title1": "KOKENI.GE /",

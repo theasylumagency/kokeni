@@ -30,21 +30,7 @@ export default async function CatalogPage({ params }: { params: Promise<{ lang: 
 
   return (
     <div className="relative min-h-screen w-full flex flex-col bg-background-light text-text-heavy">
-      {/* Global Header */}
-      <header className="fixed top-0 w-full p-8 flex justify-between items-center z-[100] mix-blend-difference text-white">
-        <Link 
-          href={`/${lang}`}
-          className="font-mono text-sm font-bold uppercase hover:text-primary transition-colors tracking-widest"
-        >
-          ← HOME_SYS.
-        </Link>
-        <Link 
-          href={`/${switchLang}/catalog`}
-          className="font-mono text-sm font-bold uppercase hover:text-primary transition-colors border border-white/20 px-3 py-1 rounded-sm tracking-widest bg-black/50 backdrop-blur-sm"
-        >
-          {switchLang}
-        </Link>
-      </header>
+
 
       <main className="relative z-10 flex flex-col w-full">
         <CatalogHero dict={dict} categories={categoriesWithProducts} />

@@ -12,10 +12,13 @@ export default function CategoryBlock({ category, products, dict }: CategoryBloc
   if (products.length === 0) return null;
 
   return (
+
     <section
+
       id={`category-${category.slug}`}
       className="relative flex flex-col w-full bg-background-light py-24 scroll-mt-[135px] border-b border-text-heavy/10 last:border-0"
     >
+
       {/* Category Header (Elegant Top-aligned) */}
       <div className="w-full px-6 lg:px-16 flex flex-col items-center md:items-start mb-16 lg:mb-20">
         <p className="font-mono text-[10px] font-bold tracking-[0.3em] uppercase text-primary/80 mb-4">

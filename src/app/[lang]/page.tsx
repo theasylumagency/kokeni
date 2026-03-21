@@ -23,21 +23,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
       {/* Global Grid */}
       <div className="grid-overlay pointer-events-none fixed"></div>
       
-      {/* Global Header just for Lang Switch */}
-      <header className="fixed top-0 w-full p-8 flex justify-between items-center z-[100] mix-blend-difference text-white">
-        <Link 
-          href={`/${lang}/catalog`}
-          className="font-mono text-sm font-bold uppercase hover:text-primary transition-colors tracking-widest"
-        >
-          {dict.catalog.title} ↗
-        </Link>
-        <Link 
-          href={`/${switchLang}`}
-          className="font-mono text-sm font-bold uppercase hover:text-primary transition-colors border border-white/20 px-3 py-1 rounded-sm bg-black/30 backdrop-blur-sm"
-        >
-          {switchLang}
-        </Link>
-      </header>
+
 
       <main className="relative z-10 flex flex-col w-full">
         <Hero dict={dict} />

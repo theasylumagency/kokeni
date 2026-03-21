@@ -1,4 +1,5 @@
 import Image from "next/image";
+import kokeniLogo from "../../../public/logo/kokeni_logo.svg";
 import type { Dictionary } from "@/utils/getDictionary";
 
 export default function Hero({ dict }: { dict: Dictionary }) {
@@ -19,7 +20,7 @@ export default function Hero({ dict }: { dict: Dictionary }) {
                 {/* Left Side: Massive Typography & CTA */}
                 <div className="flex flex-col gap-12 lg:w-3/5 lg:pr-12">
                     <h1 className="font-bold text-[clamp(1rem,2vw,2rem)] break-words text-text-heavy uppercase tracking-tighter leading-none flex flex-col items-start">
-                        <Image src="/images/kokeni_logo.svg" alt="Kokeni" width={800} height={240} className="w-auto h-[clamp(6rem,11vw,11rem)] object-contain object-left mb-6" priority />
+                        <Image src={kokeniLogo} alt="Kokeni" width={800} height={240} className="w-auto h-[clamp(6rem,11vw,11rem)] object-contain object-left mb-6" priority unoptimized />
                         <span>{dict.hero.title2}</span>
                         <span>{dict.hero.title3}</span>
                     </h1>

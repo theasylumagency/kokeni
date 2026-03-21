@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import "../globals.css";
+import { getDictionary } from "@/utils/getDictionary";
+import Navigation from "@/components/layout/Navigation";
 
 export const metadata: Metadata = {
   title: "KOKENI.GE | Precision Embossing",
@@ -18,6 +20,8 @@ export default async function RootLayout({
   params: Promise<{ lang: string }>;
 }>) {
   const { lang } = await params;
+  const dict = await getDictionary(lang);
+  
   return (
     <html lang={lang}>
       <head>
@@ -26,6 +30,7 @@ export default async function RootLayout({
       <body
         className="antialiased relative min-h-screen w-full font-display selection:bg-primary selection:text-white"
       >
+        <Navigation dict={dict} lang={lang} />
         {children}
       </body>
     </html>

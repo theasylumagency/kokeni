@@ -523,6 +523,23 @@ export async function deleteProductRecord(id: string): Promise<void> {
   await writeProducts([...untouchedProducts, ...sameCategoryProducts]);
 }
 
+export async function toggleProductPublishedRecord(id: string, isPublished: boolean): Promise<void> {
+  const products = await readProducts();
+  const productIndex = products.findIndex((product) => product.id === id);
+
+  if (productIndex === -1) {
+    throw new CatalogMutationError("product_not_found", "პროდუქტი ვერ მოიძებნა.");
+  }
+
+  products[productIndex] = {
+    ...products[productIndex],
+    isPublished,
+    updatedAt: new Date().toISOString(),
+  };
+
+  await writeProducts(products);
+}
+
 export function getLocalizedValue(
   value: { ka?: string; en?: string } | undefined,
   locale: Locale

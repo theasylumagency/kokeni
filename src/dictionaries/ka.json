@@ -1,6 +1,11 @@
 {
   "nav": {
-    "switch_lang": "EN"
+    "switch_lang": "EN",
+    "shop": "კატალოგი",
+    "about": "ჩვენს შესახებ",
+    "contact": "კონტაქტი",
+    "profile": "პროფილი",
+    "cart": "კალათა"
   },
   "hero": {
     "title1": "შპს კოკენი",

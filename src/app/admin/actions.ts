@@ -14,6 +14,7 @@ import {
   updateCategoryRecord,
   updateGroupRecord,
   updateProductRecord,
+  toggleProductPublishedRecord,
 } from "@/lib/catalog/data";
 import {
   REQUIRED_PHOTO_KINDS,
@@ -60,7 +61,7 @@ export async function createGroupAction(formData: FormData): Promise<void> {
   }
 
   revalidateCatalogPaths();
-  redirectWithStatus("group_created");
+  redirectWithStatus("group_created", "/admin/groups");
 }
 
 export async function updateGroupAction(formData: FormData): Promise<void> {
@@ -75,11 +76,11 @@ export async function updateGroupAction(formData: FormData): Promise<void> {
       isActive: getCheckboxValue(formData, "isActive"),
     });
   } catch (error) {
-    handleActionError(error);
+    handleActionError(error, "/admin/groups");
   }
 
   revalidateCatalogPaths();
-  redirectWithStatus("group_updated");
+  redirectWithStatus("group_updated", "/admin/groups");
 }
 
 export async function deleteGroupAction(formData: FormData): Promise<void> {
@@ -88,11 +89,11 @@ export async function deleteGroupAction(formData: FormData): Promise<void> {
   try {
     await deleteGroupRecord(getRequiredTextValue(formData, "id"));
   } catch (error) {
-    handleActionError(error);
+    handleActionError(error, "/admin/groups");
   }
 
   revalidateCatalogPaths();
-  redirectWithStatus("group_deleted");
+  redirectWithStatus("group_deleted", "/admin/groups");
 }
 
 export async function createCategoryAction(formData: FormData): Promise<void> {
@@ -107,11 +108,11 @@ export async function createCategoryAction(formData: FormData): Promise<void> {
       showOnHome: getCheckboxValue(formData, "showOnHome"),
     });
   } catch (error) {
-    handleActionError(error);
+    handleActionError(error, "/admin/categories");
   }
 
   revalidateCatalogPaths();
-  redirectWithStatus("category_created");
+  redirectWithStatus("category_created", "/admin/categories");
 }
 
 export async function updateCategoryAction(formData: FormData): Promise<void> {
@@ -128,11 +129,11 @@ export async function updateCategoryAction(formData: FormData): Promise<void> {
       showOnHome: getCheckboxValue(formData, "showOnHome"),
     });
   } catch (error) {
-    handleActionError(error);
+    handleActionError(error, "/admin/categories");
   }
 
   revalidateCatalogPaths();
-  redirectWithStatus("category_updated");
+  redirectWithStatus("category_updated", "/admin/categories");
 }
 
 export async function deleteCategoryAction(formData: FormData): Promise<void> {
@@ -141,11 +142,11 @@ export async function deleteCategoryAction(formData: FormData): Promise<void> {
   try {
     await deleteCategoryRecord(getRequiredTextValue(formData, "id"));
   } catch (error) {
-    handleActionError(error);
+    handleActionError(error, "/admin/categories");
   }
 
   revalidateCatalogPaths();
-  redirectWithStatus("category_deleted");
+  redirectWithStatus("category_deleted", "/admin/categories");
 }
 
 export async function createProductAction(formData: FormData): Promise<void> {
@@ -166,11 +167,11 @@ export async function createProductAction(formData: FormData): Promise<void> {
       imagesJson: getRequiredTextValue(formData, "imagesJson"),
     });
   } catch (error) {
-    handleActionError(error);
+    handleActionError(error, "/admin/products");
   }
 
   revalidateCatalogPaths();
-  redirectWithStatus("product_created");
+  redirectWithStatus("product_created", "/admin/products");
 }
 
 export async function createPhotoProductAction(formData: FormData): Promise<void> {
@@ -189,11 +190,11 @@ export async function createPhotoProductAction(formData: FormData): Promise<void
       imagesJson,
     });
   } catch (error) {
-    handleActionError(error, "photo-generation");
+    handleActionError(error, "/admin/photo-generation");
   }
 
   revalidateCatalogPaths();
-  redirectWithStatus("photo_product_created", "photo-generation");
+  redirectWithStatus("photo_product_created", "/admin/photo-generation");
 }
 
 export async function updateProductAction(formData: FormData): Promise<void> {
@@ -216,11 +217,11 @@ export async function updateProductAction(formData: FormData): Promise<void> {
       imagesJson: getRequiredTextValue(formData, "imagesJson"),
     });
   } catch (error) {
-    handleActionError(error);
+    handleActionError(error, "/admin/products");
   }
 
   revalidateCatalogPaths();
-  redirectWithStatus("product_updated");
+  redirectWithStatus("product_updated", "/admin/products");
 }
 
 export async function deleteProductAction(formData: FormData): Promise<void> {
@@ -229,11 +230,23 @@ export async function deleteProductAction(formData: FormData): Promise<void> {
   try {
     await deleteProductRecord(getRequiredTextValue(formData, "id"));
   } catch (error) {
-    handleActionError(error);
+    handleActionError(error, "/admin/products");
   }
 
   revalidateCatalogPaths();
-  redirectWithStatus("product_deleted");
+  redirectWithStatus("product_deleted", "/admin/products");
+}
+
+export async function toggleProductPublishedAction(id: string, isPublished: boolean): Promise<void> {
+  await requireAdminAuth();
+
+  try {
+    await toggleProductPublishedRecord(id, isPublished);
+  } catch (error) {
+    handleActionError(error, "/admin/products");
+  }
+
+  revalidateCatalogPaths();
 }
 
 function getTextValue(formData: FormData, key: string): string {
@@ -366,34 +379,19 @@ function revalidateCatalogPaths(): void {
   revalidatePath("/", "layout");
 }
 
-function handleActionError(error: unknown, tab?: string): never {
+function handleActionError(error: unknown, path: string = "/admin"): never {
   if (error instanceof CatalogMutationError) {
-    redirectWithError(error.code, tab);
+    redirectWithError(error.code, path);
   }
 
   console.error(error);
-  redirectWithError("unexpected", tab);
+  redirectWithError("unexpected", path);
 }
 
-function redirectWithStatus(code: string, tab?: string): never {
-  redirect(buildAdminUrl(code, "status", tab));
+function redirectWithStatus(code: string, path: string = "/admin"): never {
+  redirect(`${path}?status=${code}`);
 }
 
-function redirectWithError(code: string, tab?: string): never {
-  redirect(buildAdminUrl(code, "error", tab));
-}
-
-function buildAdminUrl(
-  code: string,
-  kind: "status" | "error",
-  tab?: string
-): string {
-  const searchParams = new URLSearchParams();
-  searchParams.set(kind, code);
-
-  if (tab) {
-    searchParams.set("tab", tab);
-  }
-
-  return `/admin?${searchParams.toString()}`;
+function redirectWithError(code: string, path: string = "/admin"): never {
+  redirect(`${path}?error=${code}`);
 }

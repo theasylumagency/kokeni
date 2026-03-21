@@ -56,11 +56,11 @@ const photoSlots: PhotoSlotDefinition[] = [
   },
 ];
 
-const panelClass = "border-2 border-black bg-white";
+const panelClass = "rounded-lg border border-gray-200 bg-white shadow-sm";
 const inputClass =
-  "w-full rounded-none border-2 border-black bg-[#F5F2ED] px-4 py-4 text-base text-black outline-none transition-colors focus:border-[#0d59f2]";
+  "mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 bg-white text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm";
 const labelClass =
-  "mb-2 block text-[11px] font-bold uppercase tracking-[0.18em] text-black/60";
+  "block text-sm font-medium text-gray-700";
 
 function createEmptyRawFiles(): SlotFileMap {
   return {
@@ -114,6 +114,35 @@ export default function PhotoGenerationPanel({
     interior_open: null,
     detail_spine: null,
   });
+
+  const wakeLockRef = useRef<any>(null);
+
+  useEffect(() => {
+    async function manageWakeLock() {
+      if (isGeneratingAny) {
+        if ("wakeLock" in navigator) {
+          try {
+            wakeLockRef.current = await (navigator as any).wakeLock.request("screen");
+          } catch (err) {
+            console.error("Wake Lock request failed:", err);
+          }
+        }
+      } else {
+        if (wakeLockRef.current) {
+          wakeLockRef.current.release().catch(console.error);
+          wakeLockRef.current = null;
+        }
+      }
+    }
+    void manageWakeLock();
+
+    return () => {
+      if (wakeLockRef.current) {
+        wakeLockRef.current.release().catch(console.error);
+        wakeLockRef.current = null;
+      }
+    };
+  }, [isGeneratingAny]);
 
   useEffect(() => {
     return () => {
@@ -976,6 +1005,20 @@ export default function PhotoGenerationPanel({
           </div>
         </div>
       ) : null}
+
+      {isGeneratingAny ? (
+        <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-gray-50/90 backdrop-blur-sm p-6 text-center transition-all duration-300">
+          <span className="material-symbols-outlined animate-spin text-[64px] text-blue-600 mb-6">
+            sync
+          </span>
+          <h2 className="text-2xl font-bold tracking-tight text-gray-900 mb-3">
+            Photo generation in progress...
+          </h2>
+          <p className="text-sm leading-6 text-gray-600 max-w-sm">
+            Gemini AI is analyzing your reference photos and generating the final images. Please wait and keep this screen open.
+          </p>
+        </div>
+      ) : null}
     </>
   );
 }
@@ -987,7 +1030,7 @@ function SubmitButton({ disabled }: { disabled: boolean }) {
     <button
       type="submit"
       disabled={disabled || pending}
-      className="w-full border-2 border-black bg-[#0d59f2] px-6 py-5 text-center text-sm font-black uppercase tracking-[0.22em] text-white transition-colors hover:bg-black disabled:cursor-not-allowed disabled:bg-black/30"
+      className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors disabled:cursor-not-allowed disabled:opacity-50"
     >
       {pending ? "ინახება..." : "ახალი პროდუქტის შექმნა"}
     </button>
