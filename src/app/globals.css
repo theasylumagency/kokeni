@@ -27,13 +27,13 @@
 }
 
 @theme {
-  --color-primary: #3089e8;
-  --color-background-light: #F5F2EC;
-  --color-background-dark: #111921;
-  --color-surface: #EBE7DF;
-  --color-text-main: #2C2C2C;
-  --color-text-heavy: #0A0A0A;
-  --color-muted: #D1CEC7;
+  --color-primary: rgb(48, 137, 232);
+  --color-background-light: rgb(245, 242, 236);
+  --color-background-dark: rgb(17, 25, 33);
+  --color-surface: rgb(235, 231, 223);
+  --color-text-main: rgb(44, 44, 44);
+  --color-text-heavy: rgb(10, 10, 10);
+  --color-muted: rgb(209, 206, 199);
 
   --font-display: 'BPG Studio Caps', sans-serif;
   --font-mono: 'BPG Glaho', monospace;

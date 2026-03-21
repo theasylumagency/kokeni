@@ -1,5 +1,195 @@
 [
   {
+    "id": "d3e7779e-d695-4670-b3df-93209d525cd2",
+    "slug": "დიპლომის-ყდები-001",
+    "categoryId": "3a29a1af-983e-4ab2-ad53-a8c8bde46e6f",
+    "order": 1,
+    "name": {
+      "ka": "დიპლომის ყდები 001"
+    },
+    "shortDescription": {
+      "ka": "დიპლომის ყდები 001"
+    },
+    "price": {
+      "mode": "contact"
+    },
+    "images": [
+      {
+        "id": "front_closed",
+        "src": "/uploads/products/fc050601-f3ca-4acb-84fc-f03dc6d512dd.webp",
+        "order": 1,
+        "kind": "front_closed"
+      },
+      {
+        "id": "interior_open",
+        "src": "/uploads/products/8b7a3e65-be99-4754-927f-bc60e936b656.webp",
+        "order": 2,
+        "kind": "interior_open"
+      },
+      {
+        "id": "detail_spine",
+        "src": "/uploads/products/da62349b-fbb2-4d48-a0ad-481453c2b0c8.webp",
+        "order": 3,
+        "kind": "detail_spine"
+      }
+    ],
+    "isPublished": true,
+    "createdAt": "2026-03-20T09:08:36.594Z",
+    "updatedAt": "2026-03-20T12:34:37.118Z"
+  },
+  {
+    "id": "c80a2f9e-da67-4faa-85a6-bc8ced4ffe05",
+    "slug": "დიპლომის-ყდები-002",
+    "categoryId": "3a29a1af-983e-4ab2-ad53-a8c8bde46e6f",
+    "order": 2,
+    "name": {
+      "ka": "დიპლომის ყდები 002"
+    },
+    "shortDescription": {
+      "ka": "დიპლომის ყდები 002"
+    },
+    "price": {
+      "mode": "contact"
+    },
+    "images": [
+      {
+        "id": "front_closed",
+        "src": "/uploads/products/242d71bd-2820-4482-9cca-157f1cb7958a.webp",
+        "order": 1,
+        "kind": "front_closed"
+      },
+      {
+        "id": "interior_open",
+        "src": "/uploads/products/1ac38a64-16e3-46e9-9d51-6e2c50e48144.webp",
+        "order": 2,
+        "kind": "interior_open"
+      },
+      {
+        "id": "detail_spine",
+        "src": "/uploads/products/a25abda8-3ff5-4a7f-b913-a51c1e661f28.webp",
+        "order": 3,
+        "kind": "detail_spine"
+      }
+    ],
+    "isPublished": true,
+    "createdAt": "2026-03-20T09:49:07.341Z",
+    "updatedAt": "2026-03-20T12:38:32.465Z"
+  },
+  {
+    "id": "13d20a4d-1b1b-4299-9f43-7ff8910f8b6c",
+    "slug": "დიპლომის-ყდები-003",
+    "categoryId": "3a29a1af-983e-4ab2-ad53-a8c8bde46e6f",
+    "order": 3,
+    "name": {
+      "ka": "დიპლომის ყდები 003"
+    },
+    "shortDescription": {
+      "ka": "დიპლომის ყდები 003"
+    },
+    "price": {
+      "mode": "contact"
+    },
+    "images": [
+      {
+        "id": "front_closed",
+        "src": "/uploads/products/48c6968e-294a-4bcf-a4e8-0bac2867e42d.webp",
+        "order": 1,
+        "kind": "front_closed"
+      },
+      {
+        "id": "interior_open",
+        "src": "/uploads/products/abb728d6-2df6-4cb0-99d8-dcc593451b90.webp",
+        "order": 2,
+        "kind": "interior_open"
+      },
+      {
+        "id": "detail_spine",
+        "src": "/uploads/products/8a175857-22d8-47fb-8bc9-3bd30a173325.webp",
+        "order": 3,
+        "kind": "detail_spine"
+      }
+    ],
+    "isPublished": false,
+    "createdAt": "2026-03-20T11:53:35.009Z",
+    "updatedAt": "2026-03-20T12:07:33.859Z"
+  },
+  {
+    "id": "56416c56-a721-4d9d-8597-5da29ab052e8",
+    "slug": "ოფიციალური-დოკუმენტის-ყდები-001",
+    "categoryId": "5878b95d-69ef-4d8c-812c-93dd41cca3b4",
+    "order": 1,
+    "name": {
+      "ka": "ოფიციალური დოკუმენტის ყდები 001"
+    },
+    "shortDescription": {
+      "ka": "ოფიციალური დოკუმენტის ყდები 001"
+    },
+    "price": {
+      "mode": "contact"
+    },
+    "images": [
+      {
+        "id": "front_closed",
+        "src": "/uploads/products/ef8f3ce8-5dfe-42d4-a7fc-e5b3ca80cd3a.webp",
+        "order": 1,
+        "kind": "front_closed"
+      },
+      {
+        "id": "interior_open",
+        "src": "/uploads/products/7c311304-d40a-4097-b03c-5204ae37c813.webp",
+        "order": 2,
+        "kind": "interior_open"
+      },
+      {
+        "id": "detail_spine",
+        "src": "/uploads/products/5df8c2e5-f2a4-4790-8a51-94539bcf2c9d.webp",
+        "order": 3,
+        "kind": "detail_spine"
+      }
+    ],
+    "isPublished": true,
+    "createdAt": "2026-03-20T10:49:56.217Z",
+    "updatedAt": "2026-03-20T12:39:14.904Z"
+  },
+  {
+    "id": "d8d5f7b4-2104-46e7-aed5-594fc01d0106",
+    "slug": "ოფიციალური-დოკუმენტის-ყდები-002",
+    "categoryId": "5878b95d-69ef-4d8c-812c-93dd41cca3b4",
+    "order": 2,
+    "name": {
+      "ka": "ოფიციალური დოკუმენტის ყდები 002"
+    },
+    "shortDescription": {
+      "ka": "ოფიციალური დოკუმენტის ყდები 002"
+    },
+    "price": {
+      "mode": "contact"
+    },
+    "images": [
+      {
+        "id": "front_closed",
+        "src": "/uploads/products/73abaca7-6622-49b9-8130-ccc484cb2660.webp",
+        "order": 1,
+        "kind": "front_closed"
+      },
+      {
+        "id": "interior_open",
+        "src": "/uploads/products/d71c5bbb-53e1-4c31-9457-58be45cdd663.webp",
+        "order": 2,
+        "kind": "interior_open"
+      },
+      {
+        "id": "detail_spine",
+        "src": "/uploads/products/038f9628-f0ca-444f-848e-6799dd9997f6.webp",
+        "order": 3,
+        "kind": "detail_spine"
+      }
+    ],
+    "isPublished": true,
+    "createdAt": "2026-03-20T11:30:56.424Z",
+    "updatedAt": "2026-03-20T12:34:57.398Z"
+  },
+  {
     "id": "b75c7557-5bcb-4c7b-a6b0-04098fdcd85d",
     "slug": "diary",
     "categoryId": "e284f287-2846-4517-bc0d-9e9b3a878467",
@@ -28,6 +218,6 @@
     ],
     "isPublished": true,
     "createdAt": "2026-03-20T05:59:38.649Z",
-    "updatedAt": "2026-03-21T03:25:49.023Z"
+    "updatedAt": "2026-03-20T05:59:38.649Z"
   }
 ]
