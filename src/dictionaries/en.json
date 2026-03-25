@@ -56,7 +56,17 @@
     "view_product": "VIEW_MANIFEST",
     "price_contact": "PRICE: CONTACT_US",
     "price_value": "PRICE:",
-    "empty": "NO_ASSETS_FOUND"
+    "empty": "NO_ASSETS_FOUND",
+    "academic_upper": "MODERN SOLIDITY",
+    "hospitality_upper": "PREMIUM SEGMENT",
+    "corporate_upper": "PERFECT INDIVIDUALITY",
+    "academic": "ACADEMIC & INSTITUTIONAL",
+    "hospitality": "HOSPITALITY & GASTRONOMY",
+    "corporate": "DIVERSITY OF POSSIBILITIES",
+    "academic_desc": "Bound with the gravity of knowledge. Diploma covers and archival notebooks for the modern intellect.",
+    "hospitality_desc": "The weight of fine dining. Bespoke menu suites and weighted guest accessories for the world's elite tables.",
+    "corporate_desc": "Where imagination meets material. Custom solutions crafted from the world's most exclusive resources.",
+    "view_all": "VIEW ALL"
   },
   "terminal": {
     "title": "COMMENCE PRODUCTION.",

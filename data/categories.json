@@ -16,11 +16,11 @@
   {
     "id": "e284f287-2846-4517-bc0d-9e9b3a878467",
     "groupId": "327680ac-7c07-42d7-bd22-a5f3a4306bf9",
-    "slug": "diaryweekly-planner",
+    "slug": "diary",
     "order": 2,
     "name": {
-      "ka": "ყოველდღიური/ყოველკვირეული",
-      "en": "Diary/weekly planner"
+      "ka": "ყოველდღიური",
+      "en": "Diary"
     },
     "isActive": true,
     "showOnHome": true,
@@ -30,10 +30,11 @@
   {
     "id": "05fe5faf-ffb4-4c93-82f9-d42e0d5d21ee",
     "groupId": "e7307e1c-9f15-49f5-9c79-746b41b52332",
-    "slug": "მენიუს-ყდა",
+    "slug": "menu",
     "order": 1,
     "name": {
-      "ka": "მენიუს ყდა"
+      "ka": "მენიუს ყდა",
+      "en": "Menu Cover"
     },
     "isActive": true,
     "createdAt": "2026-03-19T06:34:52.902Z",
@@ -43,7 +44,7 @@
   {
     "id": "16561bbb-2e97-4ae0-92c0-65365b4019cb",
     "groupId": "e7307e1c-9f15-49f5-9c79-746b41b52332",
-    "slug": "restaurant-receipt-presenter",
+    "slug": "receipt",
     "order": 2,
     "name": {
       "ka": "რესტორნის ანგარიშის ჩასადები",
@@ -57,10 +58,11 @@
   {
     "id": "e83bd10d-4b67-488a-8a8b-1843961e62c3",
     "groupId": "e7307e1c-9f15-49f5-9c79-746b41b52332",
-    "slug": "მიმტანის-ბლოკნოტი",
+    "slug": "waiter-notebook",
     "order": 3,
     "name": {
-      "ka": "მიმტანის ბლოკნოტი"
+      "ka": "მიმტანის ბლოკნოტი",
+      "en": "Waiter's notebook"
     },
     "isActive": true,
     "showOnHome": true,
