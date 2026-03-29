@@ -18,6 +18,7 @@ export default function AdminSidebar() {
     { href: "/admin/categories", label: "Categories", icon: "category" },
     { href: "/admin/products", label: "Products", icon: "inventory_2" },
     { href: "/admin/photo-generation", label: "AI Photos", icon: "photo_camera" },
+    { href: "/admin/regeneration", label: "AI Regeneration", icon: "auto_awesome" },
   ];
 
   return (

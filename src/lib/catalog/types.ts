@@ -66,6 +66,7 @@ export type Product = {
   longDescription?: OptionalLocalizedText;
   price: ProductPrice;
   images: ProductImage[];
+  originalImages?: ProductImage[];
   isPublished: boolean;
   createdAt: string;
   updatedAt: string;

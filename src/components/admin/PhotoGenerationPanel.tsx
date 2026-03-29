@@ -96,6 +96,7 @@ export default function PhotoGenerationPanel({
   const [nameKa, setNameKa] = useState("");
   const [hasManualName, setHasManualName] = useState(false);
   const [rawFiles, setRawFiles] = useState<SlotFileMap>(() => createEmptyRawFiles());
+  const [originalImages, setOriginalImages] = useState<SlotImageMap>(() => createEmptyAiImages());
   const [aiImages, setAiImages] = useState<SlotImageMap>(() => createEmptyAiImages());
   const [cameraSlot, setCameraSlot] = useState<ProductPhotoKind | null>(null);
   const [cameraStream, setCameraStream] = useState<MediaStream | null>(null);
@@ -232,6 +233,25 @@ export default function PhotoGenerationPanel({
       return [
         {
           id: slot.key,
+          src,
+          order: index + 1,
+          kind: slot.key,
+        },
+      ];
+    })
+  );
+
+  const originalImagesJson = JSON.stringify(
+    photoSlots.flatMap((slot, index) => {
+      const src = originalImages[slot.key];
+
+      if (!src) {
+        return [];
+      }
+
+      return [
+        {
+          id: `orig_${slot.key}`,
           src,
           order: index + 1,
           kind: slot.key,
@@ -426,6 +446,16 @@ export default function PhotoGenerationPanel({
       }
 
       setPanelMessage("გენერირებული ფოტო ინახება სერვერზე 1600 და 800 ზომებში.");
+      
+      let originalUploaded = originalImages[slotKey];
+      if (!originalUploaded && rawFiles[slotKey]) {
+        originalUploaded = await uploadRawPhoto(slotKey, rawFiles[slotKey]!);
+        setOriginalImages((current) => ({
+          ...current,
+          [slotKey]: originalUploaded,
+        }));
+      }
+
       const uploadedImage = await uploadGeneratedPhoto(slotKey, generatedImage);
 
       setAiImages((current) => ({
@@ -469,6 +499,15 @@ export default function PhotoGenerationPanel({
 
         if (!generatedImage) {
           throw new Error(`Missing generated image for ${slot.key}`);
+        }
+
+        let originalUploaded = originalImages[slot.key];
+        if (!originalUploaded && rawFiles[slot.key]) {
+          originalUploaded = await uploadRawPhoto(slot.key, rawFiles[slot.key]!);
+          setOriginalImages((current) => ({
+            ...current,
+            [slot.key]: originalUploaded,
+          }));
         }
 
         const uploadedImage = await uploadGeneratedPhoto(slot.key, generatedImage);
@@ -537,6 +576,7 @@ export default function PhotoGenerationPanel({
 
         <form action={createPhotoProductAction} className="space-y-8 p-5 sm:p-8">
           <input type="hidden" name="imagesJson" value={imagesJson} />
+          <input type="hidden" name="originalImagesJson" value={originalImagesJson} />
 
           <div className="grid gap-5 md:grid-cols-2">
             <label className="block">
@@ -1140,6 +1180,31 @@ async function uploadGeneratedPhoto(
 
   if (!response.ok || !payload.success || !payload.image) {
     throw new Error(`Upload failed for ${slotKey}`);
+  }
+
+  return payload.image;
+}
+
+async function uploadRawPhoto(
+  slotKey: ProductPhotoKind,
+  file: File
+): Promise<string> {
+  const formData = new FormData();
+  formData.append("file1600", file, file.name);
+  formData.append("file800", file, file.name);
+
+  const response = await fetch("/api/admin/images", {
+    method: "POST",
+    body: formData,
+  });
+
+  const payload = (await response.json()) as {
+    success?: boolean;
+    image?: string;
+  };
+
+  if (!response.ok || !payload.success || !payload.image) {
+    throw new Error(`Raw upload failed for ${slotKey}`);
   }
 
   return payload.image;

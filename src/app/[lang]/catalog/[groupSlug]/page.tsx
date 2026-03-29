@@ -6,7 +6,7 @@ import GroupProductsContent from "@/components/catalog/GroupProductsContent";
 
 export default async function GroupProductsPage({ params }: { params: Promise<{ lang: string, groupSlug: string }> }) {
   const { lang, groupSlug } = await params;
-  
+
   const [dict, catalog] = await Promise.all([
     getDictionary(lang),
     getCatalogSnapshot()
@@ -38,13 +38,15 @@ export default async function GroupProductsPage({ params }: { params: Promise<{ 
 
   return (
     <div className="relative min-h-screen w-full flex flex-col bg-[#fcfcfc] text-[#1a1b1c] selection:bg-primary selection:text-white pt-14">
-      
+
       {/* Top Navigation - Light Theme */}
       <CatalogNavigation groups={activeGroups} lang={lang} dict={dict} currentGroupSlug={group.slug} theme="light" />
 
       {/* Header / Intro text */}
-      <header className="w-full px-4 lg:px-8 pt-16 lg:pt-24 pb-12 lg:pb-16 bg-[#f9f9fa] border-b border-black/5">
-        <div className="max-w-[1600px] mx-auto">
+      <header className="relative w-full px-4 lg:px-8 pt-16 lg:pt-24 pb-12 lg:pb-16 bg-[#f9f9fa] border-b border-black/5">
+        <div className="w-full h-full absolute top-0 left-0 z-0 blurred-bg" />
+
+        <div className="relative z-10 max-w-[1600px] mx-auto">
           <span className="text-primary text-[10px] uppercase tracking-[0.3em] font-bold mb-4 block">
             {upperTag}
           </span>
@@ -58,12 +60,12 @@ export default async function GroupProductsPage({ params }: { params: Promise<{ 
       </header>
 
       {/* Main Content with Scroll Spy sidebar */}
-      <GroupProductsContent 
-        categories={groupCategories} 
-        products={groupProducts} 
-        lang={lang} 
-        dict={dict} 
-        groupSlug={groupSlug} 
+      <GroupProductsContent
+        categories={groupCategories}
+        products={groupProducts}
+        lang={lang}
+        dict={dict}
+        groupSlug={groupSlug}
       />
 
       {/* Light Footer */}

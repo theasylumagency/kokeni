@@ -80,6 +80,7 @@ type ProductCreateInput = {
   priceAmount?: number;
   isPublished: boolean;
   imagesJson: string;
+  originalImagesJson?: string;
 };
 
 type ProductUpdateInput = ProductCreateInput & {
@@ -378,6 +379,16 @@ export async function createProductRecord(
   } catch (e) {
     throw new CatalogMutationError("invalid_images", "ფოტოების სია არასწორია.");
   }
+
+  let originalImages: ProductImage[] | undefined = undefined;
+  if (input.originalImagesJson) {
+    try {
+      originalImages = JSON.parse(input.originalImagesJson) as ProductImage[];
+    } catch (e) {
+      throw new CatalogMutationError("invalid_images", "ორიგინალი ფოტოების სია არასწორია.");
+    }
+  }
+
   const categoryProducts = products.filter(
     (product) => product.categoryId === input.categoryId
   );
@@ -401,6 +412,7 @@ export async function createProductRecord(
     ),
     price: buildPrice(input.priceMode, input.priceAmount),
     images,
+    originalImages,
     isPublished: input.isPublished,
     createdAt: now,
     updatedAt: now,
@@ -442,6 +454,16 @@ export async function updateProductRecord(
   }
   const images = normalizeOrderedList(updatedImages);
 
+  let updatedOriginalImages = existingProduct.originalImages;
+  if (input.originalImagesJson) {
+    try {
+      updatedOriginalImages = JSON.parse(input.originalImagesJson) as ProductImage[];
+      updatedOriginalImages = normalizeOrderedList(updatedOriginalImages);
+    } catch (e) {
+      throw new CatalogMutationError("invalid_images", "ორიგინალი ფოტოების სია არასწორია.");
+    }
+  }
+
   const updatedProduct: Product = {
     ...existingProduct,
     slug,
@@ -460,6 +482,7 @@ export async function updateProductRecord(
     ),
     price: buildPrice(input.priceMode, input.priceAmount),
     images,
+    originalImages: updatedOriginalImages,
     isPublished: input.isPublished,
     updatedAt: new Date().toISOString(),
   };

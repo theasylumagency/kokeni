@@ -165,6 +165,7 @@ export async function createProductAction(formData: FormData): Promise<void> {
       priceAmount: getOptionalDecimalValue(formData, "priceAmount"),
       isPublished: getCheckboxValue(formData, "isPublished"),
       imagesJson: getRequiredTextValue(formData, "imagesJson"),
+      originalImagesJson: getOptionalTextValue(formData, "originalImagesJson"),
     });
   } catch (error) {
     handleActionError(error, "/admin/products");
@@ -188,6 +189,7 @@ export async function createPhotoProductAction(formData: FormData): Promise<void
       priceMode: "contact",
       isPublished: false,
       imagesJson,
+      originalImagesJson: getOptionalTextValue(formData, "originalImagesJson"),
     });
   } catch (error) {
     handleActionError(error, "/admin/photo-generation");
@@ -215,6 +217,7 @@ export async function updateProductAction(formData: FormData): Promise<void> {
       priceAmount: getOptionalDecimalValue(formData, "priceAmount"),
       isPublished: getCheckboxValue(formData, "isPublished"),
       imagesJson: getRequiredTextValue(formData, "imagesJson"),
+      originalImagesJson: getOptionalTextValue(formData, "originalImagesJson"),
     });
   } catch (error) {
     handleActionError(error, "/admin/products");
@@ -235,6 +238,45 @@ export async function deleteProductAction(formData: FormData): Promise<void> {
 
   revalidateCatalogPaths();
   redirectWithStatus("product_deleted", "/admin/products");
+}
+
+export async function updateProductPhotosAction(
+  id: string,
+  imagesJson: string
+): Promise<void> {
+  await requireAdminAuth();
+
+  try {
+    const { getAdminCatalogSnapshot } = await import("@/lib/catalog/data");
+    const snapshot = await getAdminCatalogSnapshot();
+    const existingProduct = snapshot.products.find((p) => p.id === id);
+
+    if (!existingProduct) {
+      throw new CatalogMutationError("product_not_found", "პროდუქტი ვერ მოიძებნა.");
+    }
+
+    await updateProductRecord({
+      id: existingProduct.id,
+      categoryId: existingProduct.categoryId,
+      order: existingProduct.order,
+      nameKa: existingProduct.name.ka,
+      nameEn: existingProduct.name.en,
+      shortDescriptionKa: existingProduct.shortDescription.ka,
+      shortDescriptionEn: existingProduct.shortDescription.en,
+      longDescriptionKa: existingProduct.longDescription?.ka,
+      longDescriptionEn: existingProduct.longDescription?.en,
+      priceMode: existingProduct.price.mode,
+      priceAmount: existingProduct.price.amount,
+      isPublished: existingProduct.isPublished,
+      imagesJson: imagesJson,
+      // Original remaining intact because updateProductRecord uses existing references 
+      // if originalImagesJson is undefined.
+    });
+  } catch (error) {
+    handleActionError(error, "/admin/regeneration");
+  }
+
+  revalidateCatalogPaths();
 }
 
 export async function toggleProductPublishedAction(id: string, isPublished: boolean): Promise<void> {
