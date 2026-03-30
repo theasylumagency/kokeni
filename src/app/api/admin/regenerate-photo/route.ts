@@ -75,7 +75,7 @@ export async function POST(request: Request) {
     >;
 
     const targetSlots = singleSlotParam
-      ? ([singleSlotParam] as ProductPhotoKind[]) 
+      ? ([singleSlotParam] as ProductPhotoKind[])
       : REQUIRED_PHOTO_KINDS;
 
     for (const slotKey of targetSlots) {
@@ -153,15 +153,17 @@ function buildContentsForSlot(
   categoryName: string,
   stylePrompt: string
 ) {
+  const targetReference = references.find((ref) => ref.key === slotKey);
+
+  if (!targetReference) {
+    throw new Error("Reference image not found for the requested slot.");
+  }
+
   return [
-    "All reference images show the exact same product from different angles. Use the entire reference set together and keep the product identical across every generated result.",
-    references[0].label,
-    { inlineData: references[0].inlineData },
-    references[1].label,
-    { inlineData: references[1].inlineData },
-    references[2].label,
-    { inlineData: references[2].inlineData },
-    getPromptForSlot(slotKey, categoryName, stylePrompt),
+    "You are an expert product retoucher. You are generating a single specific view of a product. Strictly maintain the exact physical dimensions, straight corners, and texture seen in the provided reference image. Do not use elements from other views.",
+    targetReference.label,
+    { inlineData: targetReference.inlineData },
+    getPromptForSlot(slotKey, categoryName, stylePrompt)
   ];
 }
 
@@ -179,7 +181,7 @@ function getPromptForSlot(slotKey: ProductPhotoKind, categoryName: string, style
 
 function getMimeTypeFromPath(localPath: string): string {
   const ext = path.extname(localPath).toLowerCase();
-  
+
   if (ext === ".png") {
     return "image/png";
   }

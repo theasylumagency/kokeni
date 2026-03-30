@@ -342,9 +342,7 @@ export default function PhotoGenerationPanel({
   }
 
   async function capturePhoto() {
-    if (!cameraSlot || !videoRef.current) {
-      return;
-    }
+    if (!cameraSlot || !videoRef.current) return;
 
     const videoElement = videoRef.current;
     const sourceWidth = videoElement.videoWidth;
@@ -355,22 +353,29 @@ export default function PhotoGenerationPanel({
       return;
     }
 
-    const { width, height } = fitWithinBounds(sourceWidth, sourceHeight, 1280);
+    const size = Math.min(sourceWidth, sourceHeight);
+    const startX = (sourceWidth - size) / 2;
+    const startY = (sourceHeight - size) / 2;
+
+
+    const finalSize = Math.min(size, 1024);
+
     const canvas = document.createElement("canvas");
-    canvas.width = width;
-    canvas.height = height;
+    canvas.width = finalSize;
+    canvas.height = finalSize;
 
     const context = canvas.getContext("2d");
+    if (!context) return;
 
-    if (!context) {
-      setCameraError("კადრის დამუშავება ვერ მოხერხდა. სცადეთ თავიდან.");
-      return;
-    }
 
-    context.drawImage(videoElement, 0, 0, width, height);
+    context.drawImage(
+      videoElement,
+      startX, startY, size, size,
+      0, 0, finalSize, finalSize
+    );
 
     try {
-      const blob = await canvasToBlob(canvas, "image/jpeg", 0.82);
+      const blob = await canvasToBlob(canvas, "image/jpeg", 0.9);
       const capturedFile = new File([blob], `${cameraSlot}-${Date.now()}.jpg`, {
         type: "image/jpeg",
       });
@@ -380,10 +385,6 @@ export default function PhotoGenerationPanel({
     } catch (error) {
       console.error("Failed to capture photo:", error);
       setCameraError("კადრის შენახვა ვერ მოხერხდა. სცადეთ თავიდან.");
-    } finally {
-      context.clearRect(0, 0, width, height);
-      canvas.width = 0;
-      canvas.height = 0;
     }
   }
 
@@ -446,7 +447,7 @@ export default function PhotoGenerationPanel({
       }
 
       setPanelMessage("გენერირებული ფოტო ინახება სერვერზე 1600 და 800 ზომებში.");
-      
+
       let originalUploaded = originalImages[slotKey];
       if (!originalUploaded && rawFiles[slotKey]) {
         originalUploaded = await uploadRawPhoto(slotKey, rawFiles[slotKey]!);
@@ -607,29 +608,29 @@ export default function PhotoGenerationPanel({
                 <option value="">აირჩიეთ კატეგორია</option>
                 {selectedGroupId
                   ? visibleCategories.map((category) => (
-                      <option key={category.id} value={category.id}>
-                        {category.name.ka}
-                      </option>
-                    ))
+                    <option key={category.id} value={category.id}>
+                      {category.name.ka}
+                    </option>
+                  ))
                   : groups.map((group) => {
-                      const groupCategories = categories.filter(
-                        (category) => category.groupId === group.id
-                      );
+                    const groupCategories = categories.filter(
+                      (category) => category.groupId === group.id
+                    );
 
-                      if (!groupCategories.length) {
-                        return null;
-                      }
+                    if (!groupCategories.length) {
+                      return null;
+                    }
 
-                      return (
-                        <optgroup key={group.id} label={group.name.ka}>
-                          {groupCategories.map((category) => (
-                            <option key={category.id} value={category.id}>
-                              {category.name.ka}
-                            </option>
-                          ))}
-                        </optgroup>
-                      );
-                    })}
+                    return (
+                      <optgroup key={group.id} label={group.name.ka}>
+                        {groupCategories.map((category) => (
+                          <option key={category.id} value={category.id}>
+                            {category.name.ka}
+                          </option>
+                        ))}
+                      </optgroup>
+                    );
+                  })}
               </select>
               {selectedGroupId && !visibleCategories.length ? (
                 <span className="mt-2 block text-sm text-[#93000a]">
@@ -682,9 +683,8 @@ export default function PhotoGenerationPanel({
                 </span>
               </span>
               <span
-                className={`font-bold ${
-                  hasManualName ? "text-[#7a4f00]" : "text-[#0a5c36]"
-                }`}
+                className={`font-bold ${hasManualName ? "text-[#7a4f00]" : "text-[#0a5c36]"
+                  }`}
               >
                 {hasManualName
                   ? "სახელი ხელით არის შეცვლილი"
@@ -720,11 +720,10 @@ export default function PhotoGenerationPanel({
                             {slot.title}
                           </h4>
                           <span
-                            className={`flex h-4 w-4 items-center justify-center rounded-full border ${
-                              rawFile
+                            className={`flex h-4 w-4 items-center justify-center rounded-full border ${rawFile
                                 ? "border-[#0a5c36] bg-[#0a5c36] text-white"
                                 : "border-black/30"
-                            }`}
+                              }`}
                           >
                             {rawFile && (
                               <span className="material-symbols-outlined text-[10px]">
@@ -1113,7 +1112,7 @@ async function requestGeneratedImages(
 ): Promise<Partial<GeneratedImagesResponse>> {
   const formData = new FormData();
   formData.append("categoryName", categoryName);
-  
+
   if (targetSlot) {
     formData.append("slotKey", targetSlot);
   }
