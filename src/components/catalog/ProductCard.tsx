@@ -52,7 +52,7 @@ export default function ProductCard({ product, dict }: ProductCardProps) {
               : `${product.price.amount} ${product.price.currency}`
             }
           </span>
-          <span className="font-sans text-[11px] font-bold tracking-widest uppercase text-text-heavy/40 group-hover:text-primary transition-colors duration-300">
+          <span className="font-sans text-[11px] font-bold tracking-widest uppercase text-text-heavy/40 group-hover:text-primary-ink transition-colors duration-300">
             — {dict.catalog.view_product}
           </span>
         </div>

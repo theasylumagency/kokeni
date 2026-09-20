@@ -27,7 +27,19 @@
 }
 
 @theme {
-  --color-primary: rgb(48, 137, 232);
+  /* --- Registration red: brand accent -------------------------------
+     primary        #D8412F  marks, rules, borders, icons, large type, hover
+     primary-ink    #BF3426  small text on light paper   (5.0:1 vs #F5F2EC)
+     primary-bright #E85A48  anything on dark surfaces   (5.1:1 vs #111921)
+     action         #0D59F2  ADMIN ONLY - keeps admin's primary buttons from
+                             reading as "delete" once the brand turns red
+     Contrast note: #D8412F on #F5F2EC is 3.98:1 -> fine for >=18.66px text,
+     rules and UI marks, NOT for body copy. Use primary-ink there.        */
+  --color-primary: rgb(216, 65, 47);
+  --color-primary-ink: rgb(191, 52, 38);
+  --color-primary-bright: rgb(232, 90, 72);
+  --color-action: rgb(13, 89, 242);
+
   --color-background-light: rgb(245, 242, 236);
   --color-background-dark: rgb(17, 25, 33);
   --color-surface: rgb(235, 231, 223);
@@ -85,32 +97,76 @@
     background-size: 40px 40px;
   }
 
-  .sketch-container:hover .bounding-box {
-    opacity: 1;
-    transform: scale(1);
+  /* ---------------------------------------------------------------
+     Die-line cube (home hero). The drawing completes itself on load:
+     strokes are plotted one by one, then the dimension frame arrives.
+     Hover only ADDS annotation - it never removes information.
+     --------------------------------------------------------------- */
+  .dl-draw {
+    stroke-dasharray: 1200;
+    stroke-dashoffset: 1200;
+    animation: dl-plot 0.9s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+    animation-delay: var(--dl-delay, 0s);
   }
 
-  .sketch-container:hover .sketch-svg {
-    stroke: var(--color-primary);
-    transition: stroke 0.3s ease;
-  }
-
-  .bounding-box {
-    opacity: 0;
-    transform: scale(0.95);
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    border: 1px dashed var(--color-primary);
-  }
-
-  .path-draw {
-    stroke-dasharray: 1000;
-    stroke-dashoffset: 1000;
-    animation: drawPath 1.5s ease-in-out forwards;
-  }
-
-  @keyframes drawPath {
+  @keyframes dl-plot {
     to {
       stroke-dashoffset: 0;
+    }
+  }
+
+  /* Dimension frame: second pass, 0.3s after the last stroke lands. */
+  .dl-frame {
+    opacity: 0;
+    animation: dl-fade 0.5s ease-out forwards;
+    animation-delay: 1.5s;
+  }
+
+  .dl-titleblock {
+    opacity: 0;
+    animation: dl-fade 0.6s ease-out forwards;
+    animation-delay: 1.9s;
+  }
+
+  @keyframes dl-fade {
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* Annotations: hover adds them, nothing is taken away. */
+  .dl-annotation {
+    opacity: 0;
+    transform: translateX(-6px);
+    transition: opacity 0.35s ease-out, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .dl-stage:hover .dl-annotation,
+  .dl-stage:focus-visible .dl-annotation {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .dl-annotation:nth-of-type(2) {
+    transition-delay: 0.06s;
+  }
+
+  .dl-annotation:nth-of-type(3) {
+    transition-delay: 0.12s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+
+    .dl-draw,
+    .dl-frame,
+    .dl-titleblock {
+      animation: none;
+      stroke-dashoffset: 0;
+      opacity: 1;
+    }
+
+    .dl-annotation {
+      transition: none;
     }
   }
 }

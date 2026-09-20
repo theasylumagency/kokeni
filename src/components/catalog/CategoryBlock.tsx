@@ -21,7 +21,7 @@ export default function CategoryBlock({ category, products, dict }: CategoryBloc
 
       {/* Category Header (Elegant Top-aligned) */}
       <div className="w-full px-6 lg:px-16 flex flex-col items-center md:items-start mb-16 lg:mb-20">
-        <p className="font-mono text-[10px] font-bold tracking-[0.3em] uppercase text-primary/80 mb-4">
+        <p className="font-mono text-[10px] font-bold tracking-[0.3em] uppercase text-primary-ink mb-4">
           — {products.length} {dict.catalog.title}
         </p>
         <h2 className="font-bold text-2xl lg:text-xl xl:text-4xl uppercase tracking-tighter text-text-heavy leading-[0.9] text-center md:text-left break-words max-w-4xl">

@@ -16,12 +16,12 @@ type ProductPanelProps = {
 
 const panelClass = "border-2 border-black bg-white p-8";
 const inputClass =
-  "w-full bg-[#F5F2ED] border-2 border-black p-4 font-mono text-sm focus:outline-none focus:border-primary rounded-none";
+  "w-full bg-[#F5F2ED] border-2 border-black p-4 font-mono text-sm focus:outline-none focus:border-action rounded-none";
 const textareaClass =
-  "min-h-28 w-full bg-[#F5F2ED] border-2 border-black p-4 font-mono text-sm focus:outline-none focus:border-primary rounded-none resize-y";
-const checkboxClass = "w-5 h-5 border-2 border-black focus:ring-0 rounded-none accent-primary text-primary";
+  "min-h-28 w-full bg-[#F5F2ED] border-2 border-black p-4 font-mono text-sm focus:outline-none focus:border-action rounded-none resize-y";
+const checkboxClass = "w-5 h-5 border-2 border-black focus:ring-0 rounded-none accent-action text-action";
 const fileInputClass =
-  "block w-full border-2 border-dashed border-black bg-[#F5F2ED] p-4 font-mono text-[10px] uppercase tracking-widest file:mr-4 file:border-2 file:border-black file:bg-primary file:px-4 file:py-2 file:text-[10px] file:font-black file:uppercase file:tracking-[0.2em] file:text-white file:rounded-none file:cursor-pointer hover:bg-black/5 transition-colors";
+  "block w-full border-2 border-dashed border-black bg-[#F5F2ED] p-4 font-mono text-[10px] uppercase tracking-widest file:mr-4 file:border-2 file:border-black file:bg-action file:px-4 file:py-2 file:text-[10px] file:font-black file:uppercase file:tracking-[0.2em] file:text-white file:rounded-none file:cursor-pointer hover:bg-black/5 transition-colors";
 const labelClass = "block font-mono text-[10px] tracking-widest mb-2 opacity-60 uppercase";
 
 export default function ProductPanel({
@@ -34,7 +34,7 @@ export default function ProductPanel({
       {/* Add Product */}
       <section className={panelClass}>
         <div className="mb-8 space-y-2 border-b-2 border-black pb-4">
-          <h3 className="font-mono text-[12px] font-black tracking-tighter uppercase text-primary">MODULE: 04 / PROD_CREATE</h3>
+          <h3 className="font-mono text-[12px] font-black tracking-tighter uppercase text-action">MODULE: 04 / PROD_CREATE</h3>
           <h2 className="font-black text-2xl uppercase tracking-tight">პროდუქტის დამატება</h2>
           <p className="font-mono text-[10px] opacity-60 uppercase tracking-widest">
             პროდუქტი აუცილებლად ეკუთვნის კონკრეტულ კატეგორიას. მისი მიმდევრობა
@@ -144,7 +144,7 @@ export default function ProductPanel({
 
             <button
               type="submit"
-              className="w-full bg-primary text-white py-4 px-8 font-black font-mono text-[12px] tracking-[0.2em] border-2 border-black hover:bg-black transition-all uppercase"
+              className="w-full bg-action text-white py-4 px-8 font-black font-mono text-[12px] tracking-[0.2em] border-2 border-black hover:bg-black transition-all uppercase"
             >
               PUBLISH_MANIFEST / პროდუქტის დამატება
             </button>
@@ -224,7 +224,7 @@ export default function ProductPanel({
                                 >
                                   <summary className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 cursor-pointer hover:bg-[#F5F2ED] select-none transition-colors">
                                     <div>
-                                      <h5 className="font-bold text-lg uppercase tracking-tight group-open/item:text-primary transition-colors">
+                                      <h5 className="font-bold text-lg uppercase tracking-tight group-open/item:text-action transition-colors">
                                         {product.name.ka}
                                       </h5>
                                       <p className="font-mono text-[10px] opacity-70 tracking-widest uppercase mt-2">
@@ -434,7 +434,7 @@ export default function ProductPanel({
                                     <div className="flex flex-col sm:flex-row gap-4 pt-4 border-t-2 border-black">
                                       <button
                                         type="submit"
-                                        className="bg-black text-white px-8 py-3 font-mono text-[11px] font-bold tracking-widest hover:bg-primary transition-all uppercase"
+                                        className="bg-black text-white px-8 py-3 font-mono text-[11px] font-bold tracking-widest hover:bg-action transition-all uppercase"
                                       >
                                         UPDATE_MANIFEST / შენახვა
                                       </button>

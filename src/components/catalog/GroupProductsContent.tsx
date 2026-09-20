@@ -81,7 +81,7 @@ export default function GroupProductsContent({ categories, products, lang, dict,
                       document.getElementById(category.slug)?.scrollIntoView({ behavior: 'smooth' });
                     }}
                     className={`text-sm font-bold uppercase tracking-widest transition-colors whitespace-nowrap lg:whitespace-normal flex items-center gap-2 group text-left
-                      ${isActive ? "text-primary" : "text-[#1a1b1c]/60 hover:text-[#1a1b1c]"}`}
+                      ${isActive ? "text-primary-ink" : "text-[#1a1b1c]/60 hover:text-[#1a1b1c]"}`}
                   >
                     <span className={`w-4 h-[1px] transition-colors duration-300 hidden lg:block ${isActive ? "bg-primary" : "bg-primary/0 group-hover:bg-primary/50"}`} />
                     {categoryName}

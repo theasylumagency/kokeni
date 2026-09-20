@@ -13,8 +13,8 @@ type CategoryPanelProps = {
 
 const panelClass = "border-2 border-black bg-white p-8";
 const inputClass =
-  "w-full bg-[#F5F2ED] border-2 border-black p-4 font-mono text-sm focus:outline-none focus:border-primary rounded-none";
-const checkboxClass = "w-5 h-5 border-2 border-black focus:ring-0 rounded-none accent-primary text-primary";
+  "w-full bg-[#F5F2ED] border-2 border-black p-4 font-mono text-sm focus:outline-none focus:border-action rounded-none";
+const checkboxClass = "w-5 h-5 border-2 border-black focus:ring-0 rounded-none accent-action text-action";
 const labelClass = "block font-mono text-[10px] tracking-widest mb-2 opacity-60 uppercase";
 
 export default function CategoryPanel({
@@ -28,21 +28,21 @@ export default function CategoryPanel({
       <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="border-2 border-black p-6 bg-white space-y-4">
           <div className="flex justify-between items-start">
-            <h4 className="font-mono font-bold text-[11px] tracking-widest uppercase text-primary">TOTAL_GROUPS</h4>
+            <h4 className="font-mono font-bold text-[11px] tracking-widest uppercase text-action">TOTAL_GROUPS</h4>
             <span className="material-symbols-outlined text-sm opacity-50" style={{ fontSize: '20px' }}>folder_open</span>
           </div>
           <p className="text-4xl font-black">{groups.length}</p>
         </div>
         <div className="border-2 border-black p-6 bg-white space-y-4">
           <div className="flex justify-between items-start">
-            <h4 className="font-mono font-bold text-[11px] tracking-widest uppercase text-primary">TOTAL_CATEGORIES</h4>
+            <h4 className="font-mono font-bold text-[11px] tracking-widest uppercase text-action">TOTAL_CATEGORIES</h4>
             <span className="material-symbols-outlined text-sm opacity-50" style={{ fontSize: '20px' }}>category</span>
           </div>
           <p className="text-4xl font-black">{categories.length}</p>
         </div>
         <div className="border-2 border-black p-6 bg-white space-y-4">
           <div className="flex justify-between items-start">
-            <h4 className="font-mono font-bold text-[11px] tracking-widest uppercase text-primary">TOTAL_PRODUCTS</h4>
+            <h4 className="font-mono font-bold text-[11px] tracking-widest uppercase text-action">TOTAL_PRODUCTS</h4>
             <span className="material-symbols-outlined text-sm opacity-50" style={{ fontSize: '20px' }}>inventory_2</span>
           </div>
           <p className="text-4xl font-black">{products.length}</p>
@@ -112,7 +112,7 @@ export default function CategoryPanel({
 
             <button
               type="submit"
-              className="w-full md:w-auto bg-primary text-white py-4 px-8 font-black font-mono text-[12px] tracking-[0.2em] border-2 border-black hover:bg-black transition-all"
+              className="w-full md:w-auto bg-action text-white py-4 px-8 font-black font-mono text-[12px] tracking-[0.2em] border-2 border-black hover:bg-black transition-all"
             >
               COMMIT_ADD / დამატება
             </button>
@@ -130,7 +130,7 @@ export default function CategoryPanel({
       <section className={panelClass}>
         <div className="mb-8 border-b-2 border-black pb-4">
           <h3 className="font-mono text-[12px] font-black tracking-tighter uppercase mb-2">DIRECTORY / დირექტორია</h3>
-          <h2 className="font-black text-2xl uppercase tracking-tight text-primary">კატეგორიების მართვა</h2>
+          <h2 className="font-black text-2xl uppercase tracking-tight text-action">კატეგორიების მართვა</h2>
         </div>
 
         <div className="space-y-8">
@@ -173,7 +173,7 @@ export default function CategoryPanel({
                           >
                             <summary className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 cursor-pointer hover:bg-[#F5F2ED] select-none transition-colors">
                               <div>
-                                <h4 className="font-bold text-lg uppercase tracking-tight group-open/item:text-primary transition-colors">
+                                <h4 className="font-bold text-lg uppercase tracking-tight group-open/item:text-action transition-colors">
                                   {category.name.ka}
                                 </h4>
                                 <p className="font-mono text-[10px] opacity-60 tracking-widest uppercase mt-1">
@@ -272,7 +272,7 @@ export default function CategoryPanel({
                               <div className="flex flex-col sm:flex-row gap-4 pt-4 border-t border-black/10">
                                 <button
                                   type="submit"
-                                  className="bg-black text-white px-8 py-3 font-mono text-[11px] font-bold tracking-widest hover:bg-primary transition-all uppercase"
+                                  className="bg-black text-white px-8 py-3 font-mono text-[11px] font-bold tracking-widest hover:bg-action transition-all uppercase"
                                 >
                                   UPDATE / შენახვა
                                 </button>

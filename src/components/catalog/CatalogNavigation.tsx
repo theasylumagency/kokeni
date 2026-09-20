@@ -32,6 +32,10 @@ export default function CatalogNavigation({
     ? "bg-[#f9f9fa]/90 border-black/10 text-text-heavy" 
     : "bg-background-dark/90 border-white/10 text-white";
 
+  // 10-12px labels: needs the ink step on paper, the bright step on dark.
+  const accent = isLight ? "text-primary-ink" : "text-primary-bright";
+  const accentBorder = isLight ? "border-primary-ink" : "border-primary-bright";
+
   const hubLinkIdle = isLight ? "text-text-heavy/50 hover:text-text-heavy" : "text-white/50 hover:text-white";
   const groupLinkIdle = isLight ? "text-text-heavy/50 hover:text-text-heavy" : "text-white/50 hover:text-white";
 
@@ -43,9 +47,9 @@ export default function CatalogNavigation({
         <div className="flex-shrink-0 mr-8">
           <Link 
             href={`/${lang}/catalog`}
-            className={`flex items-center gap-2 tracking-widest transition-colors duration-300 ${!currentGroupSlug ? "text-primary border-b border-primary pb-1" : hubLinkIdle}`}
+            className={`flex items-center gap-2 tracking-widest transition-colors duration-300 ${!currentGroupSlug ? `${accent} border-b ${accentBorder} pb-1` : hubLinkIdle}`}
           >
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" className={!currentGroupSlug ? "text-primary" : (isLight ? "text-text-heavy/50" : "text-white/50")}>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" className={!currentGroupSlug ? accent : (isLight ? "text-text-heavy/50" : "text-white/50")}>
               <path d="M1 6H11M6 1L6 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter"/>
             </svg>
             <span>{dict.catalog?.back_to_hub || "HUB"}</span>
@@ -62,7 +66,7 @@ export default function CatalogNavigation({
               <Link
                 key={group.id}
                 href={`/${lang}/catalog/${group.slug}`}
-                className={`tracking-[0.2em] whitespace-nowrap transition-all duration-300 ${isActive ? "text-primary border-b border-primary pb-1" : groupLinkIdle}`}
+                className={`tracking-[0.2em] whitespace-nowrap transition-all duration-300 ${isActive ? `${accent} border-b ${accentBorder} pb-1` : groupLinkIdle}`}
               >
                 {groupName}
               </Link>
@@ -72,7 +76,7 @@ export default function CatalogNavigation({
           {/* Collections Link (Static) */}
           <Link
             href={`/${lang}/collections`}
-            className={`tracking-[0.2em] whitespace-nowrap transition-all duration-300 ${currentGroupSlug === 'collections' ? "text-primary border-b border-primary pb-1" : groupLinkIdle}`}
+            className={`tracking-[0.2em] whitespace-nowrap transition-all duration-300 ${currentGroupSlug === 'collections' ? `${accent} border-b ${accentBorder} pb-1` : groupLinkIdle}`}
           >
             {dict.catalog?.collections || "COLLECTIONS"}
           </Link>

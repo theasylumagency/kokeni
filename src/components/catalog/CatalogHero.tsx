@@ -97,14 +97,14 @@ export default function CatalogHero({ dict, groups, lang }: CatalogHeroProps) {
 
                 {/* Index Number */}
                 <div className="absolute top-8 left-8 lg:top-12 lg:left-12 z-20">
-                  <span className="font-mono text-xs md:text-sm tracking-[0.2em] text-white/30 group-hover:text-primary transition-colors duration-500">
+                  <span className="font-mono text-xs md:text-sm tracking-[0.2em] text-white/30 group-hover:text-primary-bright transition-colors duration-500">
                     {String(index + 1).padStart(2, '0')} // KOKENI
                   </span>
                 </div>
 
                 {/* Content */}
                 <div className="relative z-20 flex flex-col items-start translate-y-4 md:translate-y-8 group-hover:translate-y-0 transition-transform duration-700 ease-out">
-                  <span className="text-primary text-[10px] lg:text-xs uppercase tracking-[0.3em] font-bold mb-3 md:mb-4 block">
+                  <span className="text-primary-bright text-[10px] lg:text-xs uppercase tracking-[0.3em] font-bold mb-3 md:mb-4 block">
                     {upperTag}
                   </span>
                   <h2 className="text-3xl md:text-4xl lg:text-xl 2xl:text-xl font-display uppercase tracking-tighter text-white mb-3 md:mb-4 pr-10">
@@ -115,9 +115,9 @@ export default function CatalogHero({ dict, groups, lang }: CatalogHeroProps) {
                   </p>
 
                   {/* Action Button */}
-                  <span className="inline-flex items-center gap-4 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-white border-b border-primary/30 pb-2 group-hover:border-primary transition-colors duration-500">
+                  <span className="inline-flex items-center gap-4 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-white border-b border-primary-bright/30 pb-2 group-hover:border-primary-bright transition-colors duration-500">
                     {dict.catalog.view_all || "VIEW MANIFEST"}
-                    <svg width="14" height="14" viewBox="0 0 12 12" fill="none" className="transform group-hover:translate-x-2 transition-transform duration-500 text-primary">
+                    <svg width="14" height="14" viewBox="0 0 12 12" fill="none" className="transform group-hover:translate-x-2 transition-transform duration-500 text-primary-bright">
                       <path d="M1 11L11 1M11 1H3.5M11 1V8.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter" />
                     </svg>
                   </span>

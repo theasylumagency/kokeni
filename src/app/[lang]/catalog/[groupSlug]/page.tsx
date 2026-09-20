@@ -47,7 +47,7 @@ export default async function GroupProductsPage({ params }: { params: Promise<{ 
         <div className="w-full h-full absolute top-0 left-0 z-0 blurred-bg" />
 
         <div className="relative z-10 max-w-[1600px] mx-auto">
-          <span className="text-primary text-[10px] uppercase tracking-[0.3em] font-bold mb-4 block">
+          <span className="text-primary-ink text-[10px] uppercase tracking-[0.3em] font-bold mb-4 block">
             {upperTag}
           </span>
           <h1 className="font-bold text-5xl md:text-6xl lg:text-8xl uppercase tracking-tighter mb-6 text-[#1a1b1c] leading-[0.9]">

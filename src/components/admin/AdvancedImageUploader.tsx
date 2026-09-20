@@ -315,7 +315,7 @@ export default function AdvancedImageUploader({
                 type="button"
                 onClick={handleCropAndUpload}
                 disabled={isUploading}
-                className="bg-primary text-white border-2 border-black px-8 py-4 font-mono text-[11px] tracking-[0.2em] font-black uppercase hover:bg-black transition-colors min-w-[200px]"
+                className="bg-action text-white border-2 border-black px-8 py-4 font-mono text-[11px] tracking-[0.2em] font-black uppercase hover:bg-black transition-colors min-w-[200px]"
               >
                 {isUploading ? "UPLOADING..." : "CROP & UPLOAD"}
               </button>
@@ -329,7 +329,7 @@ export default function AdvancedImageUploader({
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
           <div className="bg-[#F5F2ED] border-2 border-black w-full max-w-5xl flex flex-col h-[85vh]">
             <div className="p-6 border-b-2 border-black flex justify-between items-center bg-white shrink-0">
-              <h3 className="font-mono text-[14px] font-black tracking-widest uppercase text-primary">
+              <h3 className="font-mono text-[14px] font-black tracking-widest uppercase text-action">
                 SERVER_DIRECTORY / სერვერზე არსებული ფოტოები
               </h3>
               <button
@@ -356,7 +356,7 @@ export default function AdvancedImageUploader({
                       key={src}
                       type="button"
                       onClick={() => selectServerPhoto(src)}
-                      className="group relative aspect-square border-2 border-black hover:border-primary transition-colors overflow-hidden bg-white"
+                      className="group relative aspect-square border-2 border-black hover:border-action transition-colors overflow-hidden bg-white"
                     >
                       <Image
                         src={src}
@@ -364,7 +364,7 @@ export default function AdvancedImageUploader({
                         fill
                         className="object-cover group-hover:scale-105 transition-transform"
                       />
-                      <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/20 transition-colors flex items-center justify-center">
+                      <div className="absolute inset-0 bg-action/0 group-hover:bg-action/20 transition-colors flex items-center justify-center">
                         <span className="bg-black text-white font-mono text-[10px] tracking-widest px-3 py-1 opacity-0 group-hover:opacity-100 uppercase transition-opacity">
                           SELECT
                         </span>

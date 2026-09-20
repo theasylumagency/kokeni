@@ -13,7 +13,7 @@ export default function Terminal({ dict }: { dict: Dictionary }) {
 
         {/* Massive Typographic CTA */}
         <div className="w-full flex flex-col gap-4">
-          <h2 className="font-bold text-xl lg:text-xl xl:text-2xl uppercase tracking-tighter leading-none hover:text-primary transition-colors cursor-pointer w-fit">
+          <h2 className="font-bold text-xl lg:text-xl xl:text-2xl uppercase tracking-tighter leading-none hover:text-primary-bright transition-colors cursor-pointer w-fit">
             {dict.terminal.title}
           </h2>
           <p className="font-mono text-sm max-w-md text-muted">
@@ -26,7 +26,7 @@ export default function Terminal({ dict }: { dict: Dictionary }) {
 
           {/* Column 1: Seat of Operations */}
           <div className="flex flex-col gap-4">
-            <h4 className="font-bold uppercase text-primary">{dict.terminal.col1_title}</h4>
+            <h4 className="font-bold uppercase text-primary-bright">{dict.terminal.col1_title}</h4>
             <div className="flex flex-col text-muted">
               {dict.terminal.col1_lines.map((line, i) => (
                 <span key={i}>{line}</span>
@@ -36,7 +36,7 @@ export default function Terminal({ dict }: { dict: Dictionary }) {
 
           {/* Column 2: Direct Comms */}
           <div className="flex flex-col gap-4">
-            <h4 className="font-bold uppercase text-primary">{dict.terminal.col2_title}</h4>
+            <h4 className="font-bold uppercase text-primary-bright">{dict.terminal.col2_title}</h4>
             <div className="flex flex-col text-muted">
               <a href="tel:+995322386589" className="hover:text-white transition-colors">{dict.terminal.col2_t}</a>
               <a href="tel:+995599510338" className="hover:text-white transition-colors">{dict.terminal.col2_m}</a>
@@ -46,7 +46,7 @@ export default function Terminal({ dict }: { dict: Dictionary }) {
 
           {/* Column 3: The Hallmark */}
           <div className="flex flex-col gap-4 items-start md:items-end md:text-right">
-            <h4 className="font-bold uppercase text-primary">{dict.terminal.col3_title}</h4>
+            <h4 className="font-bold uppercase text-primary-bright">{dict.terminal.col3_title}</h4>
             <p className="text-muted max-w-[200px]">
               {dict.terminal.col3_desc}
             </p>

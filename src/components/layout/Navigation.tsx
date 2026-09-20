@@ -17,7 +17,7 @@ export default function Navigation({ dict, lang }: NavigationProps) {
 
   return (
     <>
-      <header className="bg-[#747c83] inset-shadow fixed top-0 w-full z-[100] h-14 px-5 md:px-8 flex items-center justify-between text-white pointer-events-auto">
+      <header className="bg-background-dark/90 backdrop-blur-md border-b border-white/10 fixed top-0 w-full z-[100] h-14 px-5 md:px-8 flex items-center justify-between text-white pointer-events-auto">
         {/* Left Axis: Logo */}
         <div className="flex items-center">
           <Link href={`/${lang}`} onClick={() => setIsMobileMenuOpen(false)}>
@@ -37,19 +37,19 @@ export default function Navigation({ dict, lang }: NavigationProps) {
         <nav className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 hidden md:flex items-center gap-8">
           <Link
             href={`/${lang}/catalog`}
-            className="font-display text-[11px] uppercase hover:text-primary transition-colors tracking-widest"
+            className="font-display text-[11px] uppercase hover:text-primary-bright transition-colors tracking-widest"
           >
             {dict.nav.shop}
           </Link>
           <Link
             href={`/${lang}#about`}
-            className="font-display text-[11px] uppercase hover:text-primary transition-colors tracking-widest"
+            className="font-display text-[11px] uppercase hover:text-primary-bright transition-colors tracking-widest"
           >
             {dict.nav.about}
           </Link>
           <Link
             href={`/${lang}#contact`}
-            className="font-display text-[11px] uppercase hover:text-primary transition-colors tracking-widest"
+            className="font-display text-[11px] uppercase hover:text-primary-bright transition-colors tracking-widest"
           >
             {dict.nav.contact}
           </Link>
@@ -59,23 +59,23 @@ export default function Navigation({ dict, lang }: NavigationProps) {
         <div className="flex items-center gap-4 md:gap-6">
           <Link
             href={`/${switchLang}`}
-            className="font-mono text-[11px] font-bold uppercase hover:text-primary transition-colors tracking-widest border border-white/20 px-2 py-0.5 rounded-sm"
+            className="font-mono text-[11px] font-bold uppercase hover:text-primary-bright transition-colors tracking-widest border border-white/20 px-2 py-0.5 rounded-sm"
           >
             {switchLang}
           </Link>
 
           {/* User & Cart Icons */}
-          <button className="flex items-center justify-center hover:text-primary transition-colors" title={dict.nav.profile}>
+          <button className="flex items-center justify-center hover:text-primary-bright transition-colors" title={dict.nav.profile}>
             <span className="material-symbols-outlined text-[18px]">person</span>
           </button>
 
-          <button className="flex items-center justify-center hover:text-primary transition-colors" title={dict.nav.cart}>
+          <button className="flex items-center justify-center hover:text-primary-bright transition-colors" title={dict.nav.cart}>
             <span className="material-symbols-outlined text-[18px]">shopping_bag</span>
           </button>
 
           {/* Mobile Menu Toggle */}
           <button
-            className="flex items-center justify-center md:hidden hover:text-primary transition-colors z-[110]"
+            className="flex items-center justify-center md:hidden hover:text-primary-bright transition-colors z-[110]"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             <span className="material-symbols-outlined text-[18px]">
