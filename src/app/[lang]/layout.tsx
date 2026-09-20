@@ -5,13 +5,9 @@ import Navigation from "@/components/layout/Navigation";
 
 export const metadata: Metadata = {
   title: "KOKENI.GE | Precision Embossing",
-<<<<<<< HEAD
   description:
     "Advanced European printing technology meets uncompromising manual craftsmanship.",
   manifest: "/site.webmanifest",
-=======
-  description: "Advanced European printing technology meets uncompromising manual craftsmanship.",
->>>>>>> ebc8a24e11d29d3bdab878b85a3fdcd82aff3d5a
 };
 
 export async function generateStaticParams() {
@@ -27,11 +23,7 @@ export default async function RootLayout({
 }>) {
   const { lang } = await params;
   const dict = await getDictionary(lang);
-<<<<<<< HEAD
 
-=======
-  
->>>>>>> ebc8a24e11d29d3bdab878b85a3fdcd82aff3d5a
   return (
     <html lang={lang}>
       <head>
