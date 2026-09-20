@@ -6,7 +6,13 @@ import { PhotoError } from "./types";
 export async function photoAuth(request: Request) {
   if (!(await isAdminAuthenticated())) throw new PhotoError("გთხოვთ შეხვიდეთ ადმინისტრატორის ანგარიშით.", 401);
   const origin = request.headers.get("origin");
-
+  console.error("PHOTO_ORIGIN_DEBUG", {
+    origin: request.headers.get("origin"),
+    host: request.headers.get("host"),
+    forwardedHost: request.headers.get("x-forwarded-host"),
+    forwardedProto: request.headers.get("x-forwarded-proto"),
+    requestUrl: request.url,
+  });
   if (origin) {
     const forwardedProto =
       request.headers.get("x-forwarded-proto")?.split(",")[0]?.trim();
