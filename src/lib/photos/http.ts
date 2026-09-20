@@ -4,32 +4,30 @@ import { CatalogMutationError } from "../catalog/data";
 import { PhotoError } from "./types";
 
 export async function photoAuth(request: Request) {
-  if (!(await isAdminAuthenticated())) throw new PhotoError("გთხოვთ შეხვიდეთ ადმინისტრატორის ანგარიშით.", 401);
-  const origin = request.headers.get("origin");
-  console.error("PHOTO_ORIGIN_DEBUG", {
-    origin: request.headers.get("origin"),
-    host: request.headers.get("host"),
-    forwardedHost: request.headers.get("x-forwarded-host"),
-    forwardedProto: request.headers.get("x-forwarded-proto"),
-    requestUrl: request.url,
-  });
-  if (origin) {
-    const forwardedProto =
-      request.headers.get("x-forwarded-proto")?.split(",")[0]?.trim();
+  if (!(await isAdminAuthenticated())) {
+    throw new PhotoError(
+      "გთხოვთ შეხვიდეთ ადმინისტრატორის ანგარიშით.",
+      401
+    );
+  }
 
+  const origin = request.headers.get("origin");
+
+  if (origin) {
     const forwardedHost =
       request.headers.get("x-forwarded-host")?.split(",")[0]?.trim();
 
     const host = forwardedHost || request.headers.get("host");
 
-    const protocol =
-      forwardedProto || new URL(request.url).protocol.replace(":", "");
+    let originHost: string;
 
-    const expectedOrigin = host
-      ? `${protocol}://${host}`
-      : new URL(request.url).origin;
+    try {
+      originHost = new URL(origin).host;
+    } catch {
+      throw new PhotoError("მოთხოვნა უარყოფილია.", 403);
+    }
 
-    if (origin !== expectedOrigin) {
+    if (!host || originHost !== host) {
       throw new PhotoError("მოთხოვნა უარყოფილია.", 403);
     }
   }
