@@ -1,6 +1,6 @@
 import { getDictionary } from "@/utils/getDictionary";
 import { getCatalogSnapshot } from "@/lib/catalog/data";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import CatalogNavigation from "@/components/catalog/CatalogNavigation";
 import GroupProductsContent from "@/components/catalog/GroupProductsContent";
 
@@ -16,10 +16,12 @@ export default async function GroupProductsPage({ params }: { params: Promise<{ 
     .filter((g) => g.isActive)
     .sort((a, b) => a.order - b.order);
 
-  const group = activeGroups.find(g => g.slug === groupSlug);
+  const group = activeGroups.find(g => g.slug === groupSlug || g.legacySlugs?.includes(groupSlug));
   if (!group) {
     notFound();
   }
+
+  if (group.slug !== groupSlug) permanentRedirect(`/${lang}/catalog/${group.slug}`);
 
   const groupCategories = catalog.categories
     .filter(c => c.groupId === group.id && c.isActive)

@@ -1,10 +1,4 @@
-import type { Category, Product, ProductPhotoKind } from "@/lib/catalog/types";
-
-export const REQUIRED_PHOTO_KINDS = [
-  "front_closed",
-  "interior_open",
-  "detail_spine",
-] as const satisfies readonly ProductPhotoKind[];
+import type { Category, Product } from "@/lib/catalog/types";
 
 export function buildSuggestedPhotoProductName(
   category: Category,

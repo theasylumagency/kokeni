@@ -65,11 +65,11 @@ export default function Navigation({ dict, lang }: NavigationProps) {
           </Link>
 
           {/* User & Cart Icons */}
-          <button className="flex items-center justify-center hover:text-primary-bright transition-colors" title={dict.nav.profile}>
+          <button className="flex items-center justify-center hover:text-primary-bright transition-colors" title={dict.nav.profile} data-ga-event="ui_click" data-ga-ui-id="header_account">
             <span className="material-symbols-outlined text-[18px]">person</span>
           </button>
 
-          <button className="flex items-center justify-center hover:text-primary-bright transition-colors" title={dict.nav.cart}>
+          <button className="flex items-center justify-center hover:text-primary-bright transition-colors" title={dict.nav.cart} data-ga-event="ui_click" data-ga-ui-id="header_cart">
             <span className="material-symbols-outlined text-[18px]">shopping_bag</span>
           </button>
 

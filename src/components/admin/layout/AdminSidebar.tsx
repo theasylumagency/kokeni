@@ -2,23 +2,18 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 export default function AdminSidebar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
-
-  useEffect(() => {
-    setIsOpen(false);
-  }, [pathname]);
 
   const links = [
     { href: "/admin", label: "Dashboard", icon: "dashboard" },
     { href: "/admin/groups", label: "Groups", icon: "folder_open" },
     { href: "/admin/categories", label: "Categories", icon: "category" },
     { href: "/admin/products", label: "Products", icon: "inventory_2" },
-    { href: "/admin/photo-generation", label: "AI Photos", icon: "photo_camera" },
-    { href: "/admin/regeneration", label: "AI Regeneration", icon: "auto_awesome" },
+    { href: "/admin/photo-generation", label: "ფოტოსტუდია", icon: "photo_camera" },
   ];
 
   return (
@@ -50,6 +45,7 @@ export default function AdminSidebar() {
             <Link
               key={link.href}
               href={link.href}
+              onClick={() => setIsOpen(false)}
               className={`flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
                 isActive
                   ? "bg-gray-100 text-gray-900"

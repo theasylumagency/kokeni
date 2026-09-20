@@ -86,7 +86,7 @@
   {
     "id": "5878b95d-69ef-4d8c-812c-93dd41cca3b4",
     "groupId": "fa4a3efe-fc8e-455e-a013-1fc6ad0e8518",
-    "slug": "ოფიციალური-დოკუმენტის-ყდები",
+    "slug": "ofitsialuri-dokumentis-qdebi",
     "order": 2,
     "name": {
       "ka": "ოფიციალური დოკუმენტის ყდები"
@@ -94,7 +94,10 @@
     "isActive": true,
     "showOnHome": true,
     "createdAt": "2026-03-19T07:58:09.187Z",
-    "updatedAt": "2026-03-19T07:58:09.187Z"
+    "updatedAt": "2026-03-19T07:58:09.187Z",
+    "legacySlugs": [
+      "ოფიციალური-დოკუმენტის-ყდები"
+    ]
   },
   {
     "id": "ab1ecba8-7d8a-42ae-bbb6-ec53e97c6bfe",

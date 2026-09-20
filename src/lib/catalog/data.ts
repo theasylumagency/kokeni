@@ -3,6 +3,8 @@ import "server-only";
 import { promises as fs } from "fs";
 import path from "path";
 import { randomUUID } from "crypto";
+import { asciiSlug, nextProductCode } from "./urls";
+import { withFileLock, writeJsonAtomic } from "./storage";
 import { unstable_noStore as noStore } from "next/cache";
 
 import type {
@@ -126,7 +128,7 @@ export async function getHomeDirections(
     .slice(0, 3);
 }
 
-export async function createGroupRecord(input: GroupCreateInput): Promise<void> {
+async function createGroupRecordUnlocked(input: GroupCreateInput): Promise<void> {
   const groups = await readGroups();
   const now = new Date().toISOString();
   const slug = makeUniqueSlug(
@@ -150,7 +152,7 @@ export async function createGroupRecord(input: GroupCreateInput): Promise<void> 
   await writeGroups(groups);
 }
 
-export async function updateGroupRecord(input: GroupUpdateInput): Promise<void> {
+async function updateGroupRecordUnlocked(input: GroupUpdateInput): Promise<void> {
   const groups = await readGroups();
   const existingGroup = groups.find((group) => group.id === input.id);
 
@@ -179,7 +181,7 @@ export async function updateGroupRecord(input: GroupUpdateInput): Promise<void> 
   await writeGroups(insertIntoOrderedList(remainingGroups, updatedGroup, input.order));
 }
 
-export async function deleteGroupRecord(id: string): Promise<void> {
+async function deleteGroupRecordUnlocked(id: string): Promise<void> {
   const [groups, categories] = await Promise.all([readGroups(), readCategories()]);
 
   if (categories.some((category) => category.groupId === id)) {
@@ -198,7 +200,7 @@ export async function deleteGroupRecord(id: string): Promise<void> {
   await writeGroups(remainingGroups);
 }
 
-export async function createCategoryRecord(
+async function createCategoryRecordUnlocked(
   input: CategoryCreateInput
 ): Promise<void> {
   const [groups, categories] = await Promise.all([readGroups(), readCategories()]);
@@ -241,7 +243,7 @@ export async function createCategoryRecord(
   await writeCategories(categories);
 }
 
-export async function updateCategoryRecord(
+async function updateCategoryRecordUnlocked(
   input: CategoryUpdateInput
 ): Promise<void> {
   const [groups, categories] = await Promise.all([readGroups(), readCategories()]);
@@ -323,7 +325,7 @@ export async function updateCategoryRecord(
   ]);
 }
 
-export async function deleteCategoryRecord(id: string): Promise<void> {
+async function deleteCategoryRecordUnlocked(id: string): Promise<void> {
   const [categories, products] = await Promise.all([
     readCategories(),
     readProducts(),
@@ -355,9 +357,9 @@ export async function deleteCategoryRecord(id: string): Promise<void> {
   await writeCategories([...untouchedCategories, ...sameGroupCategories]);
 }
 
-export async function createProductRecord(
+async function createProductRecordUnlocked(
   input: ProductCreateInput
-): Promise<void> {
+): Promise<Product> {
   const [categories, products] = await Promise.all([
     readCategories(),
     readProducts(),
@@ -368,10 +370,10 @@ export async function createProductRecord(
   }
 
   const now = new Date().toISOString();
-  const slug = makeUniqueSlug(
-    input.nameEn || input.nameKa,
-    products.map((product) => product.slug)
-  );
+  const category = categories.find((item) => item.id === input.categoryId)!;
+  const reserved = await readReservedCodes();
+  const slug = nextProductCode(category, products, reserved);
+  await writeJsonAtomic(path.join(DATA_DIRECTORY, "product-codes.json"), [...reserved, slug]);
 
   let images: ProductImage[] = [];
   try {
@@ -396,6 +398,7 @@ export async function createProductRecord(
   products.push({
     id: randomUUID(),
     slug,
+    code: slug,
     categoryId: input.categoryId,
     order: categoryProducts.length + 1,
     name: {
@@ -419,9 +422,10 @@ export async function createProductRecord(
   });
 
   await writeProducts(products);
+  return products[products.length - 1];
 }
 
-export async function updateProductRecord(
+async function updateProductRecordUnlocked(
   input: ProductUpdateInput
 ): Promise<void> {
   const [categories, products] = await Promise.all([
@@ -440,11 +444,7 @@ export async function updateProductRecord(
   }
 
   const remainingProducts = products.filter((product) => product.id !== input.id);
-  const slug = makeUniqueSlug(
-    input.nameEn || input.nameKa,
-    remainingProducts.map((product) => product.slug),
-    existingProduct.slug
-  );
+  const slug = existingProduct.code || existingProduct.slug;
 
   let updatedImages: ProductImage[] = [];
   try {
@@ -525,7 +525,7 @@ export async function updateProductRecord(
   ]);
 }
 
-export async function deleteProductRecord(id: string): Promise<void> {
+async function deleteProductRecordUnlocked(id: string): Promise<void> {
   const products = await readProducts();
   const productToDelete = products.find((product) => product.id === id);
 
@@ -546,7 +546,7 @@ export async function deleteProductRecord(id: string): Promise<void> {
   await writeProducts([...untouchedProducts, ...sameCategoryProducts]);
 }
 
-export async function toggleProductPublishedRecord(id: string, isPublished: boolean): Promise<void> {
+async function toggleProductPublishedRecordUnlocked(id: string, isPublished: boolean): Promise<void> {
   const products = await readProducts();
   const productIndex = products.findIndex((product) => product.id === id);
 
@@ -575,6 +575,7 @@ export function getLocalizedValue(
 }
 
 async function readCatalogSnapshot(): Promise<CatalogSnapshot> {
+  await ensureCatalogUrls();
   const [groups, categories, products] = await Promise.all([
     readGroups(),
     readCategories(),
@@ -614,31 +615,17 @@ async function readProducts(): Promise<Product[]> {
 
 async function writeGroups(groups: Group[]): Promise<void> {
   await ensureStorage();
-  await fs.writeFile(
-    GROUPS_FILE,
-    JSON.stringify(sortGroups(normalizeOrderedList(groups)), null, 2) + "\n",
-    "utf8"
-  );
+  await writeJsonAtomic(GROUPS_FILE, sortGroups(normalizeOrderedList(groups)));
 }
 
 async function writeCategories(categories: Category[]): Promise<void> {
   await ensureStorage();
-  await fs.writeFile(
-    CATEGORIES_FILE,
-    JSON.stringify(sortCategories(normalizeNestedList(categories, (item) => item.groupId)), null, 2) +
-      "\n",
-    "utf8"
-  );
+  await writeJsonAtomic(CATEGORIES_FILE, sortCategories(normalizeNestedList(categories, (item) => item.groupId)));
 }
 
 async function writeProducts(products: Product[]): Promise<void> {
   await ensureStorage();
-  await fs.writeFile(
-    PRODUCTS_FILE,
-    JSON.stringify(sortProducts(normalizeNestedList(products, (item) => item.categoryId)), null, 2) +
-      "\n",
-    "utf8"
-  );
+  await writeJsonAtomic(PRODUCTS_FILE, sortProducts(normalizeNestedList(products, (item) => item.categoryId)));
 }
 
 async function ensureStorage(): Promise<void> {
@@ -651,9 +638,9 @@ async function ensureStorage(): Promise<void> {
 
 async function ensureFile(filePath: string): Promise<void> {
   try {
-    await fs.access(filePath);
-  } catch {
-    await fs.writeFile(filePath, "[]\n", "utf8");
+    await fs.writeFile(filePath, "[]\n", { encoding: "utf8", flag: "wx" });
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== "EEXIST") throw error;
   }
 }
 
@@ -741,7 +728,7 @@ function makeUniqueSlug(
   currentSlug?: string
 ): string {
   const baseSlug = slugify(source) || `item-${randomUUID().slice(0, 8)}`;
-  let candidate = currentSlug && currentSlug.startsWith(baseSlug) ? currentSlug : baseSlug;
+  let candidate = currentSlug && /^[a-z0-9-]+$/.test(currentSlug) ? currentSlug : baseSlug;
   let counter = 2;
 
   while (takenSlugs.includes(candidate) && candidate !== currentSlug) {
@@ -752,17 +739,7 @@ function makeUniqueSlug(
   return candidate;
 }
 
-function slugify(source: string): string {
-  return source
-    .trim()
-    .toLowerCase()
-    .normalize("NFKD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^\p{Letter}\p{Number}\s-]/gu, "")
-    .replace(/\s+/g, "-")
-    .replace(/-+/g, "-")
-    .replace(/^-|-$/g, "");
-}
+function slugify(source: string): string { return asciiSlug(source); }
 
 function buildOptionalLocalizedText(
   ka?: string,
@@ -871,4 +848,105 @@ function resolveImageExtension(file: File): string {
     default:
       return ".jpg";
   }
+}
+
+export async function createGroupRecord(...args: Parameters<typeof createGroupRecordUnlocked>): Promise<Awaited<ReturnType<typeof createGroupRecordUnlocked>>> {
+  await ensureCatalogUrls();
+  return withFileLock(PRODUCTS_FILE, () => createGroupRecordUnlocked(...args));
+}
+export async function updateGroupRecord(...args: Parameters<typeof updateGroupRecordUnlocked>): Promise<Awaited<ReturnType<typeof updateGroupRecordUnlocked>>> {
+  await ensureCatalogUrls();
+  return withFileLock(PRODUCTS_FILE, () => updateGroupRecordUnlocked(...args));
+}
+export async function deleteGroupRecord(...args: Parameters<typeof deleteGroupRecordUnlocked>): Promise<Awaited<ReturnType<typeof deleteGroupRecordUnlocked>>> {
+  await ensureCatalogUrls();
+  return withFileLock(PRODUCTS_FILE, () => deleteGroupRecordUnlocked(...args));
+}
+export async function createCategoryRecord(...args: Parameters<typeof createCategoryRecordUnlocked>): Promise<Awaited<ReturnType<typeof createCategoryRecordUnlocked>>> {
+  await ensureCatalogUrls();
+  return withFileLock(PRODUCTS_FILE, () => createCategoryRecordUnlocked(...args));
+}
+export async function updateCategoryRecord(...args: Parameters<typeof updateCategoryRecordUnlocked>): Promise<Awaited<ReturnType<typeof updateCategoryRecordUnlocked>>> {
+  await ensureCatalogUrls();
+  return withFileLock(PRODUCTS_FILE, () => updateCategoryRecordUnlocked(...args));
+}
+export async function deleteCategoryRecord(...args: Parameters<typeof deleteCategoryRecordUnlocked>): Promise<Awaited<ReturnType<typeof deleteCategoryRecordUnlocked>>> {
+  await ensureCatalogUrls();
+  return withFileLock(PRODUCTS_FILE, () => deleteCategoryRecordUnlocked(...args));
+}
+export async function createProductRecord(...args: Parameters<typeof createProductRecordUnlocked>): Promise<Awaited<ReturnType<typeof createProductRecordUnlocked>>> {
+  await ensureCatalogUrls();
+  return withFileLock(PRODUCTS_FILE, () => createProductRecordUnlocked(...args));
+}
+export async function updateProductRecord(...args: Parameters<typeof updateProductRecordUnlocked>): Promise<Awaited<ReturnType<typeof updateProductRecordUnlocked>>> {
+  await ensureCatalogUrls();
+  return withFileLock(PRODUCTS_FILE, () => updateProductRecordUnlocked(...args));
+}
+export async function deleteProductRecord(...args: Parameters<typeof deleteProductRecordUnlocked>): Promise<Awaited<ReturnType<typeof deleteProductRecordUnlocked>>> {
+  await ensureCatalogUrls();
+  return withFileLock(PRODUCTS_FILE, () => deleteProductRecordUnlocked(...args));
+}
+export async function toggleProductPublishedRecord(...args: Parameters<typeof toggleProductPublishedRecordUnlocked>): Promise<Awaited<ReturnType<typeof toggleProductPublishedRecordUnlocked>>> {
+  await ensureCatalogUrls();
+  return withFileLock(PRODUCTS_FILE, () => toggleProductPublishedRecordUnlocked(...args));
+}
+async function readReservedCodes(): Promise<string[]> {
+  try { return JSON.parse(await fs.readFile(path.join(DATA_DIRECTORY, "product-codes.json"), "utf8")); }
+  catch (error) { if ((error as NodeJS.ErrnoException).code === "ENOENT") return []; throw error; }
+}
+
+export async function ensureCatalogUrls(): Promise<void> {
+  await ensureStorage();
+  await withFileLock(PRODUCTS_FILE, async () => {
+    const [groups, categories, products] = await Promise.all([readGroups(), readCategories(), readProducts()]);
+    const originals = JSON.stringify({ groups, categories, products });
+    for (const list of [groups, categories]) {
+      const taken = new Set(list.filter(item => /^[a-z0-9-]+$/.test(item.slug)).map(item => item.slug));
+      for (const item of list) {
+        if (/^[a-z0-9-]+$/.test(item.slug)) continue;
+        const base = asciiSlug(item.name.en || item.slug) || 'item';
+        let slug = base; let suffix = 2;
+        while (taken.has(slug)) slug = base + '-' + suffix++;
+        item.legacySlugs = [...new Set([...(item.legacySlugs || []), item.slug])];
+        item.slug = slug; taken.add(slug);
+      }
+    }
+    const reserved = await readReservedCodes();
+    for (const product of [...products].sort((a,b) => a.createdAt.localeCompare(b.createdAt) || a.id.localeCompare(b.id))) {
+      if (product.code && /^kkn-[a-z0-9]+-[0-9]+$/.test(product.code)) continue;
+      const category = categories.find(item => item.id === product.categoryId);
+      if (!category) throw new Error('Product category missing during URL migration');
+      const code = nextProductCode(category, products, reserved);
+      product.legacySlugs = [...new Set([...(product.legacySlugs || []), product.slug])];
+      product.code = code; product.slug = code; reserved.push(code);
+    }
+    const allReserved = [...new Set([...reserved, ...products.map(product => product.code!)])];
+    if (JSON.stringify(allReserved) !== JSON.stringify(await readReservedCodes())) {
+      await writeJsonAtomic(path.join(DATA_DIRECTORY, 'product-codes.json'), allReserved);
+    }
+    if (originals !== JSON.stringify({ groups, categories, products })) {
+      const backup = path.join(DATA_DIRECTORY, 'backups', 'before-product-url-migration.json');
+      await fs.mkdir(path.dirname(backup), { recursive: true });
+      await fs.writeFile(backup, originals, { flag: 'wx' }).catch(error => { if (error.code !== 'EEXIST') throw error; });
+      await writeGroups(groups); await writeCategories(categories); await writeProducts(products);
+    }
+  });
+}
+
+export async function saveWorkflowGallery(productId: string, images: ProductImage[], mode: 'append' | 'replace', expectedUpdatedAt: string): Promise<Product> {
+  await ensureCatalogUrls();
+  return withFileLock(PRODUCTS_FILE, async () => {
+    const products = await readProducts();
+    const product = products.find(item => item.id === productId);
+    if (!product) throw new CatalogMutationError('product_not_found', 'პროდუქტი ვერ მოიძებნა.');
+    if (product.updatedAt !== expectedUpdatedAt) throw new CatalogMutationError('conflict', 'პროდუქტი სხვა ფანჯარაში შეიცვალა. განაახლეთ გვერდი.');
+    // A retried save must not duplicate already committed assets.
+    const incoming = new Set(images.map(image => image.id));
+    const retained = product.images.filter(image => !incoming.has(image.id));
+    const combined = mode === 'replace' ? images : [...retained, ...images.map(image => ({ ...image, role: image.role === 'main' && retained.length ? 'additional' as const : image.role }))];
+    product.images = combined.map((image, index) => ({ ...image, order: index + 1 }));
+    product.updatedAt = new Date().toISOString();
+    await writeProducts(products);
+    return product;
+  });
 }

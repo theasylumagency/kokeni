@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "../globals.css";
 import { getDictionary } from "@/utils/getDictionary";
 import Navigation from "@/components/layout/Navigation";
+import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
+import AnalyticsEvents from "@/components/analytics/AnalyticsEvents";
 
 export const metadata: Metadata = {
   title: "KOKENI.GE | Precision Embossing",
@@ -34,6 +36,8 @@ export default async function RootLayout({
       >
         <Navigation dict={dict} lang={lang} />
         {children}
+        <AnalyticsEvents />
+        <GoogleAnalytics />
       </body>
     </html>
   );

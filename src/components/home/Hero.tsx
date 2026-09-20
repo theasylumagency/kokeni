@@ -60,7 +60,7 @@ export default function Hero({ dict }: { dict: Dictionary }) {
                         <p className="mt-3 max-w-xl font-mono text-sm leading-relaxed text-text-main/85">
                             {dict.hero.description}
                         </p>
-                        <button className="group relative mt-10 flex h-[60px] w-[260px] items-center justify-center overflow-hidden border-heavy bg-transparent rounded-sm transition-colors duration-300 hover:bg-text-heavy cursor-pointer">
+                        <button data-ga-event="cta_click" data-ga-cta-id="hero_project" className="group relative mt-10 flex h-[60px] w-[260px] items-center justify-center overflow-hidden border-heavy bg-transparent rounded-sm transition-colors duration-300 hover:bg-text-heavy cursor-pointer">
                             <span className="font-mono text-[14px] font-bold text-text-heavy transition-colors duration-300 group-hover:text-background-light uppercase">
                                 {dict.hero.cta}
                             </span>

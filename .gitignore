@@ -45,3 +45,11 @@ next-env.d.ts
 /data/categories.json
 /data/groups.json
 /public/uploads/*
+/reference/
+
+# Private photo workflow assets, local migration backups and runtime locks
+/data/photo-workflows/
+/data/backups/
+/data/product-codes.json
+/data/**/*.lock
+/data/**/*.tmp

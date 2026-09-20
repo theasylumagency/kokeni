@@ -17,9 +17,6 @@ import {
   toggleProductPublishedRecord,
 } from "@/lib/catalog/data";
 import {
-  REQUIRED_PHOTO_KINDS,
-} from "@/lib/catalog/photoProduct";
-import {
   createAdminSession,
   destroyAdminSession,
   isAdminConfigured,
@@ -175,30 +172,6 @@ export async function createProductAction(formData: FormData): Promise<void> {
   redirectWithStatus("product_created", "/admin/products");
 }
 
-export async function createPhotoProductAction(formData: FormData): Promise<void> {
-  await requireAdminAuth();
-
-  try {
-    const imagesJson = getRequiredTextValue(formData, "imagesJson");
-    assertRequiredPhotoSlots(imagesJson);
-
-    await createProductRecord({
-      categoryId: getRequiredTextValue(formData, "categoryId"),
-      nameKa: getRequiredTextValue(formData, "nameKa"),
-      shortDescriptionKa: getRequiredTextValue(formData, "nameKa"),
-      priceMode: "contact",
-      isPublished: false,
-      imagesJson,
-      originalImagesJson: getOptionalTextValue(formData, "originalImagesJson"),
-    });
-  } catch (error) {
-    handleActionError(error, "/admin/photo-generation");
-  }
-
-  revalidateCatalogPaths();
-  redirectWithStatus("photo_product_created", "/admin/photo-generation");
-}
-
 export async function updateProductAction(formData: FormData): Promise<void> {
   await requireAdminAuth();
 
@@ -238,45 +211,6 @@ export async function deleteProductAction(formData: FormData): Promise<void> {
 
   revalidateCatalogPaths();
   redirectWithStatus("product_deleted", "/admin/products");
-}
-
-export async function updateProductPhotosAction(
-  id: string,
-  imagesJson: string
-): Promise<void> {
-  await requireAdminAuth();
-
-  try {
-    const { getAdminCatalogSnapshot } = await import("@/lib/catalog/data");
-    const snapshot = await getAdminCatalogSnapshot();
-    const existingProduct = snapshot.products.find((p) => p.id === id);
-
-    if (!existingProduct) {
-      throw new CatalogMutationError("product_not_found", "პროდუქტი ვერ მოიძებნა.");
-    }
-
-    await updateProductRecord({
-      id: existingProduct.id,
-      categoryId: existingProduct.categoryId,
-      order: existingProduct.order,
-      nameKa: existingProduct.name.ka,
-      nameEn: existingProduct.name.en,
-      shortDescriptionKa: existingProduct.shortDescription.ka,
-      shortDescriptionEn: existingProduct.shortDescription.en,
-      longDescriptionKa: existingProduct.longDescription?.ka,
-      longDescriptionEn: existingProduct.longDescription?.en,
-      priceMode: existingProduct.price.mode,
-      priceAmount: existingProduct.price.amount,
-      isPublished: existingProduct.isPublished,
-      imagesJson: imagesJson,
-      // Original remaining intact because updateProductRecord uses existing references 
-      // if originalImagesJson is undefined.
-    });
-  } catch (error) {
-    handleActionError(error, "/admin/regeneration");
-  }
-
-  revalidateCatalogPaths();
 }
 
 export async function toggleProductPublishedAction(id: string, isPublished: boolean): Promise<void> {
@@ -376,44 +310,6 @@ function getOptionalDecimalValue(formData: FormData, key: string): number | unde
 
 function getPriceMode(formData: FormData): "contact" | "fixed" {
   return getTextValue(formData, "priceMode") === "fixed" ? "fixed" : "contact";
-}
-
-function assertRequiredPhotoSlots(imagesJson: string): void {
-  let parsedValue: unknown;
-
-  try {
-    parsedValue = JSON.parse(imagesJson);
-  } catch {
-    throw new CatalogMutationError("invalid_images", "ფოტოების სია არასწორია.");
-  }
-
-  if (!Array.isArray(parsedValue)) {
-    throw new CatalogMutationError("invalid_images", "ფოტოების სია არასწორია.");
-  }
-
-  const availableKinds = new Set(
-    parsedValue
-      .map((item) => {
-        if (!item || typeof item !== "object") {
-          return null;
-        }
-
-        const maybeKind = (item as { kind?: unknown }).kind;
-        return typeof maybeKind === "string" ? maybeKind : null;
-      })
-      .filter((kind): kind is string => Boolean(kind))
-  );
-
-  const hasAllRequiredPhotos = REQUIRED_PHOTO_KINDS.every((kind) =>
-    availableKinds.has(kind)
-  );
-
-  if (!hasAllRequiredPhotos) {
-    throw new CatalogMutationError(
-      "missing_required_photos",
-      "პროდუქტის შესაქმნელად სამივე სავალდებულო ფოტო უნდა აიტვირთოს."
-    );
-  }
 }
 
 function revalidateCatalogPaths(): void {

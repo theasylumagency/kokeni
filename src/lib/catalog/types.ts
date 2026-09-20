@@ -13,6 +13,7 @@ export type OptionalLocalizedText = {
 export type Group = {
   id: string;
   slug: string;
+  legacySlugs?: string[];
   order: number;
   name: LocalizedText;
   isActive: boolean;
@@ -24,6 +25,7 @@ export type Category = {
   id: string;
   groupId: string;
   slug: string;
+  legacySlugs?: string[];
   order: number;
   name: LocalizedText;
   isActive: boolean;
@@ -42,6 +44,20 @@ export type ProductImage = {
   src: string;
   order: number;
   kind?: ProductPhotoKind;
+  role?: "main" | "informative" | "detail" | "additional";
+  label?: string;
+  provenance?: {
+    workflowId: string;
+    outputId: string;
+    referenceIds: string[];
+    provider: string;
+    model: string;
+    generatedAt: string;
+    quality: string;
+    size: string;
+    attempt: number;
+    usage?: Record<string, unknown>;
+  };
 };
 
 export type ProductPrice =
@@ -59,6 +75,8 @@ export type ProductPrice =
 export type Product = {
   id: string;
   slug: string;
+  code?: string;
+  legacySlugs?: string[];
   categoryId: string;
   order: number;
   name: LocalizedText;

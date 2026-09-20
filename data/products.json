@@ -1,7 +1,7 @@
 [
   {
     "id": "d3e7779e-d695-4670-b3df-93209d525cd2",
-    "slug": "დიპლომის-ყდები-001",
+    "slug": "kkn-dc-001",
     "categoryId": "3a29a1af-983e-4ab2-ad53-a8c8bde46e6f",
     "order": 1,
     "name": {
@@ -35,11 +35,15 @@
     ],
     "isPublished": true,
     "createdAt": "2026-03-20T09:08:36.594Z",
-    "updatedAt": "2026-03-20T12:34:37.118Z"
+    "updatedAt": "2026-03-20T12:34:37.118Z",
+    "legacySlugs": [
+      "დიპლომის-ყდები-001"
+    ],
+    "code": "kkn-dc-001"
   },
   {
     "id": "c80a2f9e-da67-4faa-85a6-bc8ced4ffe05",
-    "slug": "დიპლომის-ყდები-002",
+    "slug": "kkn-dc-002",
     "categoryId": "3a29a1af-983e-4ab2-ad53-a8c8bde46e6f",
     "order": 2,
     "name": {
@@ -73,11 +77,15 @@
     ],
     "isPublished": true,
     "createdAt": "2026-03-20T09:49:07.341Z",
-    "updatedAt": "2026-03-20T12:38:32.465Z"
+    "updatedAt": "2026-03-20T12:38:32.465Z",
+    "legacySlugs": [
+      "დიპლომის-ყდები-002"
+    ],
+    "code": "kkn-dc-002"
   },
   {
     "id": "13d20a4d-1b1b-4299-9f43-7ff8910f8b6c",
-    "slug": "დიპლომის-ყდები-003",
+    "slug": "kkn-dc-003",
     "categoryId": "3a29a1af-983e-4ab2-ad53-a8c8bde46e6f",
     "order": 3,
     "name": {
@@ -111,11 +119,15 @@
     ],
     "isPublished": false,
     "createdAt": "2026-03-20T11:53:35.009Z",
-    "updatedAt": "2026-03-20T12:07:33.859Z"
+    "updatedAt": "2026-03-20T12:07:33.859Z",
+    "legacySlugs": [
+      "დიპლომის-ყდები-003"
+    ],
+    "code": "kkn-dc-003"
   },
   {
     "id": "56416c56-a721-4d9d-8597-5da29ab052e8",
-    "slug": "ოფიციალური-დოკუმენტის-ყდები-001",
+    "slug": "kkn-oc-001",
     "categoryId": "5878b95d-69ef-4d8c-812c-93dd41cca3b4",
     "order": 1,
     "name": {
@@ -149,11 +161,15 @@
     ],
     "isPublished": true,
     "createdAt": "2026-03-20T10:49:56.217Z",
-    "updatedAt": "2026-03-20T12:39:14.904Z"
+    "updatedAt": "2026-03-20T12:39:14.904Z",
+    "legacySlugs": [
+      "ოფიციალური-დოკუმენტის-ყდები-001"
+    ],
+    "code": "kkn-oc-001"
   },
   {
     "id": "d8d5f7b4-2104-46e7-aed5-594fc01d0106",
-    "slug": "ოფიციალური-დოკუმენტის-ყდები-002",
+    "slug": "kkn-oc-002",
     "categoryId": "5878b95d-69ef-4d8c-812c-93dd41cca3b4",
     "order": 2,
     "name": {
@@ -187,11 +203,15 @@
     ],
     "isPublished": true,
     "createdAt": "2026-03-20T11:30:56.424Z",
-    "updatedAt": "2026-03-20T12:34:57.398Z"
+    "updatedAt": "2026-03-20T12:34:57.398Z",
+    "legacySlugs": [
+      "ოფიციალური-დოკუმენტის-ყდები-002"
+    ],
+    "code": "kkn-oc-002"
   },
   {
     "id": "b75c7557-5bcb-4c7b-a6b0-04098fdcd85d",
-    "slug": "diary",
+    "slug": "kkn-dy-001",
     "categoryId": "e284f287-2846-4517-bc0d-9e9b3a878467",
     "order": 1,
     "name": {
@@ -218,6 +238,10 @@
     ],
     "isPublished": true,
     "createdAt": "2026-03-20T05:59:38.649Z",
-    "updatedAt": "2026-03-20T05:59:38.649Z"
+    "updatedAt": "2026-03-20T05:59:38.649Z",
+    "legacySlugs": [
+      "diary"
+    ],
+    "code": "kkn-dy-001"
   }
 ]

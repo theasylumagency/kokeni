@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { productPath } from "@/lib/catalog/urls";
+import type { Dictionary } from "@/utils/getDictionary";
 
 interface Category {
   id: string;
@@ -11,12 +13,13 @@ interface Category {
 }
 
 interface Product {
+  code?: string;
   id: string;
   slug: string;
   categoryId: string;
   name: { ka: string; en?: string };
   shortDescription?: { ka: string; en?: string };
-  images?: { src: string }[];
+  images?: { src: string; role?: string }[];
   order: number;
 }
 
@@ -24,7 +27,7 @@ interface GroupProductsContentProps {
   categories: Category[];
   products: Product[];
   lang: string;
-  dict: any;
+  dict: Dictionary;
   groupSlug: string;
 }
 
@@ -67,7 +70,7 @@ export default function GroupProductsContent({ categories, products, lang, dict,
         <aside className="w-full lg:w-64 flex-shrink-0">
           <div className="sticky top-32 flex flex-col gap-8">
             <h2 className="font-mono text-xs tracking-[0.2em] text-[#1a1b1c]/40 uppercase mb-2 border-b border-black/5 pb-4">
-              // INDEX
+              {"// INDEX"}
             </h2>
             <nav className="flex flex-row lg:flex-col gap-6 overflow-x-auto lg:overflow-visible hide-scrollbar pb-4 lg:pb-0">
               {categories.map((category) => {
@@ -125,13 +128,13 @@ export default function GroupProductsContent({ categories, products, lang, dict,
                 <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-8 lg:gap-12">
                   {categoryProducts.map(product => {
                     const productName = product.name[lang as 'ka' | 'en'] || product.name.ka;
-                    const firstImage = product.images?.[0]?.src;
+                    const firstImage = (product.images?.find(image => image.role === "main") || product.images?.[0])?.src;
                     const shortDesc = product.shortDescription?.[lang as 'ka' | 'en'] || product.shortDescription?.ka;
 
                     return (
                       <Link
                         key={product.id}
-                        href={`/${lang}/catalog/${groupSlug}/${category.slug}/${product.slug}`}
+                        href={productPath(lang, groupSlug, product)}
                         className="group flex flex-col gap-6"
                       >
                         {/* Image Container with Paper/Matte feel */}
@@ -150,7 +153,7 @@ export default function GroupProductsContent({ categories, products, lang, dict,
 
                           {/* Minimalist Overlay Label */}
                           <div className="absolute top-4 left-4 font-mono text-[10px] text-[#1a1b1c]/40 uppercase tracking-widest">
-                            REF: {product.slug.substring(0, 8)}
+                            REF: {(product.code || product.slug).toUpperCase()}
                           </div>
 
                           <div className="absolute bottom-4 right-4 w-10 h-10 rounded-full border border-black/10 flex items-center justify-center group-hover:border-primary group-hover:bg-primary/5 transition-all duration-500">

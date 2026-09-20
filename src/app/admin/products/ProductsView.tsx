@@ -6,6 +6,7 @@ import { createProductAction, updateProductAction, deleteProductAction, togglePr
 import SlideOver from "@/components/admin/ui/SlideOver";
 import AdvancedImageUploader from "@/components/admin/AdvancedImageUploader";
 import Image from "next/image";
+import { productPath } from "@/lib/catalog/urls";
 
 type ProductsViewProps = {
   groups: Group[];
@@ -100,7 +101,7 @@ export default function ProductsView({ groups, categories, products, notice }: P
                           </div>
                         )}
                       </td>
-                      <td className="px-6 py-4 text-sm font-medium text-gray-900 max-w-[200px] truncate">{product.name.ka}</td>
+                      <td className="px-6 py-4 text-sm font-medium text-gray-900 max-w-[200px] truncate">{product.name.ka}<span className="mt-1 block font-mono text-xs text-gray-500">{product.code?.toUpperCase()}</span></td>
                       <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">{category?.name.ka || "Unknown"}</td>
                       <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
                         {product.price.mode === "contact" ? "Contact Us" : `${product.price.amount} ₾`}
@@ -145,6 +146,11 @@ export default function ProductsView({ groups, categories, products, notice }: P
       >
         <form action={editingProduct ? updateProductAction : createProductAction} className="space-y-8 pb-10">
           {editingProduct && <input type="hidden" name="id" value={editingProduct.id} />}
+          {editingProduct && (() => {
+            const category = categories.find(category => category.id === editingProduct.categoryId);
+            const group = groups.find(group => group.id === category?.groupId);
+            return group ? <div className="rounded-lg bg-gray-50 p-4 text-sm"><p className="font-mono font-semibold">{editingProduct.code?.toUpperCase()}</p><p className="mt-1 break-all text-gray-500">{productPath("ka", group.slug, editingProduct)}</p><p className="mt-2 text-xs text-gray-500">სახელის შეცვლა პროდუქტის კოდსა და მისამართს არ ცვლის.</p></div> : null;
+          })()}
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="md:col-span-2">
