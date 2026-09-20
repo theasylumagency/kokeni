@@ -1,0 +1,90 @@
+{
+  "nav": {
+    "switch_lang": "KA",
+    "shop": "CATALOG",
+    "about": "ABOUT US",
+    "contact": "CONTACT",
+    "profile": "PROFILE",
+    "cart": "CART"
+  },
+  "hero": {
+    "title1": "KOKENI.GE /",
+    "title2": "PREMIUM",
+    "title3": "MANUFACTURING",
+    "subtitle": "DESIGN, PROTOTYPE, MANUFACTURE.",
+    "description": "European quality printing and stationery manufacturing — from concept to final product.",
+    "cta": "INITIALIZE PROJECT ↗"
+  },
+  "capacity": {
+    "title1": "01 / HIGH-VOLUME MANUFACTURE",
+    "desc1": "Engineered for scale. Utilizing advanced European offset, digital, and thermal binding technology, our production floor is built to execute massive institutional mandates with uncompromising precision. From university diplomas to national government contracts, we deliver volume without sacrificing a single micron of quality.",
+    "title2": "02 / THE ATELIER",
+    "desc2": "Our exclusive line of handmade products will satisfy the most refined tastes. Even the most ordinary notebook retains its premium look for years to come. Our products are created by hand using the highest quality materials and technologies."
+  },
+  "output": {
+    "inst_title": "01 / INSTITUTIONAL & ACADEMIC",
+    "inst_subtitle": "High-Volume Precision.",
+    "inst_desc": "Engineered for national scale and rigorous archiving. From proprietary folders for the Ministry of Justice to official diploma covers for Tbilisi State University, we execute massive state mandates with uncompromising structural integrity.",
+    "hosp_title": "02 / HOSPITALITY & COMMERCIAL",
+    "hosp_subtitle": "Durable Luxury.",
+    "hosp_desc": "Built for the rigorous demands of high-end gastronomy and premium commercial spaces. We manufacture tactile menus and check presenters that seamlessly match the elite physical aesthetic of a restaurant, maintaining their form under heavy daily volume.",
+    "bespoke_title": "03 / DIVERSITY OF POSSIBILITIES",
+    "bespoke_subtitle": "Perfect Individuality.",
+    "bespoke_desc": "Flexible choice of materials and technology. We have developed procedures to meet the most unusual requirements."
+  },
+  "blueprint": {
+    "title": "APPENDIX A: TOTAL MANUFACTURING CAPABILITIES",
+    "subtitle": "Select any classification to view the technical specifications and shop inventory.",
+    "cat1": "01. ACADEMIC & INSTITUTIONAL",
+    "item1_1": "Diploma Covers",
+    "item1_2": "Official Certificates",
+    "item1_3": "Archival Folders",
+    "cat2": "02. HOSPITALITY & GASTRONOMY",
+    "item2_1": "Premium Menus (Leather & PVC)",
+    "item2_2": "Check Presenters",
+    "item2_3": "Waiter Pads & Ordering Blocks",
+    "cat3": "03. CORPORATE STATIONERY",
+    "item3_1": "Bespoke Notebooks",
+    "item3_2": "Branded Journals",
+    "item3_3": "Presentation Folders",
+    "view": "[ View ]"
+  },
+  "catalog": {
+    "title": "THE CATALOG",
+    "subtitle": "DIRECTORY OF MANUFACTURED ASSETS",
+    "index": "INDEX #",
+    "view_product": "VIEW_MANIFEST",
+    "price_contact": "PRICE: CONTACT_US",
+    "price_value": "PRICE:",
+    "empty": "NO_ASSETS_FOUND",
+    "academic_upper": "MODERN SOLIDITY",
+    "hospitality_upper": "PREMIUM SEGMENT",
+    "corporate_upper": "PERFECT INDIVIDUALITY",
+    "academic": "ACADEMIC & INSTITUTIONAL",
+    "hospitality": "HOSPITALITY & GASTRONOMY",
+    "corporate": "DIVERSITY OF POSSIBILITIES",
+    "academic_desc": "Bound with the gravity of knowledge. Diploma covers and archival notebooks for the modern intellect.",
+    "hospitality_desc": "The weight of fine dining. Bespoke menu suites and weighted guest accessories for the world's elite tables.",
+    "corporate_desc": "Where imagination meets material. Custom solutions crafted from the world's most exclusive resources.",
+    "view_all": "VIEW ALL",
+    "featured_products": "FEATURED PLATFORMS",
+    "explore_categories": "EXPLORE ASSETS",
+    "back_to_hub": "BACK TO HUB"
+  },
+  "terminal": {
+    "title": "COMMENCE PRODUCTION.",
+    "subtitle": "Direct all manufacturing inquiries, bespoke commissions, and state tender requests to our central office.",
+    "col1_title": "0160 / TBILISI",
+    "col1_lines": [
+      "Shartava St. 35/37",
+      "Georgia.",
+      "(Client meetings and physical material reviews by appointment)."
+    ],
+    "col2_title": "DIRECT COMMS",
+    "col2_t": "T: +995 32 238 65 89",
+    "col2_m": "M: +995 599 51 03 38",
+    "col2_e": "E: manufacturing@kokeni.ge",
+    "col3_title": "EST. 1989",
+    "col3_desc": "A quarter-century of uncompromising structural integrity."
+  }
+}

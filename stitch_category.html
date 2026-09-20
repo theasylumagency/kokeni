@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+
+<html class="light" lang="ka"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;900&amp;family=JetBrains+Mono:wght@400;700&amp;family=Space+Grotesk:wght@300;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-container-low": "#F5F2ED",
+              "on-primary": "#ffffff",
+              "on-primary-container": "#ffffff",
+              "on-surface": "#1A1A1A",
+              "primary-fixed": "#dce1ff",
+              "primary-fixed-dim": "#b5c4ff",
+              "secondary-fixed": "#dce1ff",
+              "surface-container-high": "#e0ddd8",
+              "on-background": "#1A1A1A",
+              "surface": "#F5F2ED",
+              "inverse-surface": "#1A1A1A",
+              "inverse-on-surface": "#F5F2ED",
+              "secondary": "#1A1A1A",
+              "secondary-fixed-dim": "#b5c4ff",
+              "on-tertiary-fixed": "#3a0b00",
+              "background": "#F5F2ED",
+              "on-tertiary": "#ffffff",
+              "surface-bright": "#ffffff",
+              "on-secondary-fixed-variant": "#2d4384",
+              "outline": "#1A1A1A",
+              "surface-dim": "#e5e2dd",
+              "outline-variant": "#1A1A1A33",
+              "surface-tint": "#0d59f2",
+              "surface-container-highest": "#d6d3ce",
+              "on-error": "#ffffff",
+              "surface-container": "#ebe8e3",
+              "on-error-container": "#93000a",
+              "tertiary-fixed-dim": "#ffb59e",
+              "on-secondary": "#ffffff",
+              "on-primary-fixed": "#00164e",
+              "tertiary-container": "#bd3800",
+              "primary-container": "#0d59f2",
+              "surface-variant": "#e1e1ee",
+              "secondary-container": "#333333",
+              "on-tertiary-container": "#ffe1d8",
+              "error-container": "#ffdad6",
+              "surface-container-lowest": "#ffffff",
+              "primary": "#0d59f2",
+              "inverse-primary": "#b5c4ff",
+              "on-primary-fixed-variant": "#003cad",
+              "on-surface-variant": "#434655",
+              "tertiary-fixed": "#ffdbd0",
+              "on-secondary-container": "#ffffff",
+              "tertiary": "#932a00",
+              "on-secondary-fixed": "#00164e",
+              "on-tertiary-fixed-variant": "#842500",
+              "error": "#ba1a1a"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Space Grotesk"],
+              "mono": ["JetBrains Mono"]
+            },
+            borderRadius: {"DEFAULT": "0px", "lg": "0px", "xl": "0px", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .blueprint-bg {
+            background-image: radial-gradient(#1A1A1A22 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary selection:text-white">
+<div class="flex h-screen overflow-hidden">
+<!-- SideNavBar (Shared Component) -->
+<aside class="hidden md:flex flex-col h-full border-r-2 border-black bg-[#F5F2ED] w-64 shrink-0 overflow-y-auto no-scrollbar">
+<div class="p-6 border-b-2 border-black">
+<div class="text-xl font-black tracking-tighter text-black uppercase">STATIONERY MFG.</div>
+<div class="font-mono uppercase tracking-widest text-[10px] mt-1 opacity-60">ADMIN_v1.0</div>
+</div>
+<nav class="flex-1 px-4 py-8 space-y-2">
+<a class="flex items-center gap-3 px-4 py-3 text-black opacity-70 hover:opacity-100 hover:bg-[#0d59f2] hover:text-white transition-colors duration-75 font-mono uppercase tracking-widest text-[11px]" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>DASHBOARD</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-black text-white font-bold border-y border-black translate-x-1 transition-all font-mono uppercase tracking-widest text-[11px]" href="#">
+<span class="material-symbols-outlined" data-icon="category">category</span>
+<span>CATEGORIES</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-black opacity-70 hover:opacity-100 hover:bg-[#0d59f2] hover:text-white transition-colors duration-75 font-mono uppercase tracking-widest text-[11px]" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span>PRODUCTS</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-black opacity-70 hover:opacity-100 hover:bg-[#0d59f2] hover:text-white transition-colors duration-75 font-mono uppercase tracking-widest text-[11px]" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>SETTINGS</span>
+</a>
+</nav>
+<div class="p-4 mt-auto border-t-2 border-black">
+<button class="w-full bg-primary text-white font-black py-4 border-2 border-black hover:bg-black transition-all active:scale-95 font-mono uppercase tracking-[0.2em] text-[11px]">
+                    NEW_ORDER
+                </button>
+<div class="mt-6">
+<a class="flex items-center gap-3 px-4 py-2 text-black opacity-70 hover:opacity-100 font-mono uppercase tracking-widest text-[10px]" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span>LOGOUT</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col min-w-0 overflow-hidden relative blueprint-bg">
+<!-- TopAppBar (Shared Component) -->
+<header class="flex justify-between items-center w-full px-6 py-4 bg-white border-b-2 border-black shrink-0 z-10">
+<div class="flex items-center gap-8">
+<div class="font-black text-2xl tracking-tighter border-2 border-black px-2 uppercase">SYSTEM_MANIFEST</div>
+<nav class="hidden lg:flex gap-6">
+<a class="font-mono uppercase text-[11px] tracking-[0.2em] text-black hover:bg-black hover:text-white px-2" href="#">REPORTS</a>
+<a class="font-mono uppercase text-[11px] tracking-[0.2em] text-black hover:bg-black hover:text-white px-2" href="#">LOGS</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative hidden sm:block">
+<input class="bg-surface border-2 border-black px-4 py-1 text-[10px] font-mono focus:ring-0 focus:border-primary w-48" placeholder="QUERY_ID..." type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-black cursor-pointer hover:scale-95 transition-all" data-icon="notifications">notifications</span>
+<div class="w-8 h-8 bg-black flex items-center justify-center text-white cursor-pointer active:scale-95">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Workspace -->
+<div class="flex-1 overflow-y-auto p-6 lg:p-12 space-y-12 no-scrollbar">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div class="space-y-2">
+<div class="font-mono text-[10px] tracking-[0.5em] text-primary font-bold">STRUCTURE_MANAGEMENT // v1.0</div>
+<h1 class="font-headline font-black text-6xl uppercase tracking-tighter leading-none">კატეგორიები<br/><span class="text-outline-variant">CATEGORIES</span></h1>
+</div>
+<div class="flex gap-4">
+<button class="bg-white border-2 border-black px-6 py-3 font-mono text-[11px] font-bold tracking-widest hover:bg-black hover:text-white transition-all flex items-center gap-2">
+                            [ + ] NEW_GROUP / ახალი ჯგუფი
+                        </button>
+</div>
+</div>
+<!-- Bento Management Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-0 border-2 border-black bg-black">
+<!-- Form Panel (Asymmetric) -->
+<div class="lg:col-span-4 bg-surface-bright p-8 border-r-2 border-black">
+<div class="sticky top-0 space-y-8">
+<div>
+<h3 class="font-mono text-[12px] font-black border-b border-black pb-2 mb-6 tracking-tighter">DATA_ENTRY / მონაცემთა შეყვანა</h3>
+<form class="space-y-6">
+<div class="space-y-1">
+<label class="font-mono text-[9px] uppercase tracking-widest opacity-60 block">Hierarchy / იერარქია</label>
+<select class="w-full border-2 border-black bg-surface p-3 font-mono text-[11px] focus:ring-0 focus:border-primary uppercase">
+<option>Root Level / ძირითადი</option>
+<option>Paper &amp; Pads / ქაღალდი</option>
+<option>Writing / საწერი</option>
+</select>
+</div>
+<div class="space-y-1">
+<label class="font-mono text-[9px] uppercase tracking-widest opacity-60 block">Label GE / დასახელება ქართულად</label>
+<input class="w-full border-2 border-black bg-surface p-3 font-body text-[14px] focus:ring-0 focus:border-primary" placeholder="მაგ: ბლოკნოტები" type="text"/>
+</div>
+<div class="space-y-1">
+<label class="font-mono text-[9px] uppercase tracking-widest opacity-60 block">Label EN / დასახელება ინგლისურად</label>
+<input class="w-full border-2 border-black bg-surface p-3 font-body text-[14px] focus:ring-0 focus:border-primary" placeholder="Ex: Notebooks" type="text"/>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="space-y-1">
+<label class="font-mono text-[9px] uppercase tracking-widest opacity-60 block">Index / რიგითობა</label>
+<input class="w-full border-2 border-black bg-surface p-3 font-mono text-[11px] focus:ring-0 focus:border-primary" type="number" value="0"/>
+</div>
+<div class="space-y-1">
+<label class="font-mono text-[9px] uppercase tracking-widest opacity-60 block">Status / სტატუსი</label>
+<div class="flex items-center h-full gap-2">
+<input class="w-5 h-5 border-2 border-black text-primary focus:ring-0" type="checkbox"/>
+<span class="font-mono text-[10px] uppercase">VISIBLE</span>
+</div>
+</div>
+</div>
+<button class="w-full bg-primary text-white py-4 font-black font-mono text-[12px] tracking-[0.2em] border-2 border-black hover:bg-black transition-all">
+                                        COMMIT_ADD / დამატება
+                                    </button>
+</form>
+</div>
+<div class="p-4 border-2 border-dashed border-black/20 bg-surface">
+<p class="font-mono text-[9px] uppercase leading-relaxed opacity-50">
+                                    TECHNICAL_NOTE: Each category group can hold up to 256 product references. Order changes propagate to the store storefront in real-time.
+                                </p>
+</div>
+</div>
+</div>
+<!-- Category List Panel -->
+<div class="lg:col-span-8 bg-surface p-0 overflow-x-auto">
+<table class="w-full border-collapse">
+<thead>
+<tr class="bg-surface-container-high border-b-2 border-black">
+<th class="p-4 text-left font-mono text-[10px] uppercase tracking-widest border-r border-black/10">ID</th>
+<th class="p-4 text-left font-mono text-[10px] uppercase tracking-widest border-r border-black/10">Hierarchy Label / იერარქია</th>
+<th class="p-4 text-left font-mono text-[10px] uppercase tracking-widest border-r border-black/10">Items</th>
+<th class="p-4 text-center font-mono text-[10px] uppercase tracking-widest border-r border-black/10">Order</th>
+<th class="p-4 text-right font-mono text-[10px] uppercase tracking-widest">Controls</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-black/10">
+<!-- Group 1 -->
+<tr class="bg-surface-container-highest/30">
+<td class="p-4 font-mono text-[11px] border-r border-black/10">001</td>
+<td class="p-4 border-r border-black/10">
+<div class="flex flex-col">
+<span class="font-bold text-sm">PAPER &amp; PADS</span>
+<span class="text-xs opacity-60">ქაღალდი და რვეულები</span>
+</div>
+</td>
+<td class="p-4 font-mono text-[11px] border-r border-black/10">12 CATS</td>
+<td class="p-4 text-center border-r border-black/10">
+<input class="w-10 text-center border border-black/20 bg-transparent font-mono text-[11px] p-1" type="text" value="01"/>
+</td>
+<td class="p-4 text-right space-x-2">
+<button class="font-mono text-[10px] underline hover:text-primary">EDIT</button>
+<button class="font-mono text-[10px] underline text-error">RMV</button>
+</td>
+</tr>
+<!-- Nested Category 1.1 -->
+<tr>
+<td class="p-4 font-mono text-[11px] border-r border-black/10 opacity-30">001-01</td>
+<td class="p-4 border-r border-black/10 pl-12">
+<div class="flex items-center gap-2">
+<div class="w-4 h-[1px] bg-black/20"></div>
+<div class="flex flex-col">
+<span class="font-medium text-sm">Sketchbooks</span>
+<span class="text-xs opacity-60 italic">ესკიზების რვეული</span>
+</div>
+</div>
+</td>
+<td class="p-4 font-mono text-[11px] border-r border-black/10">42 PROD</td>
+<td class="p-4 text-center border-r border-black/10">
+<input class="w-10 text-center border border-black/20 bg-transparent font-mono text-[11px] p-1" type="text" value="01"/>
+</td>
+<td class="p-4 text-right space-x-2">
+<button class="font-mono text-[10px] underline hover:text-primary">EDIT</button>
+<button class="font-mono text-[10px] underline text-error">RMV</button>
+</td>
+</tr>
+<!-- Nested Category 1.2 -->
+<tr>
+<td class="p-4 font-mono text-[11px] border-r border-black/10 opacity-30">001-02</td>
+<td class="p-4 border-r border-black/10 pl-12">
+<div class="flex items-center gap-2">
+<div class="w-4 h-[1px] bg-black/20"></div>
+<div class="flex flex-col">
+<span class="font-medium text-sm">Envelopes</span>
+<span class="text-xs opacity-60 italic">კონვერტები</span>
+</div>
+</div>
+</td>
+<td class="p-4 font-mono text-[11px] border-r border-black/10">18 PROD</td>
+<td class="p-4 text-center border-r border-black/10">
+<input class="w-10 text-center border border-black/20 bg-transparent font-mono text-[11px] p-1" type="text" value="02"/>
+</td>
+<td class="p-4 text-right space-x-2">
+<button class="font-mono text-[10px] underline hover:text-primary">EDIT</button>
+<button class="font-mono text-[10px] underline text-error">RMV</button>
+</td>
+</tr>
+<!-- Group 2 -->
+<tr class="bg-surface-container-highest/30">
+<td class="p-4 font-mono text-[11px] border-r border-black/10">002</td>
+<td class="p-4 border-r border-black/10">
+<div class="flex flex-col">
+<span class="font-bold text-sm">WRITING TOOLS</span>
+<span class="text-xs opacity-60">საწერი საშუალებები</span>
+</div>
+</td>
+<td class="p-4 font-mono text-[11px] border-r border-black/10">08 CATS</td>
+<td class="p-4 text-center border-r border-black/10">
+<input class="w-10 text-center border border-black/20 bg-transparent font-mono text-[11px] p-1" type="text" value="02"/>
+</td>
+<td class="p-4 text-right space-x-2">
+<button class="font-mono text-[10px] underline hover:text-primary">EDIT</button>
+<button class="font-mono text-[10px] underline text-error">RMV</button>
+</td>
+</tr>
+<!-- Nested Category 2.1 -->
+<tr>
+<td class="p-4 font-mono text-[11px] border-r border-black/10 opacity-30">002-01</td>
+<td class="p-4 border-r border-black/10 pl-12">
+<div class="flex items-center gap-2">
+<div class="w-4 h-[1px] bg-black/20"></div>
+<div class="flex flex-col">
+<span class="font-medium text-sm">Fountain Pens</span>
+<span class="text-xs opacity-60 italic">პასტები</span>
+</div>
+</div>
+</td>
+<td class="p-4 font-mono text-[11px] border-r border-black/10">24 PROD</td>
+<td class="p-4 text-center border-r border-black/10">
+<input class="w-10 text-center border border-black/20 bg-transparent font-mono text-[11px] p-1" type="text" value="01"/>
+</td>
+<td class="p-4 text-right space-x-2">
+<button class="font-mono text-[10px] underline hover:text-primary">EDIT</button>
+<button class="font-mono text-[10px] underline text-error">RMV</button>
+</td>
+</tr>
+</tbody>
+</table>
+<!-- List Footer -->
+<div class="p-6 border-t-2 border-black flex justify-between items-center bg-white">
+<span class="font-mono text-[10px] uppercase opacity-50">Showing 5 of 128 items</span>
+<div class="flex gap-2">
+<button class="border border-black px-4 py-1 font-mono text-[10px] hover:bg-black hover:text-white transition-all">PREV</button>
+<button class="border border-black px-4 py-1 font-mono text-[10px] bg-black text-white">01</button>
+<button class="border border-black px-4 py-1 font-mono text-[10px] hover:bg-black hover:text-white transition-all">02</button>
+<button class="border border-black px-4 py-1 font-mono text-[10px] hover:bg-black hover:text-white transition-all">NEXT</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Auxiliary Data Row -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="border-2 border-black p-6 bg-white space-y-4">
+<div class="flex justify-between items-start">
+<h4 class="font-mono font-bold text-[11px] tracking-widest uppercase">SYST_HEALTH</h4>
+<span class="material-symbols-outlined text-primary text-sm" data-icon="terminal">terminal</span>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between font-mono text-[10px]">
+<span class="opacity-50">API_LATENCY</span>
+<span>24ms</span>
+</div>
+<div class="w-full bg-surface h-1">
+<div class="bg-primary w-2/3 h-full"></div>
+</div>
+</div>
+</div>
+<div class="border-2 border-black p-6 bg-white space-y-4">
+<div class="flex justify-between items-start">
+<h4 class="font-mono font-bold text-[11px] tracking-widest uppercase">CAT_DENSITY</h4>
+<span class="material-symbols-outlined text-black text-sm" data-icon="pie_chart">pie_chart</span>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between font-mono text-[10px]">
+<span class="opacity-50">TOP_PERF</span>
+<span>WRITING</span>
+</div>
+<div class="w-full bg-surface h-1">
+<div class="bg-black w-[88%] h-full"></div>
+</div>
+</div>
+</div>
+<div class="border-2 border-black p-6 bg-white space-y-4">
+<div class="flex justify-between items-start">
+<h4 class="font-mono font-bold text-[11px] tracking-widest uppercase">USER_ACTIVITY</h4>
+<span class="material-symbols-outlined text-black text-sm" data-icon="history">history</span>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between font-mono text-[10px]">
+<span class="opacity-50">LAST_MOD</span>
+<span>02:14:55</span>
+</div>
+<div class="w-full bg-surface h-1">
+<div class="bg-black w-[40%] h-full"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

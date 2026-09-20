@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Terminal - KOKENI.GE</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&amp;family=Space+Grotesk:wght@400;700;900&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3089e8",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#111921",
+                        "blueprint-blue": "#1F456E", // Added from PRD accent
+                        "pitch-black": "#0A0A0A",
+                        "vellum": "#F5F2EC",
+                        "compressed-vellum": "#EBE7DF",
+                        "graphite": "#D1CEC7",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "mono": ["JetBrains Mono", "monospace"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "sm": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    backgroundImage: {
+                        'grid-pattern': `
+                            linear-gradient(to right, #D1CEC7 1px, transparent 1px),
+                            linear-gradient(to bottom, #D1CEC7 1px, transparent 1px)
+                        `
+                    },
+                    backgroundSize: {
+                        'grid': '40px 40px'
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        /* Base styles to enforce rigid brutalist rules where Tailwind config isn't enough */
+        body {
+            /* Forced vellum background with grid */
+            background-color: #F5F2EC;
+            background-image: var(--tw-gradient-from), var(--tw-gradient-to); /* Handled by tailwind classes usually, but explicit here for safety */
+        }
+        
+        .bg-grid {
+            background-image: 
+                linear-gradient(to right, #D1CEC7 1px, transparent 1px),
+                linear-gradient(to bottom, #D1CEC7 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        /* Specific brutalist overriding of the theme's border radius for this specific raw design */
+        .brutalist-strict {
+            border-radius: 0 !important;
+        }
+        
+        /* Email copy animation state (CSS only approach as JS is forbidden) 
+           Note: Actual copy functionality requires JS, simulating the visual state via focus/active */
+        .copy-trigger:active + .copy-feedback {
+            opacity: 1;
+            transform: translateY(0);
+            transition: none;
+        }
+        .copy-feedback {
+            opacity: 0;
+            transform: translateY(5px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-vellum text-pitch-black font-display min-h-screen flex flex-col justify-end relative bg-grid overflow-x-hidden brutalist-strict">
+<!-- Registration Marks (Decorative) -->
+<div class="fixed top-4 left-4 font-mono text-xs text-graphite flex items-center gap-2 z-0 pointer-events-none">
+<span class="material-symbols-outlined text-[16px]">add</span>
+<span>X:001 Y:001</span>
+</div>
+<div class="fixed bottom-4 right-4 font-mono text-xs text-graphite flex items-center gap-2 z-0 pointer-events-none">
+<span>W:100vw H:100vh</span>
+<span class="material-symbols-outlined text-[16px]">add</span>
+</div>
+<!-- Main Terminal Container -->
+<div class="relative z-10 w-full max-w-[1440px] mx-auto px-8 md:px-16 pt-32 pb-16 flex flex-col justify-end min-h-[614px]">
+<!-- Heavy 8px Line -->
+<div class="w-full h-2 bg-pitch-black mb-12"></div>
+<!-- Massive CTA -->
+<div class="mb-24">
+<h2 class="text-[64px] md:text-[96px] font-black leading-[0.9] tracking-[-0.04em] uppercase text-pitch-black max-w-4xl">
+                Commence<br/>Production.
+            </h2>
+</div>
+<!-- 3-Column Data Grid Footer (Bottom 20vh conceptual area) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 border-t border-graphite pt-8 font-mono text-sm">
+<!-- Left: Location -->
+<div class="flex flex-col gap-4">
+<div class="text-graphite text-xs uppercase tracking-widest mb-2">Location_Data</div>
+<div class="flex flex-col">
+<span class="text-pitch-black font-bold">41.7151° N, 44.8271° E</span>
+<span class="text-pitch-black mt-1">Industrial Zone 4</span>
+<span class="text-pitch-black">Tbilisi, Georgia</span>
+</div>
+</div>
+<!-- Center: Legal / Compliance -->
+<div class="flex flex-col gap-4 md:border-l md:border-graphite md:pl-8">
+<div class="text-graphite text-xs uppercase tracking-widest mb-2">Compliance_Manifest</div>
+<div class="flex flex-col gap-2">
+<div class="flex justify-between max-w-[200px] border-b border-graphite border-dashed pb-1">
+<span class="text-pitch-black opacity-70">VAT_ID:</span>
+<span class="text-pitch-black font-bold">GE-4892100</span>
+</div>
+<div class="flex justify-between max-w-[200px] border-b border-graphite border-dashed pb-1">
+<span class="text-pitch-black opacity-70">ISO_9001:</span>
+<span class="text-pitch-black font-bold">CERT-A7</span>
+</div>
+<div class="flex justify-between max-w-[200px] border-b border-graphite border-dashed pb-1">
+<span class="text-pitch-black opacity-70">ISO_14001:</span>
+<span class="text-pitch-black font-bold">CERT-E3</span>
+</div>
+</div>
+</div>
+<!-- Right: Comms / Links -->
+<div class="flex flex-col gap-4 md:border-l md:border-graphite md:pl-8">
+<div class="text-graphite text-xs uppercase tracking-widest mb-2">Comms_Uplink</div>
+<div class="flex flex-col gap-3 items-start relative">
+<!-- Email Action (CSS simulated interaction) -->
+<div class="relative group">
+<a class="copy-trigger inline-flex items-center gap-2 text-primary font-bold hover:bg-pitch-black hover:text-vellum px-2 py-1 transition-colors border border-transparent hover:border-pitch-black -ml-2" href="#transmit">
+<span class="material-symbols-outlined text-[18px]">mail</span>
+                            [TRANSMIT_EMAIL]
+                        </a>
+<!-- Tooltip/Feedback -->
+<div class="copy-feedback absolute left-full ml-4 top-1/2 -translate-y-1/2 whitespace-nowrap text-xs bg-primary text-white px-2 py-1 pointer-events-none rounded-sm font-bold">
+                            COPIED TO BUFFER
+                        </div>
+</div>
+<!-- Voice Link -->
+<a class="inline-flex items-center gap-2 text-pitch-black font-bold hover:bg-pitch-black hover:text-vellum px-2 py-1 transition-colors border border-transparent hover:border-pitch-black -ml-2" href="#voice">
+<span class="material-symbols-outlined text-[18px]">call</span>
+                        [VOICE_LINK]
+                    </a>
+<!-- Secured Protocol -->
+<div class="mt-4 flex items-center gap-2 text-xs text-graphite">
+<span class="material-symbols-outlined text-[14px]">lock</span>
+                        END-TO-END ENCRYPTED
+                    </div>
+</div>
+</div>
+</div>
+</div>
+</body></html>

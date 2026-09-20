@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>STATIONERY MFG. | PRODUCT_MANAGEMENT</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;family=Space+Grotesk:wght@300;400;500;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-container-low": "#F5F2ED",
+                        "on-primary": "#ffffff",
+                        "on-primary-container": "#ffffff",
+                        "on-surface": "#1A1A1A",
+                        "primary-fixed": "#dce1ff",
+                        "primary-fixed-dim": "#b5c4ff",
+                        "secondary-fixed": "#dce1ff",
+                        "surface-container-high": "#e0ddd8",
+                        "on-background": "#1A1A1A",
+                        "surface": "#F5F2ED",
+                        "inverse-surface": "#1A1A1A",
+                        "inverse-on-surface": "#F5F2ED",
+                        "secondary": "#1A1A1A",
+                        "secondary-fixed-dim": "#b5c4ff",
+                        "on-tertiary-fixed": "#3a0b00",
+                        "background": "#F5F2ED",
+                        "on-tertiary": "#ffffff",
+                        "surface-bright": "#ffffff",
+                        "on-secondary-fixed-variant": "#2d4384",
+                        "outline": "#1A1A1A",
+                        "surface-dim": "#e5e2dd",
+                        "outline-variant": "#1A1A1A33",
+                        "surface-tint": "#0d59f2",
+                        "surface-container-highest": "#d6d3ce",
+                        "on-error": "#ffffff",
+                        "surface-container": "#ebe8e3",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed-dim": "#ffb59e",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed": "#00164e",
+                        "tertiary-container": "#bd3800",
+                        "primary-container": "#0d59f2",
+                        "surface-variant": "#e1e1ee",
+                        "secondary-container": "#333333",
+                        "on-tertiary-container": "#ffe1d8",
+                        "error-container": "#ffdad6",
+                        "surface-container-lowest": "#ffffff",
+                        "primary": "#0d59f2",
+                        "inverse-primary": "#b5c4ff",
+                        "on-primary-fixed-variant": "#003cad",
+                        "on-surface-variant": "#434655",
+                        "tertiary-fixed": "#ffdbd0",
+                        "on-secondary-container": "#ffffff",
+                        "tertiary": "#932a00",
+                        "on-secondary-fixed": "#00164e",
+                        "on-tertiary-fixed-variant": "#842500",
+                        "error": "#ba1a1a"
+                    },
+                    fontFamily: {
+                        "headline": ["Inter", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                        "label": ["Space Grotesk", "monospace"],
+                        "mono": ["JetBrains Mono", "monospace"]
+                    },
+                    borderRadius: {"DEFAULT": "0px", "lg": "0px", "xl": "0px", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body { background-color: #F5F2ED; font-family: 'Inter', sans-serif; }
+        .engineering-grid { background-image: radial-gradient(#1A1A1A 0.5px, transparent 0.5px); background-size: 24px 24px; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        input[type="checkbox"]:checked { background-color: #0d59f2; border-color: #0d59f2; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen flex overflow-hidden">
+<!-- SideNavBar Anchor -->
+<aside class="flex flex-col h-full border-r-2 border-black bg-[#F5F2ED] h-screen w-64 hidden md:flex shrink-0">
+<div class="p-6 border-b-2 border-black">
+<h1 class="text-xl font-black tracking-tighter text-black uppercase">STATIONERY MFG.</h1>
+<p class="font-mono uppercase tracking-widest text-[10px] md:text-[11px] mt-1 opacity-60">ADMIN_v1.0</p>
+</div>
+<div class="p-4 flex-1 space-y-2">
+<div class="font-mono uppercase tracking-widest text-[10px] mb-4 opacity-40">SYSTEM_NAV</div>
+<a class="flex items-center gap-3 px-4 py-3 text-black opacity-70 hover:opacity-100 hover:bg-[#0d59f2] hover:text-white transition-colors duration-75 font-mono uppercase tracking-widest text-[11px]" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>DASHBOARD</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-black opacity-70 hover:opacity-100 hover:bg-[#0d59f2] hover:text-white transition-colors duration-75 font-mono uppercase tracking-widest text-[11px]" href="#">
+<span class="material-symbols-outlined" data-icon="category">category</span>
+<span>CATEGORIES</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-black text-white font-bold border-y border-black translate-x-1 transition-all font-mono uppercase tracking-widest text-[11px]" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span>PRODUCTS</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-black opacity-70 hover:opacity-100 hover:bg-[#0d59f2] hover:text-white transition-colors duration-75 font-mono uppercase tracking-widest text-[11px]" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>SETTINGS</span>
+</a>
+</div>
+<div class="p-4 border-t-2 border-black">
+<button class="w-full bg-primary text-white font-mono uppercase tracking-widest text-[11px] py-4 border-2 border-black hover:bg-black transition-colors active:scale-95">
+                NEW_ORDER
+            </button>
+<a class="flex items-center gap-3 px-4 py-3 mt-4 text-black opacity-70 hover:opacity-100 font-mono uppercase tracking-widest text-[11px]" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span>LOGOUT</span>
+</a>
+</div>
+</aside>
+<div class="flex-1 flex flex-col min-w-0 overflow-auto engineering-grid">
+<!-- TopAppBar Anchor -->
+<header class="flex justify-between items-center w-full px-6 py-4 bg-white border-b-2 border-black sticky top-0 z-50">
+<div class="flex items-center gap-8">
+<div class="font-black text-2xl tracking-tighter border-2 border-black px-2 uppercase">SYSTEM_MANIFEST</div>
+<nav class="hidden lg:flex gap-6">
+<a class="font-mono uppercase text-[11px] tracking-[0.2em] text-black hover:bg-black hover:text-white px-2 py-1" href="#">REPORTS</a>
+<a class="font-mono uppercase text-[11px] tracking-[0.2em] text-black hover:bg-black hover:text-white px-2 py-1" href="#">LOGS</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-sm" data-icon="search">search</span>
+<input class="bg-surface-container-low border-2 border-black pl-10 pr-4 py-1 font-mono text-[10px] w-48 focus:w-64 transition-all focus:outline-none focus:ring-0" placeholder="SEARCH_MANIFEST..." type="text"/>
+</div>
+<button class="p-1 hover:bg-black hover:text-white transition-colors active:scale-95">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<div class="h-8 w-8 bg-black flex items-center justify-center">
+<span class="material-symbols-outlined text-white" data-icon="account_circle">account_circle</span>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="p-6 md:p-12 max-w-7xl mx-auto w-full">
+<div class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<div class="font-mono text-[11px] tracking-[0.4em] mb-2 text-primary uppercase">[ MODULE: 04 / PROD_CREATE ]</div>
+<h2 class="text-6xl md:text-7xl font-black uppercase tracking-tighter leading-none">ADD PRODUCT</h2>
+<h3 class="text-2xl font-bold uppercase tracking-tight mt-2 opacity-60">პროდუქტის დამატება</h3>
+</div>
+<div class="flex gap-4">
+<button class="px-8 py-3 border-2 border-black font-mono text-[11px] tracking-widest uppercase hover:bg-black hover:text-white transition-all active:scale-95">
+                        [ CANCEL_ACTION ]
+                    </button>
+<button class="px-8 py-3 bg-primary text-white border-2 border-black font-mono text-[11px] tracking-widest uppercase hover:bg-black transition-all active:scale-95">
+                        PUBLISH_MANIFEST
+                    </button>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-0 border-2 border-black bg-white">
+<!-- Left Column: Media & Primary Info -->
+<div class="lg:col-span-4 border-b-2 lg:border-b-0 lg:border-r-2 border-black p-8 bg-surface-bright">
+<div class="font-mono text-[10px] tracking-widest mb-6 border-b border-black pb-2 opacity-50 uppercase">VISUAL_ASSET / სურათი</div>
+<div class="aspect-square bg-surface-container border-2 border-dashed border-black flex flex-col items-center justify-center group cursor-pointer hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-4xl mb-2 opacity-30" data-icon="upload_file">upload_file</span>
+<div class="font-mono text-[10px] tracking-widest text-center px-4 uppercase">
+                            DRAG_AND_DROP_ASSET<br/>
+<span class="opacity-50">(1080x1080 PX RECOMMENDED)</span>
+</div>
+</div>
+<div class="mt-8 space-y-6">
+<div>
+<label class="block font-mono text-[10px] tracking-widest mb-2 uppercase">STATUS_PARAMETERS / პარამეტრები</label>
+<div class="space-y-3">
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="w-5 h-5 border-2 border-black focus:ring-0 rounded-none" type="checkbox"/>
+<span class="font-mono text-[11px] tracking-widest group-hover:text-primary transition-colors uppercase">PUBLISHED_STATE (გამოქვეყნებული)</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="w-5 h-5 border-2 border-black focus:ring-0 rounded-none" type="checkbox"/>
+<span class="font-mono text-[11px] tracking-widest group-hover:text-primary transition-colors uppercase">MARK_AS_IMPORTANT (მნიშვნელოვანი)</span>
+</label>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Form Data -->
+<div class="lg:col-span-8 p-8">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Category Select -->
+<div class="md:col-span-2">
+<label class="block font-mono text-[10px] tracking-widest mb-2 opacity-50 uppercase">CLASSIFICATION / კატეგორია</label>
+<select class="w-full bg-surface-bright border-2 border-black p-4 font-mono text-sm focus:outline-none focus:border-primary appearance-none rounded-none">
+<option>SELECT_CATEGORY...</option>
+<option>OFFICE_SUPPLIES / საოფისე ნივთები</option>
+<option>WRITING_INSTRUMENTS / საწერი კალმები</option>
+<option>PAPER_GOODS / ქაღალდის პროდუქცია</option>
+</select>
+</div>
+<!-- Name EN -->
+<div>
+<label class="block font-mono text-[10px] tracking-widest mb-2 opacity-50 uppercase">PRODUCT_NAME_EN / დასახელება (EN)</label>
+<input class="w-full bg-surface-bright border-2 border-black p-4 font-mono text-sm focus:outline-none focus:border-primary rounded-none" placeholder="ENTRY_VALUE..." type="text"/>
+</div>
+<!-- Name GE -->
+<div>
+<label class="block font-mono text-[10px] tracking-widest mb-2 opacity-50 uppercase">PRODUCT_NAME_GE / დასახელება (GE)</label>
+<input class="w-full bg-surface-bright border-2 border-black p-4 font-mono text-sm focus:outline-none focus:border-primary rounded-none" placeholder="მნიშვნელობა..." type="text"/>
+</div>
+<!-- Short Description -->
+<div class="md:col-span-2">
+<label class="block font-mono text-[10px] tracking-widest mb-2 opacity-50 uppercase">SHORT_SUMMARY / მოკლე აღწერა</label>
+<input class="w-full bg-surface-bright border-2 border-black p-4 font-mono text-sm focus:outline-none focus:border-primary rounded-none" placeholder="BRIEF_DESCRIPTION..." type="text"/>
+</div>
+<!-- Price Section -->
+<div class="md:col-span-2 border-2 border-black p-6 bg-surface">
+<div class="flex flex-col md:flex-row gap-8 items-start">
+<div class="flex-1">
+<label class="block font-mono text-[10px] tracking-widest mb-4 opacity-50 uppercase">PRICING_MODEL / ფასის ტიპი</label>
+<div class="flex gap-6">
+<label class="flex items-center gap-3 cursor-pointer">
+<input checked="" class="w-5 h-5 border-2 border-black text-black focus:ring-0 rounded-none" name="price_type" type="radio"/>
+<span class="font-mono text-[11px] tracking-widest uppercase">FIXED_PRICE</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer">
+<input class="w-5 h-5 border-2 border-black text-black focus:ring-0 rounded-none" name="price_type" type="radio"/>
+<span class="font-mono text-[11px] tracking-widest uppercase">CONTACT_US</span>
+</label>
+</div>
+</div>
+<div class="w-full md:w-48">
+<label class="block font-mono text-[10px] tracking-widest mb-2 opacity-50 uppercase">VALUE (₾) / ფასი</label>
+<div class="relative">
+<input class="w-full bg-surface-bright border-2 border-black p-4 font-mono text-sm focus:outline-none focus:border-primary rounded-none" step="0.01" type="number"/>
+<span class="absolute right-4 top-1/2 -translate-y-1/2 font-mono text-xs font-bold">GEL</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Detailed Description -->
+<div class="md:col-span-2">
+<label class="block font-mono text-[10px] tracking-widest mb-2 opacity-50 uppercase">FULL_MANIFEST_SPEC / სრული აღწერა</label>
+<textarea class="w-full bg-surface-bright border-2 border-black p-4 font-mono text-sm focus:outline-none focus:border-primary rounded-none resize-none" placeholder="TECHNICAL_SPECIFICATIONS_AND_DETAILS..." rows="6"></textarea>
+<div class="flex justify-between mt-2 font-mono text-[9px] opacity-40 uppercase">
+<span>MARKDOWN_SUPPORTED</span>
+<span>0 / 2500_CHARS</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Log Section / Footer Detail -->
+<div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="border-2 border-black p-4 bg-white">
+<div class="font-mono text-[9px] tracking-widest opacity-50 mb-2 uppercase">LAST_MODIFIED</div>
+<div class="font-mono text-xs font-bold">2023-10-27_T14:32:01Z</div>
+</div>
+<div class="border-2 border-black p-4 bg-white">
+<div class="font-mono text-[9px] tracking-widest opacity-50 mb-2 uppercase">AUTHOR_ID</div>
+<div class="font-mono text-xs font-bold uppercase">ADMIN_ALPHA_09</div>
+</div>
+<div class="border-2 border-black p-4 bg-white">
+<div class="font-mono text-[9px] tracking-widest opacity-50 mb-2 uppercase">REVISION_HEX</div>
+<div class="font-mono text-xs font-bold uppercase">#A9F200_B7</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Mobile Navigation Toggle -->
+<div class="md:hidden fixed bottom-6 right-6 z-[100]">
+<button class="h-14 w-14 bg-black text-white flex items-center justify-center border-2 border-white">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+</div>
+</body></html>

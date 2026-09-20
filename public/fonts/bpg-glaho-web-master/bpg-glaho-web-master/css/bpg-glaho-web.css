@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'BPG Glaho WEB';
+    src: url('../fonts/bpg-glaho-web-webfont.eot'); /* IE9 Compat Modes */
+    src: url('../fonts/bpg-glaho-web-webfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('../fonts/bpg-glaho-web-webfont.woff2') format('woff2'), /* Super Modern Browsers */
+         url('../fonts/bpg-glaho-web-webfont.woff') format('woff'), /* Pretty Modern Browsers */
+         url('../fonts/bpg-glaho-web-webfont.ttf') format('truetype'), /* Safari, Android, iOS */
+         url('../fonts/bpg-glaho-web-webfont.svg#bpg_glaho_webregular') format('svg'); /* Legacy iOS */
+}

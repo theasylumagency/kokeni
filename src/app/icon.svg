@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="92" fill="#F6F1E7"/>
+  <g fill="#171717">
+    <!-- left stem with concave inner cut -->
+    <path d="M112 126H250V238L202 282V386H112V319
+             C147 311 166 291 166 256
+             C166 221 147 201 112 193Z"/>
+    <!-- upper arm -->
+    <path d="M266 126H400L350 176H266Z"/>
+    <!-- lower arm -->
+    <path d="M260 250L404 386H303L219 302Z"/>
+  </g>
+</svg>
