@@ -1,16 +1,20 @@
 import Image from "next/image";
+import SheetMark from "./SheetMark";
 import type { Dictionary } from "@/utils/getDictionary";
 
 export default function Output({ dict }: { dict: Dictionary }) {
   return (
-    <section className="flex flex-col w-full border-t border-text-heavy">
+    <section className="relative flex flex-col w-full border-t border-text-heavy">
+      <SheetMark n="03" name="Output" tone="paper" className="right-10 top-8 hidden lg:flex" />
       {/* Part 1: The Atmosphere */}
-      <div className="relative w-full h-full bg-text-heavy overflow-hidden">
+      <div className="relative w-full h-[55vh] lg:h-[80vh] bg-text-heavy overflow-hidden">
         <video
           autoPlay
           loop
           muted
           playsInline
+          preload="metadata"
+          poster="/images/home/genuine-leather-notebook.webp"
           className="w-full h-full object-cover filter contrast-125 opacity-70"
         >
           <source src="/videos/kokeni-web.mp4" type="video/mp4" />

@@ -1,9 +1,11 @@
 import Image from "next/image";
+import SheetMark from "./SheetMark";
 import type { Dictionary } from "@/utils/getDictionary";
 
 export default function Capacity({ dict }: { dict: Dictionary }) {
   return (
-    <section className="flex flex-col lg:flex-row min-h-screen w-full border-t border-text-heavy">
+    <section className="relative flex flex-col lg:flex-row min-h-screen w-full border-t border-text-heavy">
+      <SheetMark n="02" name="Capacity" className="right-10 top-8 hidden lg:flex" />
       {/* Left Column (The Machine) */}
       <div className="flex w-full lg:w-1/2 flex-col border-b lg:border-b-0 lg:border-r border-text-heavy">
         <div className="relative h-[50vh] lg:h-[70vh] w-full overflow-hidden bg-text-heavy">

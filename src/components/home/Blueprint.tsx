@@ -1,3 +1,5 @@
+import SheetFrame from "./SheetFrame";
+import SheetMark from "./SheetMark";
 import type { HomeDirectionGroup } from "@/lib/catalog/types";
 import type { Dictionary } from "@/utils/getDictionary";
 
@@ -42,6 +44,8 @@ export default function Blueprint({ dict, directions }: BlueprintProps) {
 
   return (
     <section className="relative flex w-full flex-col overflow-hidden border-t border-text-heavy bg-background-light px-10 py-20 lg:px-16 lg:py-32">
+      <SheetFrame />
+      <SheetMark n="04" name="Directory" className="right-10 top-8 hidden lg:flex" />
       <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col gap-16 lg:flex-row lg:gap-32">
         <div className="text-left lg:w-1/3">
           <h2 className="mb-6 font-bold text-3xl uppercase tracking-tighter leading-tight text-text-heavy lg:text-5xl">
