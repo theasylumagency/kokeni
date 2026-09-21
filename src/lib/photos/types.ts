@@ -2,20 +2,63 @@ import type { ProductImage } from "../catalog/types";
 
 export const PHOTO_ROLES = ["main", "informative", "detail", "additional"] as const;
 export type PhotoRole = typeof PHOTO_ROLES[number];
+
+export const PRODUCT_GEOMETRIES = ["flat", "volumetric", "uncertain"] as const;
+export type ProductGeometry = typeof PRODUCT_GEOMETRIES[number];
+
+export const REFERENCE_STATES = ["closed", "open", "other"] as const;
+export type ReferenceState = typeof REFERENCE_STATES[number];
+
+export const REFERENCE_VIEWS = [
+  "front",
+  "top",
+  "three_quarter",
+  "side",
+  "back",
+  "detail",
+  "unknown",
+] as const;
+export type ReferenceView = typeof REFERENCE_VIEWS[number];
+
+export const REFERENCE_STRENGTHS = ["high", "medium", "low"] as const;
+export type ReferenceStrength = typeof REFERENCE_STRENGTHS[number];
+
 export type PhotoReference = {
   id: string; filename: string; originalName: string; sha256: string;
   width: number; height: number; bytes: number;
 };
+
+export type ReferenceAssessment = {
+  referenceId: string;
+  state: ReferenceState;
+  view: ReferenceView;
+  identityStrength: ReferenceStrength;
+  informationValue: ReferenceStrength;
+  publishable: boolean;
+  measurementOnly: boolean;
+  brandingVisible: boolean;
+  interiorVisible: boolean;
+  constructionVisible: boolean;
+  notes: string;
+};
+
 export type PhotoOutput = {
   id: string; role: PhotoRole; title: string; reason: string;
   baseReferenceId: string; supportingReferenceIds: string[]; instruction: string;
   draft?: { filename: string; approved: boolean; provenance: NonNullable<ProductImage["provenance"]> };
   attempts: number; error?: string;
 };
+
 export type PhotoWorkflow = {
   id: string; productId: string; revision: number; references: PhotoReference[];
   summary: string; warnings: string[]; outputs: PhotoOutput[]; planApproved: boolean;
-  analysis?: { model: string; at: string; usage?: Record<string, unknown> };
+  analysis?: {
+    model: string;
+    at: string;
+    geometry?: ProductGeometry;
+    references?: ReferenceAssessment[];
+    usage?: Record<string, unknown>;
+  };
   history?: Array<{ outputId: string; at: string; attempt: number; correction: string; filename?: string; provenance?: NonNullable<ProductImage["provenance"]>; error?: string }>;
   savedAt?: string; createdAt: string; updatedAt: string;
 };
