@@ -75,9 +75,16 @@ export async function POST(request: Request, context: Context) {
         workflow.savedAt = undefined;
       } else if (body.action === "save") {
         if (!workflow.planApproved) throw new PhotoError("ჯერ დაამტკიცეთ გეგმა.");
-        const approved = workflow.outputs.filter(output => output.draft?.approved);
-        if (!approved.some(output => output.role === "main")) throw new PhotoError("შენახვამდე დაამტკიცეთ მთავარი კადრი.");
         if (!["append", "replace"].includes(body.mode) || typeof body.expectedUpdatedAt !== "string") throw new PhotoError("აირჩიეთ შენახვის რეჟიმი.");
+
+        const approved = workflow.outputs.filter(output => output.draft?.approved);
+        if (!approved.length) throw new PhotoError("შენახვამდე დაამტკიცეთ მინიმუმ ერთი კადრი.");
+
+        const catalog = await getAdminCatalogSnapshot();
+        const productBeforeSave = catalog.products.find(product => product.id === workflow.productId);
+        if (!productBeforeSave) throw new PhotoError("პროდუქტი ვერ მოიძებნა.", 404);
+        const mainRequired = body.mode === "replace" || productBeforeSave.images.length === 0;
+        if (mainRequired && !approved.some(output => output.role === "main")) throw new PhotoError("შენახვამდე დაამტკიცეთ მთავარი კადრი.");
 
         let ordered = [...approved.filter(output => output.role === "main"), ...approved.filter(output => output.role !== "main")];
         if (body.orderedOutputIds !== undefined) {
@@ -90,7 +97,7 @@ export async function POST(request: Request, context: Context) {
             throw new PhotoError("გალერეის კადრების რიგი არასწორია.");
           }
           ordered = body.orderedOutputIds.map((outputId: string) => approved.find(output => output.id === outputId)!);
-          if (ordered[0]?.role !== "main") throw new PhotoError("მთავარი კადრი გალერეაში პირველი უნდა იყოს.");
+          if (approved.some(output => output.role === "main") && ordered[0]?.role !== "main") throw new PhotoError("მთავარი კადრი გალერეაში პირველი უნდა იყოს.");
         }
 
         const directory = path.join(process.cwd(), "public", "uploads", "products");
