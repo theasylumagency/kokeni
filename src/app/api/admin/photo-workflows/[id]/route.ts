@@ -25,6 +25,7 @@ export async function GET(request: Request, context: Context) {
   }
   catch (error) { return photoError(error); }
 }
+
 export async function POST(request: Request, context: Context) {
   try {
     await photoAuth(request);
@@ -43,6 +44,7 @@ export async function POST(request: Request, context: Context) {
       });
       return NextResponse.json(result);
     }
+
     const body = await request.json();
     const result = await mutateWorkflow(id, body.revision, async workflow => {
       if (body.action === "references") {
@@ -76,14 +78,28 @@ export async function POST(request: Request, context: Context) {
         const approved = workflow.outputs.filter(output => output.draft?.approved);
         if (!approved.some(output => output.role === "main")) throw new PhotoError("შენახვამდე დაამტკიცეთ მთავარი კადრი.");
         if (!["append", "replace"].includes(body.mode) || typeof body.expectedUpdatedAt !== "string") throw new PhotoError("აირჩიეთ შენახვის რეჟიმი.");
+
+        let ordered = [...approved.filter(output => output.role === "main"), ...approved.filter(output => output.role !== "main")];
+        if (body.orderedOutputIds !== undefined) {
+          if (
+            !Array.isArray(body.orderedOutputIds) ||
+            body.orderedOutputIds.length !== approved.length ||
+            new Set(body.orderedOutputIds).size !== body.orderedOutputIds.length ||
+            body.orderedOutputIds.some((outputId: unknown) => typeof outputId !== "string" || !approved.some(output => output.id === outputId))
+          ) {
+            throw new PhotoError("გალერეის კადრების რიგი არასწორია.");
+          }
+          ordered = body.orderedOutputIds.map((outputId: string) => approved.find(output => output.id === outputId)!);
+          if (ordered[0]?.role !== "main") throw new PhotoError("მთავარი კადრი გალერეაში პირველი უნდა იყოს.");
+        }
+
         const directory = path.join(process.cwd(), "public", "uploads", "products");
         await fs.mkdir(directory, { recursive: true });
-        const ordered = [...approved.filter(output => output.role === "main"), ...approved.filter(output => output.role !== "main")];
         const images: ProductImage[] = await Promise.all(ordered.map(async (output, index) => {
           const draft = output.draft!;
           const imageId = path.parse(draft.filename).name;
           const buffer = await fs.readFile(assetPath(workflow.id, draft.filename));
-          await Promise.all([1600,800].map(async size => {
+          await Promise.all([1600, 800].map(async size => {
             const destination = path.join(directory, `${imageId}${size === 800 ? "-mobile" : ""}.webp`);
             try { await fs.access(destination); return; } catch { /* A draft UUID is an immutable asset. */ }
             const bytes = await sharp(buffer).resize(size, size, { fit: "contain", background: "#fafafa" }).webp({ quality: 92 }).toBuffer();
