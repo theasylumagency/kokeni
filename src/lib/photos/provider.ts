@@ -37,51 +37,55 @@ async function openai(endpoint: string, body: BodyInit, json = false) {
 
 const text = { type: "string" };
 const strength = { type: "string", enum: [...REFERENCE_STRENGTHS] };
-const schema = {
-  type: "object",
-  additionalProperties: false,
-  required: ["summary", "warnings", "geometry", "references"],
-  properties: {
-    summary: text,
-    warnings: { type: "array", items: text },
-    geometry: { type: "string", enum: [...PRODUCT_GEOMETRIES] },
-    references: {
-      type: "array",
-      minItems: 2,
-      maxItems: 10,
-      items: {
-        type: "object",
-        additionalProperties: false,
-        required: [
-          "referenceId",
-          "state",
-          "view",
-          "identityStrength",
-          "informationValue",
-          "publishable",
-          "measurementOnly",
-          "brandingVisible",
-          "interiorVisible",
-          "constructionVisible",
-          "notes",
-        ],
-        properties: {
-          referenceId: text,
-          state: { type: "string", enum: [...REFERENCE_STATES] },
-          view: { type: "string", enum: [...REFERENCE_VIEWS] },
-          identityStrength: strength,
-          informationValue: strength,
-          publishable: { type: "boolean" },
-          measurementOnly: { type: "boolean" },
-          brandingVisible: { type: "boolean" },
-          interiorVisible: { type: "boolean" },
-          constructionVisible: { type: "boolean" },
-          notes: text,
+
+function analysisSchema(workflow: PhotoWorkflow) {
+  const referenceIds = workflow.references.map(ref => ref.id);
+  return {
+    type: "object",
+    additionalProperties: false,
+    required: ["summary", "warnings", "geometry", "references"],
+    properties: {
+      summary: text,
+      warnings: { type: "array", items: text },
+      geometry: { type: "string", enum: [...PRODUCT_GEOMETRIES] },
+      references: {
+        type: "array",
+        minItems: referenceIds.length,
+        maxItems: referenceIds.length,
+        items: {
+          type: "object",
+          additionalProperties: false,
+          required: [
+            "referenceId",
+            "state",
+            "view",
+            "identityStrength",
+            "informationValue",
+            "publishable",
+            "measurementOnly",
+            "brandingVisible",
+            "interiorVisible",
+            "constructionVisible",
+            "notes",
+          ],
+          properties: {
+            referenceId: { type: "string", enum: referenceIds },
+            state: { type: "string", enum: [...REFERENCE_STATES] },
+            view: { type: "string", enum: [...REFERENCE_VIEWS] },
+            identityStrength: strength,
+            informationValue: strength,
+            publishable: { type: "boolean" },
+            measurementOnly: { type: "boolean" },
+            brandingVisible: { type: "boolean" },
+            interiorVisible: { type: "boolean" },
+            constructionVisible: { type: "boolean" },
+            notes: text,
+          },
         },
       },
     },
-  },
-};
+  };
+}
 
 type AnalysisPayload = {
   summary: string;
@@ -334,7 +338,7 @@ Critical rules:
 - Be conservative: never invent unseen structure or reinterpret one product as another.
 - Use concise, natural Georgian for summary, warnings, and notes.`,
     input: [{ role: "user", content: [{ type: "input_text", text: `Product name (context only): ${productName}. Classify every supplied reference. Do not propose outputs.` }, ...images.flat()] }],
-    text: { format: { type: "json_schema", name: "product_photo_reference_analysis", strict: true, schema } },
+    text: { format: { type: "json_schema", name: "product_photo_reference_analysis", strict: true, schema: analysisSchema(workflow) } },
     max_output_tokens: 4000,
   }), true);
 
