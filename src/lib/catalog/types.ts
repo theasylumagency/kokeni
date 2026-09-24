@@ -10,6 +10,13 @@ export type OptionalLocalizedText = {
   en?: string;
 };
 
+export type CatalogAttribute = {
+  label: LocalizedText;
+  value: LocalizedText;
+};
+
+export type TypeIllustration = "cover" | "menu" | "notebook" | "holder" | "box" | "print";
+
 export type Group = {
   id: string;
   slug: string;
@@ -30,6 +37,12 @@ export type Category = {
   name: LocalizedText;
   isActive: boolean;
   showOnHome?: boolean;
+  description?: OptionalLocalizedText;
+  customization?: CatalogAttribute[];
+  relatedCategoryIds?: string[];
+  coverProductId?: string;
+  illustration?: TypeIllustration;
+  catalogOrder?: number;
   createdAt: string;
   updatedAt: string;
 };
@@ -85,6 +98,7 @@ export type Product = {
   price: ProductPrice;
   images: ProductImage[];
   originalImages?: ProductImage[];
+  specifications?: CatalogAttribute[];
   isPublished: boolean;
   createdAt: string;
   updatedAt: string;

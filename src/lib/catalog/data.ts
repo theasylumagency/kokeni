@@ -4,6 +4,8 @@ import { promises as fs } from "fs";
 import path from "path";
 import { randomUUID } from "crypto";
 import { asciiSlug, nextProductCode } from "./urls";
+import { parseAttributes, typeIllustrations } from "./typeCatalog";
+import type { CatalogAttribute, TypeIllustration } from "./types";
 import { withFileLock, writeJsonAtomic } from "./storage";
 import { unstable_noStore as noStore } from "next/cache";
 
@@ -63,6 +65,13 @@ type CategoryCreateInput = {
   nameEn?: string;
   isActive: boolean;
   showOnHome: boolean;
+  descriptionKa?: string;
+  descriptionEn?: string;
+  customizationJson?: string;
+  relatedCategoryIds?: string[];
+  coverProductId?: string;
+  illustration?: string;
+  catalogOrder?: string;
 };
 
 type CategoryUpdateInput = CategoryCreateInput & {
@@ -83,6 +92,7 @@ type ProductCreateInput = {
   isPublished: boolean;
   imagesJson: string;
   originalImagesJson?: string;
+  specificationsJson?: string;
 };
 
 type ProductUpdateInput = ProductCreateInput & {
@@ -236,6 +246,7 @@ async function createCategoryRecordUnlocked(
     },
     isActive: input.isActive,
     showOnHome: input.showOnHome,
+    ...await categoryDetails(input, categories),
     createdAt: now,
     updatedAt: now,
   });
@@ -284,6 +295,7 @@ async function updateCategoryRecordUnlocked(
     },
     isActive: input.isActive,
     showOnHome: input.showOnHome,
+    ...await categoryDetails(input, categories, existingCategory),
     updatedAt: new Date().toISOString(),
   };
 
@@ -416,6 +428,7 @@ async function createProductRecordUnlocked(
     price: buildPrice(input.priceMode, input.priceAmount),
     images,
     originalImages,
+    specifications: validatedAttributes(input.specificationsJson),
     isPublished: input.isPublished,
     createdAt: now,
     updatedAt: now,
@@ -483,6 +496,7 @@ async function updateProductRecordUnlocked(
     price: buildPrice(input.priceMode, input.priceAmount),
     images,
     originalImages: updatedOriginalImages,
+    specifications: validatedAttributes(input.specificationsJson) ?? existingProduct.specifications,
     isPublished: input.isPublished,
     updatedAt: new Date().toISOString(),
   };
@@ -949,4 +963,43 @@ export async function saveWorkflowGallery(productId: string, images: ProductImag
     await writeProducts(products);
     return product;
   });
+}
+
+function validatedAttributes(raw: string | undefined): CatalogAttribute[] | undefined {
+  try { return parseAttributes(raw); }
+  catch { throw new CatalogMutationError("invalid_attributes", "მახასიათებელს სჭირდება ქართული დასახელება და მნიშვნელობა (მაქსიმუმ 24 ჩანაწერი, თითო ველი 500 სიმბოლომდე)."); }
+}
+
+async function categoryDetails(input: CategoryCreateInput, categories: Category[], existing?: Category): Promise<Partial<Category>> {
+  const details: Partial<Category> = {};
+  if (input.catalogOrder !== undefined) {
+    const order = input.catalogOrder.trim() ? Number(input.catalogOrder) : undefined;
+    if (order !== undefined && (!Number.isSafeInteger(order) || order < 1)) throw new CatalogMutationError("invalid_order", "მიუთითეთ დადებითი მთელი რიცხვი.");
+    details.catalogOrder = order;
+  }
+  if (input.descriptionKa !== undefined || input.descriptionEn !== undefined) {
+    details.description = buildOptionalLocalizedText(input.descriptionKa, input.descriptionEn);
+  }
+  if (input.customizationJson !== undefined) details.customization = validatedAttributes(input.customizationJson);
+  if (input.relatedCategoryIds !== undefined) {
+    const ids = [...new Set(input.relatedCategoryIds)];
+    if (ids.length > 24 || ids.some(id => id === existing?.id || !categories.some(category => category.id === id))) {
+      throw new CatalogMutationError("invalid_related_types", "აირჩიეთ არსებული, განსხვავებული ნივთის ტიპები.");
+    }
+    details.relatedCategoryIds = ids;
+  }
+  if (input.illustration !== undefined) {
+    if (!typeIllustrations.includes(input.illustration as TypeIllustration)) throw new CatalogMutationError("invalid_attributes", "აირჩიეთ ილუსტრაცია.");
+    details.illustration = input.illustration as TypeIllustration;
+  }
+  if (input.coverProductId !== undefined) {
+    if (input.coverProductId) {
+      const products = await readProducts();
+      if (!existing || !products.some(product => product.id === input.coverProductId && product.categoryId === existing.id)) {
+        throw new CatalogMutationError("invalid_cover_product", "აირჩიეთ ამ ტიპის ნამუშევარი.");
+      }
+    }
+    details.coverProductId = input.coverProductId || undefined;
+  }
+  return details;
 }

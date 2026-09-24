@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { Group, Category, Product } from "@/lib/catalog/types";
 import { createCategoryAction, updateCategoryAction, deleteCategoryAction } from "@/app/admin/actions";
+import TypeDetailsFields from "@/components/admin/TypeDetailsFields";
 import SlideOver from "@/components/admin/ui/SlideOver";
 
 type CategoriesViewProps = {
@@ -30,15 +31,15 @@ export default function CategoriesView({ groups, categories, products, notice }:
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-gray-900">Categories</h1>
-          <p className="text-sm text-gray-500">Manage catalog categories.</p>
+          <h1 className="text-2xl font-bold tracking-tight text-gray-900">ნივთის ტიპები</h1>
+          <p className="text-sm text-gray-500">მართეთ ნივთის ტიპები, შესაძლო მახასიათებლები და თანმხლები ნივთები.</p>
         </div>
         <button
           onClick={openCreate}
           disabled={groups.length === 0}
           className="rounded-md bg-gray-900 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Add Category
+          ტიპის დამატება
         </button>
       </div>
 
@@ -117,12 +118,13 @@ export default function CategoriesView({ groups, categories, products, notice }:
       </div>
 
       <SlideOver
+        size="xl"
         isOpen={isSlideOverOpen}
         onClose={() => setIsSlideOverOpen(false)}
-        title={editingCategory ? "Edit Category" : "Create Category"}
+        title={editingCategory ? "ნივთის ტიპის რედაქტირება" : "ნივთის ტიპის დამატება"}
         description={editingCategory ? "Modify the properties of this category." : "Add a new category to a group."}
       >
-        <form action={editingCategory ? updateCategoryAction : createCategoryAction} className="space-y-6">
+        <form key={editingCategory?.id || "new"} action={editingCategory ? updateCategoryAction : createCategoryAction} className="space-y-6">
           {editingCategory && <input type="hidden" name="id" value={editingCategory.id} />}
           
           <div>
@@ -147,7 +149,7 @@ export default function CategoriesView({ groups, categories, products, notice }:
               required
               defaultValue={editingCategory?.name.ka ?? ""}
               className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
-              placeholder="e.g. ცხელი კერძები"
+              placeholder="მაგ. დიპლომის ყდები"
             />
           </div>
 
@@ -158,7 +160,7 @@ export default function CategoriesView({ groups, categories, products, notice }:
               name="nameEn"
               defaultValue={editingCategory?.name.en ?? ""}
               className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
-              placeholder="e.g. Hot Dishes"
+              placeholder="e.g. Diploma covers"
             />
           </div>
 
@@ -204,6 +206,8 @@ export default function CategoriesView({ groups, categories, products, notice }:
               </label>
             </div>
           </div>
+
+          <TypeDetailsFields category={editingCategory} categories={categories} products={products} />
 
           <div className="pt-6 border-t border-gray-200 flex flex-col gap-3">
             <button

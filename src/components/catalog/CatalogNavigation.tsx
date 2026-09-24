@@ -52,7 +52,7 @@ export default function CatalogNavigation({
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" className={!currentGroupSlug ? accent : (isLight ? "text-text-heavy/50" : "text-white/50")}>
               <path d="M1 6H11M6 1L6 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter"/>
             </svg>
-            <span>{dict.catalog?.back_to_hub || "HUB"}</span>
+            <span>{lang === "en" ? "All item types" : "ყველა ნივთის ტიპი"}</span>
           </Link>
         </div>
 
@@ -73,13 +73,7 @@ export default function CatalogNavigation({
             );
           })}
           
-          {/* Collections Link (Static) */}
-          <Link
-            href={`/${lang}/collections`}
-            className={`tracking-[0.2em] whitespace-nowrap transition-all duration-300 ${currentGroupSlug === 'collections' ? `${accent} border-b ${accentBorder} pb-1` : groupLinkIdle}`}
-          >
-            {dict.catalog?.collections || "COLLECTIONS"}
-          </Link>
+
         </div>
       </div>
     </nav>

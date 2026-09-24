@@ -29,6 +29,9 @@ const errorMessages: Record<string, string> = {
   product_not_found: "Product not found.",
   too_many_home_categories: "Only 3 categories can be shown on home per group.",
   missing_required_photos: "All three photos are required for new product.",
+  invalid_attributes: "მახასიათებელს სჭირდება ქართული დასახელება და მნიშვნელობა. მაქსიმუმ 24 ჩანაწერი, ველი 500 სიმბოლომდე.",
+  invalid_related_types: "აირჩიეთ არსებული, განსხვავებული ნივთის ტიპები.",
+  invalid_cover_product: "მთავარი ფოტო უნდა ეკუთვნოდეს ამ ტიპის ნამუშევარს.",
   unexpected: "Unexpected error occurred.",
 };
 

@@ -103,6 +103,15 @@ export async function createCategoryAction(formData: FormData): Promise<void> {
       nameEn: getOptionalTextValue(formData, "nameEn"),
       isActive: getCheckboxValue(formData, "isActive"),
       showOnHome: getCheckboxValue(formData, "showOnHome"),
+      ...(formData.has("customizationJson") ? {
+        descriptionKa: getTextValue(formData, "descriptionKa"),
+        descriptionEn: getTextValue(formData, "descriptionEn"),
+        customizationJson: getTextValue(formData, "customizationJson"),
+        relatedCategoryIds: formData.getAll("relatedCategoryIds").map(value => String(value)),
+        coverProductId: getTextValue(formData, "coverProductId"),
+        illustration: getTextValue(formData, "illustration"),
+        catalogOrder: getTextValue(formData, "catalogOrder"),
+      } : {}),
     });
   } catch (error) {
     handleActionError(error, "/admin/categories");
@@ -124,6 +133,15 @@ export async function updateCategoryAction(formData: FormData): Promise<void> {
       order: getRequiredPositiveInteger(formData, "order"),
       isActive: getCheckboxValue(formData, "isActive"),
       showOnHome: getCheckboxValue(formData, "showOnHome"),
+      ...(formData.has("customizationJson") ? {
+        descriptionKa: getTextValue(formData, "descriptionKa"),
+        descriptionEn: getTextValue(formData, "descriptionEn"),
+        customizationJson: getTextValue(formData, "customizationJson"),
+        relatedCategoryIds: formData.getAll("relatedCategoryIds").map(value => String(value)),
+        coverProductId: getTextValue(formData, "coverProductId"),
+        illustration: getTextValue(formData, "illustration"),
+        catalogOrder: getTextValue(formData, "catalogOrder"),
+      } : {}),
     });
   } catch (error) {
     handleActionError(error, "/admin/categories");
@@ -163,6 +181,7 @@ export async function createProductAction(formData: FormData): Promise<void> {
       isPublished: getCheckboxValue(formData, "isPublished"),
       imagesJson: getRequiredTextValue(formData, "imagesJson"),
       originalImagesJson: getOptionalTextValue(formData, "originalImagesJson"),
+      specificationsJson: getOptionalTextValue(formData, "specificationsJson"),
     });
   } catch (error) {
     handleActionError(error, "/admin/products");
@@ -191,6 +210,7 @@ export async function updateProductAction(formData: FormData): Promise<void> {
       isPublished: getCheckboxValue(formData, "isPublished"),
       imagesJson: getRequiredTextValue(formData, "imagesJson"),
       originalImagesJson: getOptionalTextValue(formData, "originalImagesJson"),
+      specificationsJson: getOptionalTextValue(formData, "specificationsJson"),
     });
   } catch (error) {
     handleActionError(error, "/admin/products");

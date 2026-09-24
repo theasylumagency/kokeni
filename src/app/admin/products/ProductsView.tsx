@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { Group, Category, Product } from "@/lib/catalog/types";
 import { createProductAction, updateProductAction, deleteProductAction, toggleProductPublishedAction } from "@/app/admin/actions";
+import CatalogAttributeEditor from "@/components/admin/CatalogAttributeEditor";
 import SlideOver from "@/components/admin/ui/SlideOver";
 import AdvancedImageUploader from "@/components/admin/AdvancedImageUploader";
 import Image from "next/image";
@@ -33,8 +34,8 @@ export default function ProductsView({ groups, categories, products, notice }: P
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-gray-900">Products</h1>
-          <p className="text-sm text-gray-500">Manage your catalog items.</p>
+          <h1 className="text-2xl font-bold tracking-tight text-gray-900">ნამუშევრები / ვარიანტები</h1>
+          <p className="text-sm text-gray-500">თითოეული ჩანაწერი ნივთის ტიპის შესრულებული ვარიანტია. მიუთითეთ მისი კონკრეტული მახასიათებლები.</p>
         </div>
         <button
           onClick={openCreate}
@@ -144,7 +145,7 @@ export default function ProductsView({ groups, categories, products, notice }: P
         description={editingProduct ? "Modify existing product details." : "Add a new product to your catalog."}
         size="xl"
       >
-        <form action={editingProduct ? updateProductAction : createProductAction} className="space-y-8 pb-10">
+        <form key={editingProduct?.id || "new"} action={editingProduct ? updateProductAction : createProductAction} className="space-y-8 pb-10">
           {editingProduct && <input type="hidden" name="id" value={editingProduct.id} />}
           {editingProduct && (() => {
             const category = categories.find(category => category.id === editingProduct.categoryId);
@@ -287,6 +288,8 @@ export default function ProductsView({ groups, categories, products, notice }: P
               </label>
             </div>
           </div>
+
+          <CatalogAttributeEditor name="specificationsJson" initial={editingProduct?.specifications} title="ამ ნამუშევრის მახასიათებლები" help="მიუთითეთ მხოლოდ ამ ნამუშევრის ფაქტობრივი მახასიათებლები: ფორმატი, მასალა, ფერი, კუთხეები, წარწერის დატანის ტექნიკა. ფილტრებისთვის გამოიყენეთ ერთნაირი დასახელებები (მაგ. ყოველთვის „მასალა“)." />
 
           <div className="pt-6 border-t border-gray-200">
             <label className="block text-sm font-medium text-gray-700 mb-4">Product Images</label>

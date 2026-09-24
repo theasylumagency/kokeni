@@ -11,8 +11,8 @@ export default function AdminSidebar() {
   const links = [
     { href: "/admin", label: "Dashboard", icon: "dashboard" },
     { href: "/admin/groups", label: "Groups", icon: "folder_open" },
-    { href: "/admin/categories", label: "Categories", icon: "category" },
-    { href: "/admin/products", label: "Products", icon: "inventory_2" },
+    { href: "/admin/categories", label: "ნივთის ტიპები", icon: "category" },
+    { href: "/admin/products", label: "ნამუშევრები", icon: "inventory_2" },
     { href: "/admin/photo-generation", label: "ფოტოსტუდია", icon: "photo_camera" },
   ];
 
