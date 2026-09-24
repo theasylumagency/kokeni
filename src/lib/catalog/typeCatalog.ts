@@ -1,11 +1,11 @@
-import type { CatalogAttribute, Category, Group, Locale, OptionalLocalizedText, Product, TypeIllustration } from "./types";
+import type { CatalogAttribute, Category, Group, Locale, OptionalLocalizedText, OrderTerms, Product, TypeIllustration } from "./types";
 
 export function localized(text: OptionalLocalizedText | undefined, locale: Locale): string {
   return text?.[locale] || text?.ka || "";
 }
 
 export function typePath(locale: string, category: Pick<Category, "slug">): string {
-  return `/${locale === "en" ? "en" : "ka"}/catalog/types/${encodeURIComponent(category.slug)}`;
+  return `/${locale === "en" ? "en" : "ka"}/catalog/${encodeURIComponent(category.slug)}`;
 }
 
 export function publicTypes(groups: Group[], categories: Category[]): Category[] {
@@ -29,19 +29,19 @@ export function typeCover(category: Category, products: Product[]): Product | un
 export const typeIllustrations: TypeIllustration[] = ["cover", "menu", "notebook", "holder", "box", "print"];
 
 // These fields are optional so existing records and photo-created drafts remain valid.
-export function parseAttributes(raw: string | undefined): CatalogAttribute[] | undefined {
+export function parseAttributes(raw: string | undefined, maxValueLength = 500): CatalogAttribute[] | undefined {
   if (raw === undefined) return undefined;
   const value: unknown = JSON.parse(raw);
   if (!Array.isArray(value) || value.length > 24) throw new Error("Invalid attributes");
-  const text = (input: unknown, required: boolean): string => {
-    if (typeof input !== "string" || input.trim().length > 500 || (required && !input.trim())) throw new Error("Invalid attribute text");
+  const text = (input: unknown, required: boolean, max = 500): string => {
+    if (typeof input !== "string" || input.trim().length > max || (required && !input.trim())) throw new Error("Invalid attribute text");
     return input.trim();
   };
   return value.map(row => {
     if (!row || typeof row !== "object") throw new Error("Invalid attribute");
     return {
       label: { ka: text(row.label?.ka, true), en: row.label?.en ? text(row.label.en, false) : undefined },
-      value: { ka: text(row.value?.ka, true), en: row.value?.en ? text(row.value.en, false) : undefined },
+      value: { ka: text(row.value?.ka, true, maxValueLength), en: row.value?.en ? text(row.value.en, false, maxValueLength) : undefined },
     };
   });
 }
@@ -54,4 +54,81 @@ export function illustrationFor(category: Category): TypeIllustration {
   if (/medal|medlis|მედლ|ყუთ/.test(label)) return "box";
   if (/holder|receipt|საქაღალდე|საბუთების ჩასადები/.test(label)) return "holder";
   return "cover";
+}
+
+const money = (value: number): string => Number.isInteger(value) ? String(value) : value.toFixed(2);
+
+/** "12 ₾-დან / ცალი" — only when the company chose to publish a starting price. */
+export function priceFromLabel(terms: OrderTerms | undefined, locale: Locale): string | undefined {
+  if (!terms?.priceFrom) return undefined;
+  return locale === "en" ? `from ${money(terms.priceFrom)} ₾ per unit` : `${money(terms.priceFrom)} ₾-დან / ცალი`;
+}
+
+export function leadTimeLabel(terms: OrderTerms | undefined, locale: Locale): string | undefined {
+  const days = terms?.leadTimeDays;
+  if (!days) return undefined;
+  const range = days.max && days.max !== days.min ? `${days.min}–${days.max}` : String(days.min);
+  return locale === "en" ? `${range} working day${range === "1" ? "" : "s"}` : `${range} სამუშაო დღე`;
+}
+
+export function minQuantityLabel(terms: OrderTerms | undefined, locale: Locale): string | undefined {
+  if (!terms?.minQuantity) return undefined;
+  return locale === "en" ? `from ${terms.minQuantity} pcs` : `${terms.minQuantity} ცალიდან`;
+}
+
+/** Label/value rows for the public "order terms" block; empty fields are omitted. */
+export function orderTermRows(terms: OrderTerms | undefined, locale: Locale): { label: string; value: string }[] {
+  const en = locale === "en";
+  return [
+    { label: en ? "Minimum order" : "მინიმალური რაოდენობა", value: minQuantityLabel(terms, locale) },
+    { label: en ? "Production time" : "დამზადების ვადა", value: leadTimeLabel(terms, locale) },
+    { label: en ? "Price" : "ფასი", value: priceFromLabel(terms, locale) },
+  ].filter((row): row is { label: string; value: string } => Boolean(row.value));
+}
+
+export type FaqItem = { question: string; answer: string };
+
+/**
+ * Questions buyers ask about an item type. The first ones are generated from the order terms
+ * (so they stay true when terms change); questions written in the admin follow.
+ * The type name is set off with a colon so Georgian needs no declension.
+ */
+export function typeFaq(category: Category, locale: Locale, contact: { phone: string; email: string }): FaqItem[] {
+  const en = locale === "en";
+  const name = localized(category.name, locale);
+  const terms = category.orderTerms;
+  const note = localized(terms?.note, locale);
+  const items: FaqItem[] = [];
+  const min = terms?.minQuantity;
+  if (min) items.push(en
+    ? { question: `What is the minimum order for ${name}?`, answer: `The minimum order is ${min} pieces. Every piece is made to order, so for other quantities just ask us.` }
+    : { question: `${name}: რა არის მინიმალური შეკვეთა?`, answer: `მინიმალური შეკვეთაა ${min} ცალი. ყველა ნივთი ინდივიდუალური შეკვეთით მზადდება, ამიტომ სხვა რაოდენობაზე დაგვიკავშირდით.` });
+  const lead = leadTimeLabel(terms, locale);
+  if (lead) items.push(en
+    ? { question: `How long does it take to make ${name}?`, answer: `Production takes ${lead}. We confirm the exact date once the quantity, format and details are agreed.` }
+    : { question: `${name}: რამდენ დღეში მზადდება?`, answer: `დამზადებას სჭირდება ${lead}. ზუსტ თარიღს ვადასტურებთ რაოდენობის, ფორმატისა და დეტალების შეთანხმების შემდეგ.` });
+  const price = priceFromLabel(terms, locale);
+  items.push(en
+    ? { question: `How much does ${name} cost?`, answer: `${price ? `Prices start ${price}. ` : ""}${note ? `${note.replace(/\.?$/, ".")} ` : "The final price depends on quantity, material and finishing. "}We quote the exact price once the details are agreed.` }
+    : { question: `${name}: რა ღირს?`, answer: `${price ? `ფასი იწყება ${price}. ` : ""}${note ? `${note.replace(/\.?$/, ".")} ` : "საბოლოო ფასი დამოკიდებულია რაოდენობაზე, მასალასა და დამუშავებაზე. "}ზუსტ ფასს დეტალების შეთანხმების შემდეგ გეტყვით.` });
+  items.push(en
+    ? { question: `How do I order ${name}?`, answer: `Message us on WhatsApp or Viber (${contact.phone}), call, or write to ${contact.email}. Tell us the quantity, format and when you need it; you can start from one of the completed examples.` }
+    : { question: `${name}: როგორ შევუკვეთო?`, answer: `მოგვწერეთ WhatsApp-ით ან Viber-ით (${contact.phone}), დაგვირეკეთ ან მოგვწერეთ ${contact.email}-ზე. მიუთითეთ რაოდენობა, ფორმატი და როდის გჭირდებათ — საწყისად შეგიძლიათ შესრულებული ნამუშევრიდან აირჩიოთ.` });
+  for (const row of category.faq || []) {
+    const question = localized(row.label, locale).trim();
+    const answer = localized(row.value, locale).trim();
+    if (question && answer) items.push({ question, answer });
+  }
+  return items;
+}
+
+/** Meta description for an item type: its own description, or one built from its terms. */
+export function typeMetaDescription(category: Category, locale: Locale): string {
+  const own = localized(category.description, locale);
+  if (own) return own;
+  const name = localized(category.name, locale);
+  const terms = [minQuantityLabel(category.orderTerms, locale), leadTimeLabel(category.orderTerms, locale)].filter(Boolean).join(", ");
+  return locale === "en"
+    ? `${name}, made to order${terms ? ` (${terms})` : ""}. See completed examples and order from KOKENI, Tbilisi — manufacturing since 1989.`
+    : `${name} ინდივიდუალური შეკვეთით${terms ? ` (${terms})` : ""}. ნახეთ შესრულებული ნამუშევრები და შეუკვეთეთ KOKENI-ში, თბილისი — 1989 წლიდან.`;
 }

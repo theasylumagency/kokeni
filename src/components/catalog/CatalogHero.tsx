@@ -1,6 +1,7 @@
 import type { Dictionary } from "@/utils/getDictionary";
 import type { Group } from "@/lib/catalog/types";
 import Link from "next/link";
+import { sectorPath } from "@/lib/catalog/urls";
 
 type CatalogHeroProps = {
   dict: Dictionary;
@@ -77,7 +78,7 @@ export default function CatalogHero({ dict, groups, lang }: CatalogHeroProps) {
             return (
               <Link
                 key={group.id}
-                href={`/${lang}/catalog/${group.slug}`}
+                href={sectorPath(lang, group)}
                 className={`group relative overflow-hidden flex flex-col justify-end p-8 lg:p-12 border border-white/5 hover:border-white/20 transition-all duration-700 bg-black/40 ${spanClass}`}
               >
                 {/* Background Image / Texture */}

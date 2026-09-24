@@ -119,7 +119,8 @@ test('photo workflow, URL migration and publication boundaries', async t => {
   await t.test('migration is backed up, ASCII-only, stable and resolves legacy aliases', async () => {
     const snapshot = await catalog.getCatalogSnapshot(); product = snapshot.products[0];
     assert.equal(product.code, 'kkn-dc-001'); assert.deepEqual(product.legacySlugs, ['დიპლომი-001']);
-    assert.equal(urls.productPath('ka', 'academic', product), '/ka/catalog/academic/kkn-dc-001');
+    assert.equal(urls.productPath('ka', { slug: 'diploma-cover' }, product), '/ka/catalog/diploma-cover/kkn-dc-001');
+    assert.equal(urls.sectorPath('en', { slug: 'academic' }), '/en/catalog/sector/academic');
     assert.match(urls.asciiSlug('ოფიციალური დოკუმენტი'), /^[a-z-]+$/);
     assert.ok(fs.existsSync(path.join(sandbox, 'data/backups/before-product-url-migration.json')));
     assert.equal((await productPage.findPublicProduct('დიპლომი-001')).product.id, product.id);

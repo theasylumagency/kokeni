@@ -1,11 +1,14 @@
 import SheetFrame from "./SheetFrame";
+import Link from "next/link";
 import SheetMark from "./SheetMark";
+import { typePath } from "@/lib/catalog/typeCatalog";
 import type { HomeDirectionGroup } from "@/lib/catalog/types";
 import type { Dictionary } from "@/utils/getDictionary";
 
 type BlueprintProps = {
   dict: Dictionary;
   directions: HomeDirectionGroup[];
+  lang: string;
 };
 
 type FallbackCategory = {
@@ -13,7 +16,7 @@ type FallbackCategory = {
   items: string[];
 };
 
-export default function Blueprint({ dict, directions }: BlueprintProps) {
+export default function Blueprint({ dict, directions, lang }: BlueprintProps) {
   const fallbackCategories: FallbackCategory[] = [
     {
       title: dict.blueprint.cat1,
@@ -34,12 +37,12 @@ export default function Blueprint({ dict, directions }: BlueprintProps) {
       ? directions.map((direction) => ({
           key: direction.id,
           title: `${direction.orderLabel}. ${direction.name}`,
-          items: direction.categories.map((category) => category.name),
+          items: direction.categories.map((category) => ({ name: category.name, href: typePath(lang, category) as string | undefined })),
         }))
       : fallbackCategories.map((category, index) => ({
           key: `${category.title}-${index}`,
           title: category.title,
-          items: category.items,
+          items: category.items.map((name) => ({ name, href: undefined as string | undefined })),
         }));
 
   return (
@@ -64,13 +67,19 @@ export default function Blueprint({ dict, directions }: BlueprintProps) {
               </h3>
               <ul className="flex flex-col gap-3">
                 {category.items.map((item, index) => (
-                  <li
-                    key={`${category.key}-${item}-${index}`}
-                    className="flex items-end justify-between"
-                  >
-                    <span>{item}</span>
-                    <div className="mx-4 mb-1 flex-grow border-b border-dotted border-text-main/40" />
-                    <span className="text-text-main/60">{dict.blueprint.view}</span>
+                  <li key={`${category.key}-${item.name}-${index}`}>
+                    {item.href ? (
+                      <Link href={item.href} className="group flex items-end justify-between hover:text-primary-ink">
+                        <span>{item.name}</span>
+                        <div className="mx-4 mb-1 flex-grow border-b border-dotted border-text-main/40" />
+                        <span className="text-text-main/60 group-hover:text-primary-ink">{dict.blueprint.view}</span>
+                      </Link>
+                    ) : (
+                      <div className="flex items-end justify-between">
+                        <span>{item.name}</span>
+                        <div className="mx-4 mb-1 flex-grow border-b border-dotted border-text-main/40" />
+                      </div>
+                    )}
                   </li>
                 ))}
               </ul>

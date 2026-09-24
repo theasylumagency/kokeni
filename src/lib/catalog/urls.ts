@@ -1,4 +1,4 @@
-import type { Category, Product } from "./types";
+import type { Category, Group, Product } from "./types";
 
 const letters: Record<string, string> = Object.fromEntries(
   [..."აბგდევზთიკლმნოპჟრსტუფქღყშჩცძწჭხჯჰ"].map((letter, index) => [letter,
@@ -29,6 +29,20 @@ export function nextProductCode(category: Category, products: Product[], reserve
   return `${prefix}${String(highest + 1).padStart(3, "0")}`;
 }
 
-export function productPath(lang: string, groupSlug: string, product: Pick<Product, "slug" | "code">): string {
-  return `/${lang === "en" ? "en" : "ka"}/catalog/${asciiSlug(groupSlug)}/${product.code || product.slug}`;
+/** Top-level path segments under /catalog that item-type slugs must never take. */
+export const RESERVED_CATALOG_SLUGS = ["types", "sector"];
+
+/** Canonical product URL: the item type is the primary axis (/catalog/{type}/{code}). */
+export function productPath(lang: string, category: Pick<Category, "slug">, product: Pick<Product, "slug" | "code">): string {
+  return `/${lang === "en" ? "en" : "ka"}/catalog/${encodeURIComponent(category.slug)}/${product.code || product.slug}`;
+}
+
+/** Sector (group) landing page — a secondary way into the catalog. */
+export function sectorPath(lang: string, group: Pick<Group, "slug">): string {
+  return `/${lang === "en" ? "en" : "ka"}/catalog/sector/${encodeURIComponent(group.slug)}`;
+}
+
+/** Route params may arrive encoded or already decoded depending on the runtime; never throw on stray "%". */
+export function safeDecode(value: string): string {
+  try { return decodeURIComponent(value); } catch { return value; }
 }

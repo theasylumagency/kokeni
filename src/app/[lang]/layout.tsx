@@ -4,12 +4,16 @@ import { getDictionary } from "@/utils/getDictionary";
 import Navigation from "@/components/layout/Navigation";
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
 import AnalyticsEvents from "@/components/analytics/AnalyticsEvents";
+import JsonLd from "@/components/seo/JsonLd";
+import { organizationJsonLd } from "@/lib/seo/jsonld";
+import { BRAND, SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "KOKENI.GE | Precision Embossing",
-  description:
-    "Advanced European printing technology meets uncompromising manual craftsmanship.",
+  metadataBase: new URL(SITE_URL),
+  applicationName: BRAND.name,
+  title: { default: "KOKENI", template: "%s" },
   manifest: "/site.webmanifest",
+  formatDetection: { telephone: false },
 };
 
 export async function generateStaticParams() {
@@ -34,6 +38,7 @@ export default async function RootLayout({
       <body
         className="antialiased relative min-h-screen w-full font-display selection:bg-primary selection:text-white"
       >
+        <JsonLd data={organizationJsonLd(lang === "en" ? "en" : "ka")} />
         <Navigation dict={dict} lang={lang} />
         {children}
         <AnalyticsEvents />

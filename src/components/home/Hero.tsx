@@ -53,7 +53,7 @@ export default function Hero({ dict }: { dict: Dictionary }) {
                             unoptimized
                         />
                         <h1 className="font-bold uppercase text-text-heavy tracking-tighter leading-[0.95] text-[clamp(2.25rem,4.4vw,4.25rem)] flex flex-col items-start text-balance">
-                            <span>{dict.hero.title2}</span>
+                            <span>{dict.hero.title2}</span>{" "}
                             <span>{dict.hero.title3}</span>
                         </h1>
                         <p className="mt-10 font-bold text-lg lg:text-xl">{dict.hero.subtitle}</p>

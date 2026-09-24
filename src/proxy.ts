@@ -20,9 +20,12 @@ export function proxy(request: NextRequest) {
   }
 
   request.nextUrl.pathname = `/${defaultLocale}${pathname}`;
-  return NextResponse.redirect(request.nextUrl);
+  // Permanent: the default locale never changes, and search engines should consolidate on /ka.
+  return NextResponse.redirect(request.nextUrl, 308);
 }
 
 export const config = {
-  matcher: ["/((?!_next|public|videos|images|fonts|uploads|api|favicon.ico).*)"],
+  // Skip Next internals, API, uploads and any path with a file extension
+  // (robots.txt, sitemap.xml, llms.txt, site.webmanifest, icons, images) so they are served as-is.
+  matcher: ["/((?!_next|public|videos|images|fonts|uploads|api|favicon.ico|.*\\..*).*)"],
 };

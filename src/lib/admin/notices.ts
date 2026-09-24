@@ -30,6 +30,8 @@ const errorMessages: Record<string, string> = {
   too_many_home_categories: "Only 3 categories can be shown on home per group.",
   missing_required_photos: "All three photos are required for new product.",
   invalid_attributes: "მახასიათებელს სჭირდება ქართული დასახელება და მნიშვნელობა. მაქსიმუმ 24 ჩანაწერი, ველი 500 სიმბოლომდე.",
+  invalid_faq: "კითხვას და პასუხს ქართული ტექსტი სჭირდება. მაქსიმუმ 24 კითხვა, პასუხი 2000 სიმბოლომდე.",
+  invalid_order_terms: "შეკვეთის პირობები: რაოდენობა და ვადა — დადებითი მთელი რიცხვი (მაქსიმუმი ≥ მინიმუმი), ფასი — დადებითი რიცხვი ან ცარიელი.",
   invalid_related_types: "აირჩიეთ არსებული, განსხვავებული ნივთის ტიპები.",
   invalid_cover_product: "მთავარი ფოტო უნდა ეკუთვნოდეს ამ ტიპის ნამუშევარს.",
   unexpected: "Unexpected error occurred.",

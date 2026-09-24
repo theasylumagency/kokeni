@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { sectorPath } from "@/lib/catalog/urls";
 
 interface Group {
   id: string;
@@ -65,7 +66,8 @@ export default function CatalogNavigation({
             return (
               <Link
                 key={group.id}
-                href={`/${lang}/catalog/${group.slug}`}
+                href={sectorPath(lang, group)}
+                data-ga-event="select_content" data-ga-content-type="catalog_sector" data-ga-content-id={group.slug}
                 className={`tracking-[0.2em] whitespace-nowrap transition-all duration-300 ${isActive ? `${accent} border-b ${accentBorder} pb-1` : groupLinkIdle}`}
               >
                 {groupName}

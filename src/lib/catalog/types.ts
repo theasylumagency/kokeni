@@ -15,6 +15,15 @@ export type CatalogAttribute = {
   value: LocalizedText;
 };
 
+/** Typical order terms for an item type. Every field is optional; empty fields are not shown. */
+export type OrderTerms = {
+  minQuantity?: number;
+  leadTimeDays?: { min: number; max?: number };
+  /** Starting unit price in GEL, shown as "X ₾-დან". Omit to keep price by agreement. */
+  priceFrom?: number;
+  note?: OptionalLocalizedText;
+};
+
 export type TypeIllustration = "cover" | "menu" | "notebook" | "holder" | "box" | "print";
 
 export type Group = {
@@ -43,6 +52,9 @@ export type Category = {
   coverProductId?: string;
   illustration?: TypeIllustration;
   catalogOrder?: number;
+  orderTerms?: OrderTerms;
+  /** Extra questions for this item type (label = question, value = answer). Shown after the automatic ones. */
+  faq?: CatalogAttribute[];
   createdAt: string;
   updatedAt: string;
 };
@@ -106,6 +118,7 @@ export type Product = {
 
 export type HomeDirectionCategory = {
   id: string;
+  slug: string;
   name: string;
 };
 

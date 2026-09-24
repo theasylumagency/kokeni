@@ -54,19 +54,21 @@ function paramsFromDataset(el: HTMLElement): GAParams {
 }
 
 /**
- * /ka/catalog/<category>/<collection>/<slug>  →  GA4 item.
- * Returns null for anything that is not a product URL.
+ * Catalog items are described by data attributes rendered next to the link, not parsed from the URL:
+ *   <a data-ga-item-id="kkn-dc-001" data-ga-item-name="…" data-ga-item-category="diploma-cover" data-ga-item-category2="academic">
+ * item_category = item type (primary axis), item_category2 = sector.
+ * The list the item is shown in comes from the nearest [data-ga-list] (e.g. "diploma-cover", "sector/academic").
  */
-function itemFromPath(pathname: string, listName?: string): GAItem | null {
-  const seg = pathname.split("/").filter(Boolean).map(safeDecode);
-  if (seg[1] !== "catalog" || seg.length < 5) return null;
-  const [, , category, collection, slug] = seg;
+function itemFromElement(el: HTMLElement): GAItem | null {
+  const d = el.dataset;
+  if (!d.gaItemId) return null;
+  const listName = el.closest<HTMLElement>("[data-ga-list]")?.dataset.gaList;
   return {
-    item_id: slug,
-    item_name: slug.replace(/-/g, " "),
-    item_category: category,
-    item_category2: collection,
-    item_list_name: listName ?? category,
+    item_id: d.gaItemId,
+    item_name: d.gaItemName || d.gaItemId,
+    ...(d.gaItemCategory ? { item_category: d.gaItemCategory } : {}),
+    ...(d.gaItemCategory2 ? { item_category2: d.gaItemCategory2 } : {}),
+    ...(listName ? { item_list_name: listName } : {}),
   };
 }
 
@@ -118,16 +120,11 @@ export function initClickTracking(): () => void {
       return;
     }
 
-    // Catalog: category card or product card
-    const path = safeDecode(a.pathname);
-    const category = /^\/(?:ka|en)\/catalog\/([^/]+)\/?$/.exec(path)?.[1];
-    if (category) {
-      track("select_content", { content_type: "catalog_category", content_id: category });
-      return;
-    }
-    const item = itemFromPath(a.pathname);
+    // Catalog product card. (Type and sector cards carry data-ga-event="select_content" and are handled in a.)
+    const itemEl = a.closest<HTMLElement>("[data-ga-item-id]");
+    const item = itemEl ? itemFromElement(itemEl) : null;
     if (item) {
-      track("select_item", { item_list_name: item.item_category, items: [item] });
+      track("select_item", { ...(item.item_list_name ? { item_list_name: item.item_list_name } : {}), items: [item] });
     }
   };
 
@@ -179,25 +176,37 @@ export function initHomeSectionTracking(pathname: string): () => void {
 /* ------------------------------------------------------------------ */
 
 export function trackCatalogPageView(pathname: string): () => void {
-  const seg = pathname.split("/").filter(Boolean).map(safeDecode);
-  if (seg[1] !== "catalog" || seg.length < 3) return () => {};
+  if (!/^\/(?:ka|en)\/catalog(?:\/|$)/.test(pathname)) return () => {};
+  const path = safeDecode(pathname);
 
   // Wait a tick so the new page's DOM and <title> are in place.
   const timer = window.setTimeout(() => {
     if (document.title.startsWith("404")) return; // don't count not-found pages as item views
+    const page = document.querySelector<HTMLElement>("[data-ga-page]");
+    if (!page) return;
+    const d = page.dataset;
 
-    if (seg.length >= 5) {
-      const item = itemFromPath(pathname);
-      if (item) track("view_item", { items: [item] });
+    // Product page: <main data-ga-page="catalog_product" data-ga-view-id=… data-ga-view-name=… data-ga-view-category=…>
+    if (d.gaPage === "catalog_product") {
+      if (!d.gaViewId || !path.includes(`/${d.gaViewId}`)) return; // stale DOM from the previous page
+      track("view_item", {
+        items: [{
+          item_id: d.gaViewId,
+          item_name: d.gaViewName || d.gaViewId,
+          ...(d.gaViewCategory ? { item_category: d.gaViewCategory } : {}),
+          ...(d.gaViewCategory2 ? { item_category2: d.gaViewCategory2 } : {}),
+        }],
+      });
       return;
     }
 
-    // category (…/catalog/academic) or collection (…/catalog/academic/diploma-cover) page
-    const listName = seg.slice(2, 4).join("/");
+    // Item type (/catalog/diploma-cover) or sector (/catalog/sector/academic) page.
+    const listName = d.gaList;
+    if (!listName || !path.endsWith(`/${listName}`)) return;
     const seen = new Set<string>();
     const items: GAItem[] = [];
-    document.querySelectorAll<HTMLAnchorElement>("main a[href*='/catalog/']").forEach((a) => {
-      const item = itemFromPath(a.pathname, listName);
+    page.querySelectorAll<HTMLElement>("[data-ga-item-id]").forEach((el) => {
+      const item = itemFromElement(el);
       if (item && !seen.has(item.item_id)) {
         seen.add(item.item_id);
         items.push(item);

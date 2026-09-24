@@ -8,6 +8,7 @@ import "../globals.css";
 export const metadata: Metadata = {
   title: "KOKENI Admin",
   description: "KOKENI Control Panel",
+  robots: { index: false, follow: false, nocache: true },
 };
 
 export default async function AdminLayout({

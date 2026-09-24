@@ -111,6 +111,13 @@ export async function createCategoryAction(formData: FormData): Promise<void> {
         coverProductId: getTextValue(formData, "coverProductId"),
         illustration: getTextValue(formData, "illustration"),
         catalogOrder: getTextValue(formData, "catalogOrder"),
+        orderMinQuantity: getTextValue(formData, "orderMinQuantity"),
+        orderLeadMin: getTextValue(formData, "orderLeadMin"),
+        orderLeadMax: getTextValue(formData, "orderLeadMax"),
+        orderPriceFrom: getTextValue(formData, "orderPriceFrom"),
+        orderNoteKa: getTextValue(formData, "orderNoteKa"),
+        orderNoteEn: getTextValue(formData, "orderNoteEn"),
+        ...(formData.has("faqJson") ? { faqJson: getTextValue(formData, "faqJson") } : {}),
       } : {}),
     });
   } catch (error) {
@@ -141,6 +148,13 @@ export async function updateCategoryAction(formData: FormData): Promise<void> {
         coverProductId: getTextValue(formData, "coverProductId"),
         illustration: getTextValue(formData, "illustration"),
         catalogOrder: getTextValue(formData, "catalogOrder"),
+        orderMinQuantity: getTextValue(formData, "orderMinQuantity"),
+        orderLeadMin: getTextValue(formData, "orderLeadMin"),
+        orderLeadMax: getTextValue(formData, "orderLeadMax"),
+        orderPriceFrom: getTextValue(formData, "orderPriceFrom"),
+        orderNoteKa: getTextValue(formData, "orderNoteKa"),
+        orderNoteEn: getTextValue(formData, "orderNoteEn"),
+        ...(formData.has("faqJson") ? { faqJson: getTextValue(formData, "faqJson") } : {}),
       } : {}),
     });
   } catch (error) {

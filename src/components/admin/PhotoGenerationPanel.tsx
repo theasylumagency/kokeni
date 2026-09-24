@@ -195,7 +195,7 @@ export default function PhotoGenerationPanel({ groups, categories, products, wor
         </div>
         <div className="mt-4 flex flex-wrap items-center gap-3">
           <button className={button} disabled={!productId && !selectedCategory} onClick={() => run("იქმნება სესია…", async () => { await request("/api/admin/photo-workflows", { productId: productId || undefined, categoryId, name: name.trim() || (selectedCategory ? buildSuggestedPhotoProductName(selectedCategory, localProducts) : ""), importOriginals: !!productId }); setChecked({}); setCorrections({}); setGalleryOrder([]); })}>{productId ? "ფოტოებზე მუშაობის ახალი სესია" : "ახალი პროდუქტის მონახაზის შექმნა"}</button>
-          {selectedProduct && group && <span className="break-all font-mono text-xs text-gray-500">{productPath("ka", group.slug, selectedProduct)}</span>}
+          {selectedProduct && selectedCategory && group && <span className="break-all font-mono text-xs text-gray-500">{productPath("ka", selectedCategory, selectedProduct)}</span>}
         </div>
         <p className="mt-3 text-xs text-gray-500">{productId ? "არსებული პროდუქტი არ იცვლება, სანამ დამტკიცებულ ფოტოებს გალერეაში არ შეინახავთ. თუ ძველი ორიგინალები არსებობს, ისინი ახალ სესიაში ხელმისაწვდომი იქნება." : "სახელი და კატეგორია საჭიროა პროდუქტის გამოუქვეყნებელი მონახაზის შესაქმნელად. დანარჩენი პროდუქტის ინფორმაცია მოგვიანებით შეივსება."}</p>
       </section>

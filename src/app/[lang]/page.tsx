@@ -6,6 +6,25 @@ import Output from "@/components/home/Output";
 import Blueprint from "@/components/home/Blueprint";
 import Terminal from "@/components/home/Terminal";
 import { getHomeDirections } from "@/lib/catalog/data";
+import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/site";
+
+const HOME_META = {
+  ka: {
+    title: "KOKENI — დიპლომის, მენიუს და დოკუმენტის ყდები თბილისში",
+    description: "1989 წლიდან ვამზადებთ დიპლომისა და დოკუმენტის ყდებს, მენიუს ყდებს, საქაღალდეებს და ბლოკნოტებს PVC-სა და ნატურალური ტყავისგან. ინდივიდუალური შეკვეთა, თბილისი.",
+  },
+  en: {
+    title: "KOKENI — Diploma, Menu & Document Covers Made in Tbilisi",
+    description: "Since 1989 we make custom diploma and document covers, menu covers, folders and notebooks in PVC and genuine leather. Made to order in Tbilisi, Georgia.",
+  },
+};
+
+export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
+  const { lang } = await params;
+  const locale = lang === "en" ? "en" : "ka";
+  return pageMetadata({ locale, ...HOME_META[locale], pathFor: l => `/${l}` });
+}
 
 
 
@@ -29,7 +48,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
         <Hero dict={dict} />
         <Capacity dict={dict} />
         <Output dict={dict} />
-        <Blueprint dict={dict} directions={directions} />
+        <Blueprint dict={dict} directions={directions} lang={lang} />
       </main>
       
       <Terminal dict={dict} />

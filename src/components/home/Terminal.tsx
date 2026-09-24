@@ -3,7 +3,7 @@ import type { Dictionary } from "@/utils/getDictionary";
 
 export default function Terminal({ dict }: { dict: Dictionary }) {
   return (
-    <footer className="relative z-10 w-full flex flex-col bg-text-heavy text-background-light pt-20 px-10 lg:px-16 pb-10 overflow-hidden">
+    <footer id="contact" className="scroll-mt-14 relative z-10 w-full flex flex-col bg-text-heavy text-background-light pt-20 px-10 lg:px-16 pb-10 overflow-hidden">
       <SheetMark n="05" name="Terminal" tone="paper" className="right-10 top-8 hidden lg:flex" />
       {/* Faint Dark-Mode Grid Overlay for Footer */}
       <div className="absolute inset-0 pointer-events-none opacity-5" style={{

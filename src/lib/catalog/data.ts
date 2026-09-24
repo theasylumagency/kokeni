@@ -3,9 +3,9 @@ import "server-only";
 import { promises as fs } from "fs";
 import path from "path";
 import { randomUUID } from "crypto";
-import { asciiSlug, nextProductCode } from "./urls";
+import { RESERVED_CATALOG_SLUGS, asciiSlug, nextProductCode } from "./urls";
 import { parseAttributes, typeIllustrations } from "./typeCatalog";
-import type { CatalogAttribute, TypeIllustration } from "./types";
+import type { CatalogAttribute, OrderTerms, TypeIllustration } from "./types";
 import { withFileLock, writeJsonAtomic } from "./storage";
 import { unstable_noStore as noStore } from "next/cache";
 
@@ -72,6 +72,13 @@ type CategoryCreateInput = {
   coverProductId?: string;
   illustration?: string;
   catalogOrder?: string;
+  orderMinQuantity?: string;
+  orderLeadMin?: string;
+  orderLeadMax?: string;
+  orderPriceFrom?: string;
+  orderNoteKa?: string;
+  orderNoteEn?: string;
+  faqJson?: string;
 };
 
 type CategoryUpdateInput = CategoryCreateInput & {
@@ -131,6 +138,7 @@ export async function getHomeDirections(
         .sort((left, right) => left.order - right.order)
         .map((category) => ({
           id: category.id,
+          slug: category.slug,
           name: getLocalizedValue(category.name, locale),
         })),
     }))
@@ -229,7 +237,7 @@ async function createCategoryRecordUnlocked(
   const now = new Date().toISOString();
   const slug = makeUniqueSlug(
     input.nameEn || input.nameKa,
-    categories.map((category) => category.slug)
+    [...categories.map((category) => category.slug), ...RESERVED_CATALOG_SLUGS]
   );
   const groupCategories = categories.filter(
     (category) => category.groupId === input.groupId
@@ -281,8 +289,8 @@ async function updateCategoryRecordUnlocked(
   );
   const slug = makeUniqueSlug(
     input.nameEn || input.nameKa,
-    remainingCategories.map((category) => category.slug),
-    existingCategory.slug
+    [...remainingCategories.map((category) => category.slug), ...RESERVED_CATALOG_SLUGS],
+    RESERVED_CATALOG_SLUGS.includes(existingCategory.slug) ? undefined : existingCategory.slug
   );
 
   const updatedCategory: Category = {
@@ -970,6 +978,40 @@ function validatedAttributes(raw: string | undefined): CatalogAttribute[] | unde
   catch { throw new CatalogMutationError("invalid_attributes", "მახასიათებელს სჭირდება ქართული დასახელება და მნიშვნელობა (მაქსიმუმ 24 ჩანაწერი, თითო ველი 500 სიმბოლომდე)."); }
 }
 
+function parseOrderTerms(input: CategoryCreateInput): OrderTerms | undefined {
+  const integer = (raw: string | undefined): number | undefined => {
+    const text = raw?.trim();
+    if (!text) return undefined;
+    const value = Number(text);
+    if (!Number.isSafeInteger(value) || value < 1 || value > 1_000_000) {
+      throw new CatalogMutationError("invalid_order_terms", "რაოდენობა და ვადა უნდა იყოს დადებითი მთელი რიცხვი.");
+    }
+    return value;
+  };
+  const minQuantity = integer(input.orderMinQuantity);
+  const leadMin = integer(input.orderLeadMin);
+  const leadMax = integer(input.orderLeadMax);
+  if (leadMax !== undefined && leadMin === undefined) {
+    throw new CatalogMutationError("invalid_order_terms", "ვადის „მაქსიმუმი“ მხოლოდ „მინიმუმთან“ ერთად მიუთითეთ.");
+  }
+  if (leadMin !== undefined && leadMax !== undefined && leadMax < leadMin) {
+    throw new CatalogMutationError("invalid_order_terms", "ვადის მაქსიმუმი მინიმუმზე ნაკლები ვერ იქნება.");
+  }
+  const priceText = input.orderPriceFrom?.trim().replace(",", ".");
+  const priceFrom = priceText ? Number(priceText) : undefined;
+  if (priceFrom !== undefined && (!Number.isFinite(priceFrom) || priceFrom <= 0 || priceFrom > 1_000_000)) {
+    throw new CatalogMutationError("invalid_order_terms", "ფასი უნდა იყოს დადებითი რიცხვი ან დატოვეთ ცარიელი.");
+  }
+  const terms: OrderTerms = {
+    ...(minQuantity !== undefined ? { minQuantity } : {}),
+    ...(leadMin !== undefined ? { leadTimeDays: { min: leadMin, ...(leadMax !== undefined && leadMax !== leadMin ? { max: leadMax } : {}) } } : {}),
+    ...(priceFrom !== undefined ? { priceFrom: Math.round(priceFrom * 100) / 100 } : {}),
+  };
+  const note = buildOptionalLocalizedText(input.orderNoteKa?.slice(0, 500), input.orderNoteEn?.slice(0, 500));
+  if (note) terms.note = note;
+  return Object.keys(terms).length ? terms : undefined;
+}
+
 async function categoryDetails(input: CategoryCreateInput, categories: Category[], existing?: Category): Promise<Partial<Category>> {
   const details: Partial<Category> = {};
   if (input.catalogOrder !== undefined) {
@@ -981,6 +1023,13 @@ async function categoryDetails(input: CategoryCreateInput, categories: Category[
     details.description = buildOptionalLocalizedText(input.descriptionKa, input.descriptionEn);
   }
   if (input.customizationJson !== undefined) details.customization = validatedAttributes(input.customizationJson);
+  if (input.faqJson !== undefined) {
+    try { details.faq = parseAttributes(input.faqJson, 2000); }
+    catch { throw new CatalogMutationError("invalid_faq", "კითხვას და პასუხს ქართული ტექსტი სჭირდება (მაქსიმუმ 24 კითხვა, პასუხი 2000 სიმბოლომდე)."); }
+  }
+  if ([input.orderMinQuantity, input.orderLeadMin, input.orderLeadMax, input.orderPriceFrom, input.orderNoteKa, input.orderNoteEn].some(value => value !== undefined)) {
+    details.orderTerms = parseOrderTerms(input);
+  }
   if (input.relatedCategoryIds !== undefined) {
     const ids = [...new Set(input.relatedCategoryIds)];
     if (ids.length > 24 || ids.some(id => id === existing?.id || !categories.some(category => category.id === id))) {

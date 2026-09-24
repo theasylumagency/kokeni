@@ -3,6 +3,26 @@ import { getCatalogSnapshot } from "@/lib/catalog/data";
 import { notFound, permanentRedirect } from "next/navigation";
 import CatalogNavigation from "@/components/catalog/CatalogNavigation";
 import GroupProductsContent from "@/components/catalog/GroupProductsContent";
+import { sectorPath } from "@/lib/catalog/urls";
+import type { Metadata } from "next";
+import { clip, pageMetadata } from "@/lib/site";
+import { localized, publicTypes } from "@/lib/catalog/typeCatalog";
+
+export async function generateMetadata({ params }: { params: Promise<{ lang: string; groupSlug: string }> }): Promise<Metadata> {
+  const { lang, groupSlug } = await params;
+  if (lang !== "ka" && lang !== "en") return {};
+  const catalog = await getCatalogSnapshot();
+  const group = catalog.groups.find(item => item.isActive && item.slug === groupSlug);
+  if (!group) return {};
+  const name = localized(group.name, lang);
+  const types = publicTypes(catalog.groups, catalog.categories).filter(category => category.groupId === group.id).map(category => localized(category.name, lang));
+  return pageMetadata({
+    locale: lang,
+    title: `${name}: ${types.slice(0, 2).join(", ")} | KOKENI`,
+    description: clip(lang === "en" ? `${name}: ${types.join(", ")} — made to order by KOKENI in Tbilisi. See completed examples.` : `${name}: ${types.join(", ")} — ინდივიდუალური შეკვეთით, KOKENI, თბილისი. ნახეთ შესრულებული ნამუშევრები.`),
+    pathFor: locale => sectorPath(locale, group),
+  });
+}
 
 export default async function GroupProductsPage({ params }: { params: Promise<{ lang: string, groupSlug: string }> }) {
   const { lang, groupSlug } = await params;
@@ -21,7 +41,7 @@ export default async function GroupProductsPage({ params }: { params: Promise<{ 
     notFound();
   }
 
-  if (group.slug !== groupSlug) permanentRedirect(`/${lang}/catalog/${group.slug}`);
+  if (group.slug !== groupSlug) permanentRedirect(sectorPath(lang, group));
 
   const groupCategories = catalog.categories
     .filter(c => c.groupId === group.id && c.isActive)
@@ -39,7 +59,7 @@ export default async function GroupProductsPage({ params }: { params: Promise<{ 
   const upperTag = (dict.catalog[upperKey] as string | undefined) || groupName;
 
   return (
-    <div className="relative min-h-screen w-full flex flex-col bg-[#fcfcfc] text-[#1a1b1c] selection:bg-primary selection:text-white pt-14">
+    <div className="relative min-h-screen w-full flex flex-col bg-[#fcfcfc] text-[#1a1b1c] selection:bg-primary selection:text-white pt-14" data-ga-page="catalog_sector" data-ga-list={`sector/${group.slug}`}>
 
       {/* Top Navigation - Light Theme */}
       <CatalogNavigation groups={activeGroups} lang={lang} dict={dict} currentGroupSlug={group.slug} theme="light" />
@@ -67,7 +87,7 @@ export default async function GroupProductsPage({ params }: { params: Promise<{ 
         products={groupProducts}
         lang={lang}
         dict={dict}
-        groupSlug={groupSlug}
+        groupSlug={group.slug}
       />
 
       {/* Light Footer */}

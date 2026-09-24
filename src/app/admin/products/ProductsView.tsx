@@ -150,7 +150,7 @@ export default function ProductsView({ groups, categories, products, notice }: P
           {editingProduct && (() => {
             const category = categories.find(category => category.id === editingProduct.categoryId);
             const group = groups.find(group => group.id === category?.groupId);
-            return group ? <div className="rounded-lg bg-gray-50 p-4 text-sm"><p className="font-mono font-semibold">{editingProduct.code?.toUpperCase()}</p><p className="mt-1 break-all text-gray-500">{productPath("ka", group.slug, editingProduct)}</p><p className="mt-2 text-xs text-gray-500">სახელის შეცვლა პროდუქტის კოდსა და მისამართს არ ცვლის.</p></div> : null;
+            return group && category ? <div className="rounded-lg bg-gray-50 p-4 text-sm"><p className="font-mono font-semibold">{editingProduct.code?.toUpperCase()}</p><p className="mt-1 break-all text-gray-500">{productPath("ka", category, editingProduct)}</p><p className="mt-2 text-xs text-gray-500">სახელის შეცვლა პროდუქტის კოდსა და მისამართს არ ცვლის.</p></div> : null;
           })()}
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

@@ -31,8 +31,10 @@ interface GroupProductsContentProps {
   groupSlug: string;
 }
 
-export default function GroupProductsContent({ categories, products, lang, dict, groupSlug }: GroupProductsContentProps) {
+export default function GroupProductsContent({ categories: allCategories, products, lang, dict, groupSlug }: GroupProductsContentProps) {
   const [activeSegment, setActiveSegment] = useState<string>("");
+  // Only types with published examples get a section, so only those belong in the index.
+  const categories = allCategories.filter(category => products.some(product => product.categoryId === category.id));
 
   useEffect(() => {
     const observerOptions = {
@@ -134,8 +136,12 @@ export default function GroupProductsContent({ categories, products, lang, dict,
                     return (
                       <Link
                         key={product.id}
-                        href={productPath(lang, groupSlug, product)}
+                        href={productPath(lang, category, product)}
                         className="group flex flex-col gap-6"
+                        data-ga-item-id={product.code || product.slug}
+                        data-ga-item-name={productName}
+                        data-ga-item-category={category.slug}
+                        data-ga-item-category2={groupSlug}
                       >
                         {/* Image Container with Paper/Matte feel */}
                         <div className="relative w-full aspect-square bg-[#f0ece9] overflow-hidden border border-black/5 group-hover:shadow-2xl group-hover:shadow-black/5 transition-all duration-700 flex items-center justify-center">
