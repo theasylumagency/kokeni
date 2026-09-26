@@ -1,6 +1,8 @@
 import { getCatalogSnapshot } from "@/lib/catalog/data";
 import { leadTimeLabel, localized, minQuantityLabel, publicTypes, typePath } from "@/lib/catalog/typeCatalog";
 import { BRAND, SITE_URL, absoluteUrl } from "@/lib/site";
+import { composeCatalog } from "@/lib/catalog/composition";
+import { familyPath } from "@/lib/catalog/urls";
 import { CONTACT } from "@/lib/contact";
 
 export const dynamic = "force-dynamic";
@@ -9,6 +11,7 @@ export const dynamic = "force-dynamic";
 export async function GET(): Promise<Response> {
   const catalog = await getCatalogSnapshot();
   const types = publicTypes(catalog.groups, catalog.categories);
+  const composition = composeCatalog(types);
   const line = (type: (typeof types)[number]) => {
     const terms = [minQuantityLabel(type.orderTerms, "en"), leadTimeLabel(type.orderTerms, "en")].filter(Boolean).join(", ");
     const description = localized(type.description, "en");
@@ -24,13 +27,15 @@ export async function GET(): Promise<Response> {
 - E-mail: ${CONTACT.email}
 - Languages: Georgian (${SITE_URL}/ka), English (${SITE_URL}/en)
 
-## Item types
+## Catalog
 
-${types.map(line).join("\n")}
+${composition.families.map(family => `### ${family.config.title.en || family.config.title.ka}${family.landing ? ` — ${absoluteUrl(familyPath("en", family.config.id))}` : ""}\n\n${family.members.map(line).join("\n")}`).join("\n\n")}
+${composition.others.length ? `\n### Other items\n\n${composition.others.map(line).join("\n")}\n` : ""}${composition.unplaced.length ? `\n### More item types\n\n${composition.unplaced.map(line).join("\n")}\n` : ""}
+Custom projects: objects that are not in the catalog are designed, prototyped and manufactured to order.
 
 ## Pages
 
-- [Catalog](${SITE_URL}/en/catalog): all item types with completed examples
+- [Catalog](${SITE_URL}/en/catalog): main directions, other items and custom projects, with completed examples
 - [Home](${SITE_URL}/en): company overview and contact details
 `;
   return new Response(body, { headers: { "content-type": "text/plain; charset=utf-8", "cache-control": "public, max-age=3600" } });

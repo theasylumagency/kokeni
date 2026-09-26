@@ -1,6 +1,6 @@
 import Image from "next/image";
 import kokeniMark from "../../../public/logo/just_man.svg";
-import DielineCube from "./DielineCube";
+import HeroConstruction from "./HeroConstruction";
 import SheetFrame from "./SheetFrame";
 import type { Dictionary } from "@/utils/getDictionary";
 
@@ -14,21 +14,21 @@ const SPECS = [
 ];
 
 export default function Hero({ dict }: { dict: Dictionary }) {
-    // The extra height on lg+ is the runway the drawing unfolds over: the hero
-    // pins itself, the cube flattens into its die-line, then the page moves on.
-    // Phones keep a plain one-screen hero - no pinning, no morph.
+    // One screen, no scroll-jacking. The drawing runs on its own clock and
+    // is sized by the space it gets: full width on phones, the larger
+    // column on desktops, capped by the viewport height on wide screens.
     return (
-        <section className="relative w-full lg:min-h-[170vh]">
-            <div className="sticky top-0 flex min-h-screen w-full flex-col px-10 py-10 lg:py-14 lg:pl-28 lg:pr-20">
+        <section className="relative w-full">
+            <div className="relative flex min-h-[100svh] w-full flex-col px-5 pb-8 pt-20 sm:px-10 lg:pb-10 lg:pl-28 lg:pr-20 lg:pt-24">
                 <SheetFrame />
 
                 {/* Registration Marks (Top Left) */}
-                <div className="absolute top-8 left-8 z-20 hidden flex-col items-center gap-2 lg:flex">
+                <div className="absolute top-20 left-8 z-20 hidden flex-col items-center gap-2 lg:flex">
                     <span className="material-symbols-outlined text-primary text-base">add</span>
                     <span className="font-mono text-xs text-primary-ink">X:001</span>
                 </div>
                 {/* Registration Marks (Top Right) */}
-                <div className="absolute top-8 right-8 z-20 hidden flex-col items-center gap-2 lg:flex">
+                <div className="absolute top-20 right-8 z-20 hidden flex-col items-center gap-2 lg:flex">
                     <span className="material-symbols-outlined text-primary text-base">add</span>
                     <span className="font-mono text-xs text-primary-ink">Y:001</span>
                 </div>
@@ -40,42 +40,42 @@ export default function Hero({ dict }: { dict: Dictionary }) {
                     </span>
                 </div>
 
-                <div className="relative z-10 flex w-full flex-1 flex-col justify-center gap-8 pt-14 lg:flex-row lg:items-center lg:gap-10 lg:pt-0">
-                    {/* Left: the headline is the anchor now, the mark is just a mark */}
-                    <div className="flex flex-col lg:w-[58%] lg:pr-8">
+                {/* Phones: headline, drawing, text. Desktop: text column + drawing column. */}
+                <div className="relative z-10 mx-auto grid w-full max-w-[1800px] flex-1 grid-cols-1 content-center gap-x-12 gap-y-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:grid-rows-[auto_auto] xl:gap-x-20">
+                    <div className="flex flex-col lg:self-end">
                         <Image
                             src={kokeniMark}
                             alt="Kokeni"
                             width={160}
                             height={160}
-                            className="mb-8 h-14 w-auto object-contain object-left lg:h-16"
+                            className="mb-6 h-12 w-auto object-contain object-left lg:mb-8 lg:h-16 2xl:h-20"
                             priority
                             unoptimized
                         />
-                        <h1 className="font-bold uppercase text-text-heavy tracking-tighter leading-[0.95] text-[clamp(2.25rem,4.4vw,4.25rem)] flex flex-col items-start text-balance">
+                        <h1 className="flex flex-col items-start text-balance text-[clamp(2.1rem,3.5vw,5.5rem)] font-bold uppercase leading-[0.98] tracking-tighter text-text-heavy">
                             <span>{dict.hero.title2}</span>{" "}
                             <span>{dict.hero.title3}</span>
                         </h1>
-                        <p className="mt-10 font-bold text-lg lg:text-xl">{dict.hero.subtitle}</p>
-                        <p className="mt-3 max-w-xl font-mono text-sm leading-relaxed text-text-main/85">
-                            {dict.hero.description}
-                        </p>
-                        <button data-ga-event="cta_click" data-ga-cta-id="hero_project" className="group relative mt-10 flex h-[60px] w-[260px] items-center justify-center overflow-hidden border-heavy bg-transparent rounded-sm transition-colors duration-300 hover:bg-text-heavy cursor-pointer">
-                            <span className="font-mono text-[14px] font-bold text-text-heavy transition-colors duration-300 group-hover:text-background-light uppercase">
-                                {dict.hero.cta}
-                            </span>
-                        </button>
                     </div>
 
-                    {/* Right: the drawing that completes, then unfolds */}
-                    <div className="relative flex items-center justify-center lg:w-[42%]">
-                        <DielineCube />
+                    <div className="lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:self-center">
+                        <HeroConstruction labels={{ steps: dict.hero.steps, captions: dict.hero.captions, pause: dict.hero.pause, play: dict.hero.play, label: dict.hero.drawing_label }} />
+                    </div>
+
+                    <div className="flex flex-col lg:self-start">
+                        <p className="max-w-xl font-mono text-sm leading-relaxed text-text-main/85 2xl:max-w-2xl 2xl:text-base">
+                            {dict.hero.description}
+                        </p>
+                        <a href="#contact" data-ga-event="cta_click" data-ga-cta-id="hero_project" className="group relative mt-8 flex h-[60px] w-full max-w-[300px] items-center justify-center overflow-hidden rounded-sm border-heavy bg-transparent transition-colors duration-300 hover:bg-text-heavy lg:mt-10">
+                            <span className="font-mono text-[14px] font-bold uppercase text-text-heavy transition-colors duration-300 group-hover:text-background-light">
+                                {dict.hero.cta}
+                            </span>
+                        </a>
                     </div>
                 </div>
 
-                {/* Sheet notes - kills the dead band at the foot of the hero and
-                    answers the first three questions a buyer actually has. */}
-                <div className="relative z-10 mt-10 flex flex-col gap-6 border-t border-text-heavy/20 pt-5 sm:flex-row sm:items-end sm:justify-between">
+                {/* Sheet notes - answers the first questions a buyer actually has. */}
+                <div className="relative z-10 mx-auto mt-10 flex w-full max-w-[1800px] flex-col gap-6 border-t border-text-heavy/20 pt-5 sm:flex-row sm:items-end sm:justify-between">
                     <dl className="grid w-full grid-cols-2 gap-x-8 gap-y-5 font-mono sm:flex sm:w-auto sm:gap-x-12">
                         {SPECS.map((s) => (
                             <div key={s.k} className="flex flex-col gap-1.5">
@@ -85,7 +85,7 @@ export default function Hero({ dict }: { dict: Dictionary }) {
                         ))}
                     </dl>
 
-                    <div className="flex shrink-0 items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] text-text-heavy/50">
+                    <div className="hidden shrink-0 items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] text-text-heavy/50 sm:flex">
                         <span>Scroll</span>
                         <span className="material-symbols-outlined animate-pulse text-sm">south</span>
                     </div>

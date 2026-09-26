@@ -26,7 +26,27 @@ export function typeCover(category: Category, products: Product[]): Product | un
     || examples.find(product => product.images.length > 0);
 }
 
-export const typeIllustrations: TypeIllustration[] = ["cover", "menu", "notebook", "holder", "box", "print"];
+/** Drawings offered in the admin, with their Georgian labels (the order of the select). */
+export const TYPE_DRAWINGS: { value: TypeIllustration; label: string }[] = [
+  { value: "diploma", label: "დიპლომის ყდა" },
+  { value: "credential", label: "მოწმობის ყდა (ორფურცლიანი)" },
+  { value: "certificate", label: "A4 მოწმობა / სერტიფიკატი ყდაში" },
+  { value: "marriage", label: "ქორწინების მოწმობის ყდა" },
+  { value: "passport", label: "პასპორტის ყდა" },
+  { value: "card", label: "ბარათის ჩასადები (ID)" },
+  { value: "menu", label: "მენიუს ყდა" },
+  { value: "receipt", label: "ანგარიშის ჩასადები" },
+  { value: "waiter", label: "მიმტანის ბლოკნოტი" },
+  { value: "notebook", label: "ბლოკნოტი" },
+  { value: "diary", label: "ყოველდღიური" },
+  { value: "planner", label: "კვირის დამგეგმავი" },
+  { value: "folder", label: "საქაღალდე" },
+  { value: "binder", label: "ბაინდერი" },
+  { value: "box", label: "ყუთი / მედლის ყუთი" },
+];
+
+/** Every value a saved record may carry (specific drawings plus the original generic ones). */
+export const typeIllustrations: TypeIllustration[] = [...TYPE_DRAWINGS.map(item => item.value), "cover", "holder", "print"];
 
 // These fields are optional so existing records and photo-created drafts remain valid.
 export function parseAttributes(raw: string | undefined, maxValueLength = 500): CatalogAttribute[] | undefined {
@@ -46,14 +66,38 @@ export function parseAttributes(raw: string | undefined, maxValueLength = 500): 
   });
 }
 
-export function illustrationFor(category: Category): TypeIllustration {
-  if (category.illustration) return category.illustration;
-  const label = `${category.slug} ${category.name.ka}`.toLowerCase();
-  if (/notebook|diary|ბლოკნოტ|ყოველდღიურ/.test(label)) return "notebook";
-  if (/menu|მენიუ/.test(label)) return "menu";
-  if (/medal|medlis|მედლ|ყუთ/.test(label)) return "box";
-  if (/holder|receipt|საქაღალდე|საბუთების ჩასადები/.test(label)) return "holder";
-  return "cover";
+const LEGACY_DRAWING: Partial<Record<TypeIllustration, TypeIllustration>> = { cover: "diploma", holder: "folder", print: "certificate" };
+/** Generic values the old admin saved by default; a more specific drawing detected from the name wins over them. */
+const GENERIC_DRAWINGS = new Set<TypeIllustration>(["cover", "holder", "print", "menu", "notebook", "box"]);
+
+const DRAWING_PATTERNS: [TypeIllustration, RegExp][] = [
+  ["diploma", /diplom|დიპლომ/],
+  ["marriage", /marriage|wedding|ქორწინ/],
+  ["certificate", /birth|დაბადებ/],
+  ["credential", /credential|motsmob|ofitsial|official|certificate|მოწმობ|ოფიციალ/],
+  ["passport", /passport|პასპორტ/],
+  ["waiter", /waiter|მიმტან/],
+  ["receipt", /receipt|bill|check-presenter|ანგარიშ|ჩეკ/],
+  ["menu", /menu|მენიუ/],
+  ["planner", /planner|weekly|დამგეგმ|კვირის|პლანერ/],
+  ["diary", /diary|ყოველდღიურ|დღიურ/],
+  ["notebook", /notebook|journal|ბლოკნოტ|რვეულ/],
+  ["binder", /binder|ბაინდერ|რგოლ/],
+  ["folder", /folder|document|portfolio|საქაღალდ|საბუთ|ფოლდერ/],
+  ["card", /card|badge|ბარათ|პირადობ|ბეიჯ/],
+  ["box", /medal|box|case|მედ|ყუთ|კოლოფ/],
+];
+
+/**
+ * The drawing for an item type. A specific drawing chosen in the admin is used as is; otherwise the
+ * name decides (so a diary saved with the old generic "notebook" still gets the diary drawing).
+ */
+export function illustrationFor(category: Pick<Category, "slug" | "name" | "illustration">): TypeIllustration {
+  const saved = category.illustration;
+  if (saved && !GENERIC_DRAWINGS.has(saved)) return saved;
+  const label = `${category.slug} ${category.name.ka} ${category.name.en || ""}`.toLowerCase();
+  const detected = DRAWING_PATTERNS.find(([, pattern]) => pattern.test(label))?.[0];
+  return detected || (saved && (LEGACY_DRAWING[saved] || saved)) || "diploma";
 }
 
 const money = (value: number): string => Number.isInteger(value) ? String(value) : value.toFixed(2);

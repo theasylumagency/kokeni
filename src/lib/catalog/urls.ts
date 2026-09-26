@@ -1,4 +1,5 @@
 import type { Category, Group, Product } from "./types";
+import { LANDING_SLUGS } from "./composition";
 
 const letters: Record<string, string> = Object.fromEntries(
   [..."აბგდევზთიკლმნოპჟრსტუფქღყშჩცძწჭხჯჰ"].map((letter, index) => [letter,
@@ -29,8 +30,8 @@ export function nextProductCode(category: Category, products: Product[], reserve
   return `${prefix}${String(highest + 1).padStart(3, "0")}`;
 }
 
-/** Top-level path segments under /catalog that item-type slugs must never take. */
-export const RESERVED_CATALOG_SLUGS = ["types", "sector"];
+/** Top-level path segments under /catalog that item-type slugs must never take (routes and family landing pages). */
+export const RESERVED_CATALOG_SLUGS = ["types", "sector", ...LANDING_SLUGS];
 
 /** Canonical product URL: the item type is the primary axis (/catalog/{type}/{code}). */
 export function productPath(lang: string, category: Pick<Category, "slug">, product: Pick<Product, "slug" | "code">): string {
@@ -45,4 +46,9 @@ export function sectorPath(lang: string, group: Pick<Group, "slug">): string {
 /** Route params may arrive encoded or already decoded depending on the runtime; never throw on stray "%". */
 export function safeDecode(value: string): string {
   try { return decodeURIComponent(value); } catch { return value; }
+}
+
+/** Family landing page (e.g. /catalog/personal-documents) — a catalog entrance that is not an item type. */
+export function familyPath(lang: string, familyId: string): string {
+  return `/${lang === "en" ? "en" : "ka"}/catalog/${encodeURIComponent(familyId)}`;
 }

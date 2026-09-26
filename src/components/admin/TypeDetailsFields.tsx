@@ -1,19 +1,22 @@
 import type { Category, Product } from "@/lib/catalog/types";
-import { illustrationFor } from "@/lib/catalog/typeCatalog";
+import { TYPE_DRAWINGS, illustrationFor } from "@/lib/catalog/typeCatalog";
 import CatalogAttributeEditor from "./CatalogAttributeEditor";
 
 const inputClass = "mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:outline-blue-600";
 
 export default function TypeDetailsFields({ category, categories, products }: { category: Category | null; categories: Category[]; products: Product[] }) {
   const terms = category?.orderTerms;
+  // Show a saved drawing only when it is still what the site uses; old generic defaults read as "automatic".
+  const savedDrawing = category?.illustration && TYPE_DRAWINGS.some(item => item.value === category.illustration) && illustrationFor(category) === category.illustration ? category.illustration : "";
   return <div className="space-y-6 border-t border-gray-200 pt-6">
     <div><h3 className="font-semibold text-gray-900">ნივთის ტიპის გვერდი</h3><p className="mt-2 text-sm text-gray-600">ეს ინფორმაცია გამოჩნდება კატალოგში. მთავარ გვერდზე არსებულ განაწილებას არ ცვლის.</p></div>
     <label className="block text-sm text-gray-700">მოკლე აღწერა (ქართულად)<textarea name="descriptionKa" rows={3} maxLength={2000} defaultValue={category?.description?.ka || ""} className={inputClass} placeholder="რისთვის გამოიყენება ეს ნივთი და როგორ შეიძლება მისი მორგება?" /></label>
     <label className="block text-sm text-gray-700">მოკლე აღწერა (ინგლისურად)<textarea name="descriptionEn" rows={3} maxLength={2000} defaultValue={category?.description?.en || ""} className={inputClass} /></label>
-    <label className="block text-sm text-gray-700">პოზიცია კატალოგის შესასვლელში<input type="number" name="catalogOrder" min={1} step={1} defaultValue={category?.catalogOrder || ""} className={inputClass} placeholder="ავტომატური" /><span className="mt-1 block text-xs text-gray-500">მაგ. 1 — პირველი. ეს ველი მთავარ გვერდზე მიმდევრობას არ ცვლის.</span></label>
-    <label className="block text-sm text-gray-700">სქემატური გამოსახულება<select name="illustration" defaultValue={category ? illustrationFor(category) : "cover"} className={inputClass}>
-      <option value="cover">ყდა</option><option value="menu">მენიუ</option><option value="notebook">ბლოკნოტი</option><option value="holder">ჩასადები / საქაღალდე</option><option value="box">ყუთი / მედლის ჩასადები</option><option value="print">ბეჭდური ფურცლები</option>
-    </select></label>
+    <label className="block text-sm text-gray-700">რიგითობა ტიპების სიებში<input type="number" name="catalogOrder" min={1} step={1} defaultValue={category?.catalogOrder || ""} className={inputClass} placeholder="ავტომატური" /><span className="mt-1 block text-xs text-gray-500">მაგ. 1 — პირველი. გამოიყენება სიებში (sitemap, llms.txt, სტრუქტურირებული მონაცემები). კატალოგის შესასვლელს კატალოგის კომპოზიცია აწყობს — იხ. „კატალოგის შესასვლელი“ ტიპების სიის ქვეშ.</span></label>
+    <label className="block text-sm text-gray-700">სქემატური გამოსახულება<select name="illustration" defaultValue={savedDrawing} className={inputClass}>
+      <option value="">ავტომატურად — სახელის მიხედვით{category ? ` (${TYPE_DRAWINGS.find(item => item.value === illustrationFor(category))?.label || ""})` : ""}</option>
+      {TYPE_DRAWINGS.map(item => <option key={item.value} value={item.value}>{item.label}</option>)}
+    </select><span className="mt-1 block text-xs text-gray-500">ტექნიკური ნახაზი, რომელიც ტიპს კატალოგში აღნიშნავს. ავტომატური არჩევანი ტიპის სახელს მიჰყვება.</span></label>
     <label className="block text-sm text-gray-700">მთავარი ფოტო<select name="coverProductId" defaultValue={category?.coverProductId || ""} className={inputClass}>
       <option value="">ავტომატურად — პირველი ნამუშევრიდან</option>
       {products.filter(product => product.categoryId === category?.id).map(product => <option key={product.id} value={product.id}>{product.name.ka}{!product.isPublished ? " (გამოუქვეყნებელი)" : ""}</option>)}

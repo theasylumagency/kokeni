@@ -1,6 +1,8 @@
 import "server-only";
 import { cache } from "react";
 import { getCatalogSnapshot } from "./data";
+import { composeCatalog, familyOf } from "./composition";
+import { publicTypes } from "./typeCatalog";
 
 export const findPublicProduct = cache(async (slug: string) => {
   const catalog = await getCatalogSnapshot();
@@ -9,5 +11,6 @@ export const findPublicProduct = cache(async (slug: string) => {
   const category = catalog.categories.find(category => category.id === product.categoryId && category.isActive);
   const group = catalog.groups.find(group => group.id === category?.groupId && group.isActive);
   if (!category || !group) return null;
-  return { product, category, group, groups: catalog.groups.filter(group => group.isActive) };
+  const family = familyOf(composeCatalog(publicTypes(catalog.groups, catalog.categories)), category.id);
+  return { product, category, group, family, groups: catalog.groups.filter(group => group.isActive) };
 });

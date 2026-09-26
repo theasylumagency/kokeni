@@ -24,7 +24,16 @@ export type OrderTerms = {
   note?: OptionalLocalizedText;
 };
 
-export type TypeIllustration = "cover" | "menu" | "notebook" | "holder" | "box" | "print";
+/**
+ * Schematic drawing shown for an item type. "cover", "holder" and "print" are the original generic
+ * values; saved records may still carry them and they map to the closest specific drawing.
+ */
+export type TypeIllustration =
+  | "diploma" | "credential" | "certificate" | "marriage" | "passport" | "card"
+  | "menu" | "receipt" | "waiter"
+  | "notebook" | "diary" | "planner"
+  | "folder" | "binder" | "box"
+  | "cover" | "holder" | "print";
 
 export type Group = {
   id: string;

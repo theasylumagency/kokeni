@@ -1,7 +1,8 @@
 import type { MetadataRoute } from "next";
 import { getCatalogSnapshot } from "@/lib/catalog/data";
 import { publicTypes, typeExamples, typePath } from "@/lib/catalog/typeCatalog";
-import { productPath, sectorPath } from "@/lib/catalog/urls";
+import { familyPath, productPath, sectorPath } from "@/lib/catalog/urls";
+import { composeCatalog, familyExamples } from "@/lib/catalog/composition";
 import type { Locale } from "@/lib/catalog/types";
 import { absoluteUrl } from "@/lib/site";
 
@@ -33,6 +34,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       const type = types.find(item => item.id === product.categoryId)!;
       return entries(locale => productPath(locale, type, product), product.updatedAt, 0.6);
     }),
+    ...composeCatalog(types).families.filter(family => family.landing).flatMap(family =>
+      entries(locale => familyPath(locale, family.config.id), latest([...family.members.map(member => member.updatedAt), ...familyExamples(family.members, products).map(product => product.updatedAt)]), 0.7)),
     ...activeGroups.flatMap(group => entries(locale => sectorPath(locale, group), group.updatedAt, 0.5)),
   ];
 }

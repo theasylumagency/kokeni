@@ -13,7 +13,20 @@
     "title3": "MANUFACTURING",
     "subtitle": "DESIGN, PROTOTYPE, MANUFACTURE.",
     "description": "Since 1989 we have been making diploma and document covers, menu covers, folders and notebooks in Tbilisi — in PVC and genuine leather, made to order.",
-    "cta": "INITIALIZE PROJECT ↗"
+    "cta": "INITIALIZE PROJECT ↗",
+    "steps": [
+      "Design",
+      "Prototype",
+      "Manufacture"
+    ],
+    "captions": [
+      "Drawing, pattern, dimensions",
+      "Form and mock-up",
+      "Material, foil, production run"
+    ],
+    "pause": "Pause animation",
+    "play": "Play animation",
+    "drawing_label": "A diploma cover: from drawing to prototype to production run"
   },
   "capacity": {
     "title1": "01 / HIGH-VOLUME MANUFACTURE",

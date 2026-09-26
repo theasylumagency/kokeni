@@ -3,6 +3,9 @@ import { getAdminCatalogSnapshot } from "@/lib/catalog/data";
 import { redirect } from "next/navigation";
 import CategoriesView from "./CategoriesView";
 import { getNotice } from "@/lib/admin/notices";
+import { publicTypes } from "@/lib/catalog/typeCatalog";
+import { composeCatalog } from "@/lib/catalog/composition";
+import CompositionOverview from "@/components/admin/CompositionOverview";
 
 export const dynamic = "force-dynamic";
 
@@ -21,11 +24,14 @@ export default async function CategoriesPage({ searchParams }: { searchParams: P
   }
 
   return (
-    <CategoriesView 
-      groups={catalog.groups} 
-      categories={catalog.categories} 
-      products={catalog.products} 
-      notice={notice} 
-    />
+    <div className="space-y-6">
+      <CategoriesView
+        groups={catalog.groups}
+        categories={catalog.categories}
+        products={catalog.products}
+        notice={notice}
+      />
+      <CompositionOverview composition={composeCatalog(publicTypes(catalog.groups, catalog.categories))} />
+    </div>
   );
 }

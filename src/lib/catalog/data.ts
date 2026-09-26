@@ -1038,8 +1038,9 @@ async function categoryDetails(input: CategoryCreateInput, categories: Category[
     details.relatedCategoryIds = ids;
   }
   if (input.illustration !== undefined) {
-    if (!typeIllustrations.includes(input.illustration as TypeIllustration)) throw new CatalogMutationError("invalid_attributes", "აირჩიეთ ილუსტრაცია.");
-    details.illustration = input.illustration as TypeIllustration;
+    // An empty value means "automatic": the drawing follows the item type's name.
+    if (input.illustration && !typeIllustrations.includes(input.illustration as TypeIllustration)) throw new CatalogMutationError("invalid_attributes", "აირჩიეთ ილუსტრაცია.");
+    details.illustration = (input.illustration || undefined) as TypeIllustration | undefined;
   }
   if (input.coverProductId !== undefined) {
     if (input.coverProductId) {
