@@ -59,7 +59,7 @@ export default function Hero({ dict }: { dict: Dictionary }) {
                     </div>
 
                     <div className="lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:self-center">
-                        <HeroConstruction labels={{ steps: dict.hero.steps, captions: dict.hero.captions, pause: dict.hero.pause, play: dict.hero.play, label: dict.hero.drawing_label }} />
+                        <HeroConstruction labels={{ steps: dict.hero.steps, captions: dict.hero.captions, pause: dict.hero.pause, play: dict.hero.play, label: dict.hero.drawing_label, cover: dict.hero.cover }} />
                     </div>
 
                     <div className="flex flex-col lg:self-start">

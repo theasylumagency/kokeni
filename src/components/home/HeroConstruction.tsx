@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { KOKENI_MARK } from "./kokeniMark";
 
 /* ------------------------------------------------------------------
    The hero drawing tells the company line literally — design,
@@ -12,7 +13,8 @@ import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "
                    on its two fold lines into a closed cover (a white
                    mock-up: hidden lines disappear, form appears).
    03 MANUFACTURE  material goes on, the press comes down and leaves
-                   the gold crest, the run stacks up underneath.
+                   the gold crest (the Kokeni mark and the company
+                   lettering), the run stacks up underneath.
 
    Everything is computed from one clock `t` (seconds), so any moment
    can be rendered directly: the step buttons jump, reduced motion
@@ -112,6 +114,8 @@ export type HeroConstructionLabels = {
   pause: string;
   play: string;
   label: string;
+  /** Foil lettering on the cover: the name, then a smaller second line. */
+  cover: readonly string[];
 };
 
 export default function HeroConstruction({ labels }: { labels: HeroConstructionLabels }) {
@@ -167,7 +171,7 @@ export default function HeroConstruction({ labels }: { labels: HeroConstructionL
     if (!paused) run();
   };
 
-  const scene = renderHeroFrame(t);
+  const scene = renderHeroFrame(t, labels.cover);
   const active = STEPS.findIndex(step => t >= step.start && t < step.end);
 
   return (
@@ -201,7 +205,7 @@ export default function HeroConstruction({ labels }: { labels: HeroConstructionL
 }
 
 /** The whole drawing at time t. Pure: same t, same picture. */
-function renderHeroFrame(t: number) {
+function renderHeroFrame(t: number, coverText: readonly string[]) {
   // --- clocks per phase ---------------------------------------------
   const out = 1 - seg(t, 13.8, 14.4); // loop fade
   const tilt = ease(seg(t, 3.75, 5.25));
@@ -281,10 +285,25 @@ function renderHeroFrame(t: number) {
   const crestC = { u: PW / 2, v: 96 };
   const circle = (r: number, n = 40) => Array.from({ length: n }, (_, i) => { const a = (i / n) * Math.PI * 2; return P(geo.onFront(crestC.u + Math.cos(a) * r, crestC.v + Math.sin(a) * r)); });
   const text = (v: number, half: number) => [P(geo.onFront(PW / 2 - half, v)), P(geo.onFront(PW / 2 + half, v))];
-  const crestParts = [circle(30), circle(21)];
-  const letterParts = [text(160, 58), text(180, 40), text(198, 50)];
+  // One foil ring (⌀60) around the Kokeni mark.
+  const crestParts = [circle(30)];
+  // Foil lettering under the crest: baseline v, cap size and tracking in mm;
+  // `half` is the half-width of the dashed placement guide drawn at design.
+  const lettering = [
+    { v: 164, size: 19, spacing: 3, half: 50 },
+    { v: 184, size: 8, spacing: 1.4, half: 42 },
+  ];
+  const letterParts = lettering.map(line => text(line.v, line.half));
 
   const frontVisible = facing(geo.front.n, cam);
+  // The front panel is flat and the projection is linear, so one affine matrix
+  // maps panel millimetres (u across, v down) to the screen: the mark and the
+  // lettering are drawn in panel units and land on the cover in perspective.
+  const o = P(geo.onFront(0, 0)), du = P(geo.onFront(1, 0)), dv = P(geo.onFront(0, 1));
+  const onPanel = `matrix(${[du[0] - o[0], du[1] - o[1], dv[0] - o[0], dv[1] - o[1], o[0], o[1]].map(n => n.toFixed(4)).join(" ")})`;
+  const markW = 40; // mm across, inside the ring (r 30)
+  const markK = markW / KOKENI_MARK.width;
+  const markAt = `translate(${crestC.u - markW / 2} ${crestC.v - (KOKENI_MARK.height * markK) / 2}) scale(${markK}) translate(${KOKENI_MARK.offsetX} ${KOKENI_MARK.offsetY})`;
   const frontDetails = <g>
     {(() => { const s = seamPath(frontSeam); return <path d={s.d} stroke={seamColor} strokeWidth={1} strokeDasharray="4 3" opacity={plot.seam} />; })()}
     {/* Design: red placement marks. Manufacture: the gold stamp. */}
@@ -294,11 +313,11 @@ function renderHeroFrame(t: number) {
     </g>
     <g stroke={GOLD} opacity={stamped * (frontVisible ? 1 : 0)}>
       {crestParts.map((pts, i) => <path key={i} d={path(pts)} strokeWidth={i ? 1.4 : 2} />)}
-      {(() => {
-        const star = Array.from({ length: 10 }, (_, i) => { const a = -Math.PI / 2 + (i / 10) * Math.PI * 2; const r = i % 2 ? 6 : 14; return P(geo.onFront(crestC.u + Math.cos(a) * r, crestC.v + Math.sin(a) * r)); });
-        return <path d={path(star)} fill={GOLD} stroke="none" />;
-      })()}
-      {letterParts.map((pts, i) => <path key={`l${i}`} d={path(pts, false)} strokeWidth={i === 0 ? 3.4 : 2} />)}
+      <g transform={onPanel} fill={GOLD} stroke="none">
+        {/* A hair of stroke, like foil spreading, keeps the thin lines of the mark legible at hero size. */}
+        <path transform={markAt} d={KOKENI_MARK.d} fillRule="evenodd" stroke={GOLD} strokeWidth={0.35 / markK} />
+        {lettering.map((line, i) => coverText[i] ? <text key={i} x={PW / 2 + line.spacing / 2} y={line.v} fontSize={line.size} letterSpacing={line.spacing} textAnchor="middle" className="font-display">{coverText[i]}</text> : null)}
+      </g>
     </g>
     {flash > 0 && <path d={path(circle(30 + (1 - flash) * 26))} stroke={GOLD} strokeWidth={1.2} opacity={flash} />}
   </g>;
@@ -324,7 +343,7 @@ function renderHeroFrame(t: number) {
     const shift = (1 - appear) * -90;
     const Q = (p: V3): Pt => P([p[0] + shift, p[1], p[2]]);
     return <g key={k} opacity={Math.min(1, appear * 3)}>
-      {(["south", "east", "north", "front"] as const).filter(key => facing(g[key].n, cam)).map(key => <path key={key} d={path(g[key].pts.map(Q))} fill={key === "front" ? MATERIAL : MATERIAL_EDGE} stroke="#0b1116" strokeWidth={1.2} />)}
+      {(["spine", "south", "east", "north", "front"] as const).filter(key => facing(g[key].n, cam)).map(key => <path key={key} d={path(g[key].pts.map(Q))} fill={key === "front" ? MATERIAL : key === "spine" ? MATERIAL_SIDE : MATERIAL_EDGE} stroke="#0b1116" strokeWidth={1.2} />)}
     </g>;
   });
   const count = Math.round(lerp(1, 50, run));

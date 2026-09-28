@@ -26,7 +26,11 @@
     ],
     "pause": "Pause animation",
     "play": "Play animation",
-    "drawing_label": "A diploma cover: from drawing to prototype to production run"
+    "drawing_label": "A diploma cover: from drawing to prototype to production run",
+    "cover": [
+      "KOKENI",
+      "LLC · SINCE 1989"
+    ]
   },
   "capacity": {
     "title1": "01 / HIGH-VOLUME MANUFACTURE",
