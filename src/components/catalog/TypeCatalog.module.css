@@ -230,6 +230,10 @@ a.familyNavTitle { text-decoration:underline; text-underline-offset:4px; }
 .contactBtn:hover { background:#25353c; color:#fff; }
 .contactBtnPrimary { background:#25353c; color:#fff; }
 .contactBtnPrimary:hover { background:#bf3426; border-color:#bf3426; }
+.contactActionsDark .contactBtn { border-color:#f5f2ec59; color:#f5f2ec; }
+.contactActionsDark .contactBtn:hover { background:#f5f2ec; color:#1b252c; border-color:#f5f2ec; }
+.contactActionsDark .contactBtnPrimary { background:#f5f2ec; color:#1b252c; border-color:#f5f2ec; }
+.contactActionsDark .contactBtnPrimary:hover { background:#e85a48; border-color:#e85a48; color:#fff; }
 .contact .contactActions { margin-top:0; justify-content:flex-end; flex-shrink:1; }
 
 /* Order terms */

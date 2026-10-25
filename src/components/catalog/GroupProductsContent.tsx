@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { productPath } from "@/lib/catalog/urls";
 import type { Dictionary } from "@/utils/getDictionary";
@@ -72,7 +73,7 @@ export default function GroupProductsContent({ categories: allCategories, produc
         <aside className="w-full lg:w-64 flex-shrink-0">
           <div className="sticky top-32 flex flex-col gap-8">
             <h2 className="font-mono text-xs tracking-[0.2em] text-[#1a1b1c]/40 uppercase mb-2 border-b border-black/5 pb-4">
-              {"// INDEX"}
+              {lang === "en" ? "// INDEX" : "// სარჩევი"}
             </h2>
             <nav className="flex flex-row lg:flex-col gap-6 overflow-x-auto lg:overflow-visible hide-scrollbar pb-4 lg:pb-0">
               {categories.map((category) => {
@@ -82,6 +83,7 @@ export default function GroupProductsContent({ categories: allCategories, produc
                 return (
                   <button
                     key={category.id}
+                    type="button"
                     onClick={() => {
                       document.getElementById(category.slug)?.scrollIntoView({ behavior: 'smooth' });
                     }}
@@ -102,7 +104,7 @@ export default function GroupProductsContent({ categories: allCategories, produc
           {categories.length === 0 && (
             <div className="w-full py-32 flex items-center justify-center border border-black/5 bg-[#f9f9fa]">
               <p className="font-mono text-sm uppercase tracking-widest text-[#1a1b1c]/40">
-                {dict.catalog?.empty || "NO ASSETS FOUND"}
+                {dict.catalog?.empty || (lang === "en" ? "NO ITEMS FOUND" : "ნიმუშები არ მოიძებნა")}
               </p>
             </div>
           )}
@@ -122,7 +124,7 @@ export default function GroupProductsContent({ categories: allCategories, produc
                     {categoryName}
                   </h3>
                   <span className="font-mono text-[10px] text-[#1a1b1c]/40 tracking-widest">
-                    [{categoryProducts.length} PRODUCTS]
+                    [{categoryProducts.length} {lang === "en" ? (categoryProducts.length === 1 ? "EXAMPLE" : "EXAMPLES") : "ნამუშევარი"}]
                   </span>
                 </div>
 
@@ -146,20 +148,23 @@ export default function GroupProductsContent({ categories: allCategories, produc
                         {/* Image Container with Paper/Matte feel */}
                         <div className="relative w-full aspect-square bg-[#f0ece9] overflow-hidden border border-black/5 group-hover:shadow-2xl group-hover:shadow-black/5 transition-all duration-700 flex items-center justify-center">
                           {firstImage ? (
-                            <img
+                            <Image
                               src={firstImage}
                               alt={productName}
-                              className="w-full h-full object-contain filter contrast-125 brightness-95 group-hover:scale-105 transition-transform duration-[1.5s] ease-out drop-shadow-xl"
+                              fill
+                              unoptimized
+                              sizes="(max-width:768px) 100vw, (max-width:1536px) 50vw, 33vw"
+                              className="object-contain filter contrast-125 brightness-95 group-hover:scale-105 transition-transform duration-[1.5s] ease-out drop-shadow-xl"
                             />
                           ) : (
                             <div className="font-mono text-[10px] text-[#1a1b1c]/20 tracking-widest uppercase">
-                              NO SPECIMEN
+                              {lang === "en" ? "PHOTO COMING SOON" : "ფოტო დაემატება"}
                             </div>
                           )}
 
                           {/* Minimalist Overlay Label */}
                           <div className="absolute top-4 left-4 font-mono text-[10px] text-[#1a1b1c]/40 uppercase tracking-widest">
-                            REF: {(product.code || product.slug).toUpperCase()}
+                            {(product.code || product.slug).toUpperCase()}
                           </div>
 
                           <div className="absolute bottom-4 right-4 w-10 h-10 rounded-full border border-black/10 flex items-center justify-center group-hover:border-primary group-hover:bg-primary/5 transition-all duration-500">

@@ -6,12 +6,18 @@
     "order": 1,
     "name": {
       "ka": "ბლოკნოტი",
-      "en": "notebook"
+      "en": "Notebook"
     },
     "isActive": true,
     "showOnHome": true,
     "createdAt": "2026-03-20T05:53:22.902Z",
-    "updatedAt": "2026-03-20T05:53:22.902Z"
+    "updatedAt": "2026-09-24T04:00:28.177Z",
+    "customization": [],
+    "relatedCategoryIds": [
+      "e284f287-2846-4517-bc0d-9e9b3a878467",
+      "9f8876d8-a54f-4d3d-9b97-258496c27f0a"
+    ],
+    "illustration": "notebook"
   },
   {
     "id": "e284f287-2846-4517-bc0d-9e9b3a878467",
@@ -28,6 +34,20 @@
     "updatedAt": "2026-03-20T05:56:59.364Z"
   },
   {
+    "id": "9f8876d8-a54f-4d3d-9b97-258496c27f0a",
+    "groupId": "327680ac-7c07-42d7-bd22-a5f3a4306bf9",
+    "slug": "binder",
+    "order": 3,
+    "name": {
+      "ka": "ბაინდერი",
+      "en": "Binder"
+    },
+    "isActive": true,
+    "showOnHome": false,
+    "createdAt": "2026-09-22T05:47:30.148Z",
+    "updatedAt": "2026-09-22T05:47:30.148Z"
+  },
+  {
     "id": "05fe5faf-ffb4-4c93-82f9-d42e0d5d21ee",
     "groupId": "e7307e1c-9f15-49f5-9c79-746b41b52332",
     "slug": "menu",
@@ -38,8 +58,14 @@
     },
     "isActive": true,
     "createdAt": "2026-03-19T06:34:52.902Z",
-    "updatedAt": "2026-03-19T07:17:12.059Z",
-    "showOnHome": true
+    "updatedAt": "2026-09-24T04:00:44.610Z",
+    "showOnHome": true,
+    "customization": [],
+    "relatedCategoryIds": [
+      "16561bbb-2e97-4ae0-92c0-65365b4019cb",
+      "e83bd10d-4b67-488a-8a8b-1843961e62c3"
+    ],
+    "illustration": "menu"
   },
   {
     "id": "16561bbb-2e97-4ae0-92c0-65365b4019cb",
@@ -48,12 +74,18 @@
     "order": 2,
     "name": {
       "ka": "რესტორნის ანგარიშის ჩასადები",
-      "en": "restaurant receipt presenter"
+      "en": "Restaurant Receipt Presenter"
     },
     "isActive": true,
     "showOnHome": true,
     "createdAt": "2026-03-19T08:00:31.513Z",
-    "updatedAt": "2026-03-20T05:49:24.704Z"
+    "updatedAt": "2026-09-24T04:01:01.012Z",
+    "customization": [],
+    "relatedCategoryIds": [
+      "05fe5faf-ffb4-4c93-82f9-d42e0d5d21ee",
+      "e83bd10d-4b67-488a-8a8b-1843961e62c3"
+    ],
+    "illustration": "holder"
   },
   {
     "id": "e83bd10d-4b67-488a-8a8b-1843961e62c3",
@@ -62,7 +94,7 @@
     "order": 3,
     "name": {
       "ka": "მიმტანის ბლოკნოტი",
-      "en": "Waiter's notebook"
+      "en": "Waiter's Notebook"
     },
     "isActive": true,
     "showOnHome": true,
@@ -76,7 +108,7 @@
     "order": 1,
     "name": {
       "ka": "დიპლომის ყდები",
-      "en": "diploma cover"
+      "en": "Diploma Covers"
     },
     "isActive": true,
     "createdAt": "2026-03-19T05:19:15.116Z",
@@ -89,7 +121,8 @@
     "slug": "ofitsialuri-dokumentis-qdebi",
     "order": 2,
     "name": {
-      "ka": "ოფიციალური დოკუმენტის ყდები"
+      "ka": "ოფიციალური დოკუმენტის ყდები",
+      "en": "Official Document Covers"
     },
     "isActive": true,
     "showOnHome": true,
@@ -106,11 +139,25 @@
     "order": 3,
     "name": {
       "ka": "საბუთების ჩასადები",
-      "en": "document and card holder"
+      "en": "Document and Card Holder"
     },
     "isActive": true,
     "showOnHome": true,
     "createdAt": "2026-03-19T07:58:50.947Z",
     "updatedAt": "2026-03-20T05:51:37.733Z"
+  },
+  {
+    "id": "4ad157de-8979-49e4-833c-3cb41b4343c8",
+    "groupId": "fa4a3efe-fc8e-455e-a013-1fc6ad0e8518",
+    "slug": "medlis-chasadebi",
+    "order": 4,
+    "name": {
+      "ka": "მედლის ჩასადები",
+      "en": "Medal Case"
+    },
+    "isActive": true,
+    "showOnHome": false,
+    "createdAt": "2026-09-20T16:22:16.173Z",
+    "updatedAt": "2026-09-20T16:22:16.173Z"
   }
 ]

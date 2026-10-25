@@ -93,7 +93,7 @@ export const CATALOG_FAMILIES: readonly FamilyConfig[] = [
 
 /** Real, repeatable products that deserve a page but not a main entrance. Curated — never a remainder bucket. */
 export const OTHER_PRODUCTS: readonly TypeRef[] = [
-  ["medal-case", "medal-box"],
+  ["medal-case", "medal-box", "medlis-chasadebi"],
   ["presentation-box"],
 ];
 

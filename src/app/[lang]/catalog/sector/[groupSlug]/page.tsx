@@ -3,10 +3,14 @@ import { getCatalogSnapshot } from "@/lib/catalog/data";
 import { notFound, permanentRedirect } from "next/navigation";
 import CatalogNavigation from "@/components/catalog/CatalogNavigation";
 import GroupProductsContent from "@/components/catalog/GroupProductsContent";
-import { sectorPath } from "@/lib/catalog/urls";
+import { productPath, sectorPath } from "@/lib/catalog/urls";
 import type { Metadata } from "next";
 import { clip, pageMetadata } from "@/lib/site";
 import { localized, publicTypes } from "@/lib/catalog/typeCatalog";
+import JsonLd from "@/components/seo/JsonLd";
+import { breadcrumbJsonLd, itemListJsonLd } from "@/lib/seo/jsonld";
+
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string; groupSlug: string }> }): Promise<Metadata> {
   const { lang, groupSlug } = await params;
@@ -52,14 +56,32 @@ export default async function GroupProductsPage({ params }: { params: Promise<{ 
     .filter(p => p.isPublished && groupCategories.some(c => c.id === p.categoryId))
     .sort((a, b) => a.order - b.order);
 
-  const groupName = group.name[lang as 'ka' | 'en'] || group.name.ka;
+  const locale = lang === "en" ? "en" : "ka";
+  const groupName = group.name[locale] || group.name.ka;
   const descKey = `${group.slug}_desc` as keyof typeof dict.catalog;
   const upperKey = `${group.slug}_upper` as keyof typeof dict.catalog;
   const description = dict.catalog[descKey] as string | undefined;
   const upperTag = (dict.catalog[upperKey] as string | undefined) || groupName;
 
+  const itemListEntries = groupProducts.flatMap((product) => {
+    const category = groupCategories.find((c) => c.id === product.categoryId);
+    if (!category) return [];
+    return [{
+      name: localized(product.name, locale),
+      path: productPath(locale, category, product),
+      image: (product.images.find((img) => img.role === "main") || product.images[0])?.src,
+    }];
+  });
+
   return (
     <div className="relative min-h-screen w-full flex flex-col bg-[#fcfcfc] text-[#1a1b1c] selection:bg-primary selection:text-white pt-14" data-ga-page="catalog_sector" data-ga-list={`sector/${group.slug}`}>
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: locale === "en" ? "Catalog" : "კატალოგი", path: `/${locale}/catalog` },
+          { name: groupName, path: sectorPath(locale, group) },
+        ])}
+      />
+      <JsonLd data={itemListJsonLd(groupName, itemListEntries)} />
 
       {/* Top Navigation - Light Theme */}
       <CatalogNavigation groups={activeGroups} lang={lang} dict={dict} currentGroupSlug={group.slug} theme="light" />

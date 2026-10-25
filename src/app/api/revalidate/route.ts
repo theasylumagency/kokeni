@@ -1,16 +1,18 @@
 import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
+import { isAdminAuthenticated } from "@/lib/admin/auth";
 
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const secret = searchParams.get("secret");
+    const expectedSecret = process.env.REVALIDATION_SECRET;
 
-    // Optional: Add a simple secret check to prevent abuse.
-    // If you haven't set a REVALIDATION_SECRET, this skips the check, 
-    // but in production you should use ?secret=YOUR_TOKEN.
-    if (process.env.REVALIDATION_SECRET && secret !== process.env.REVALIDATION_SECRET) {
-      return NextResponse.json({ message: "Invalid token" }, { status: 401 });
+    const validSecret = Boolean(expectedSecret && secret && secret === expectedSecret);
+    const validAdmin = validSecret ? true : await isAdminAuthenticated();
+
+    if (!validSecret && !validAdmin) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
     // Purge the entire Next.js router cache layout
@@ -21,7 +23,7 @@ export async function GET(request: Request) {
       message: "Global cache revalidated successfully.",
       now: Date.now(),
     });
-  } catch (err) {
+  } catch {
     return NextResponse.json({ message: "Error revalidating" }, { status: 500 });
   }
 }

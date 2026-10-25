@@ -1,7 +1,10 @@
 import SheetMark from "./SheetMark";
+import ContactActions from "@/components/catalog/ContactActions";
 import type { Dictionary } from "@/utils/getDictionary";
 
-export default function Terminal({ dict }: { dict: Dictionary }) {
+export default function Terminal({ dict, lang = "ka" }: { dict: Dictionary; lang?: string }) {
+  const locale = lang === "en" ? "en" : "ka";
+
   return (
     <footer id="contact" className="scroll-mt-14 relative z-10 w-full flex flex-col bg-text-heavy text-background-light pt-20 px-10 lg:px-16 pb-10 overflow-hidden">
       <SheetMark n="05" name="Terminal" tone="paper" className="right-10 top-8 hidden lg:flex" />
@@ -15,12 +18,13 @@ export default function Terminal({ dict }: { dict: Dictionary }) {
 
         {/* Massive Typographic CTA */}
         <div className="w-full flex flex-col gap-4">
-          <h2 className="font-bold text-xl lg:text-xl xl:text-2xl uppercase tracking-tighter leading-none hover:text-primary-bright transition-colors cursor-pointer w-fit">
+          <h2 className="font-bold text-xl lg:text-xl xl:text-2xl uppercase tracking-tighter leading-none w-fit">
             {dict.terminal.title}
           </h2>
           <p className="font-mono text-sm max-w-md text-muted">
             {dict.terminal.subtitle}
           </p>
+          <ContactActions locale={locale} context="home_contact" tone="dark" className="mt-2 font-mono" />
         </div>
 
         {/* 3-Column Data Grid */}

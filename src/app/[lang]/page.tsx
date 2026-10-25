@@ -51,7 +51,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
         <Blueprint dict={dict} directions={directions} lang={lang} />
       </main>
       
-      <Terminal dict={dict} />
+      <Terminal dict={dict} lang={lang} />
     </div>
   );
 }

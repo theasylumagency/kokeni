@@ -4,15 +4,6 @@ import HeroConstruction from "./HeroConstruction";
 import SheetFrame from "./SheetFrame";
 import type { Dictionary } from "@/utils/getDictionary";
 
-/* PLACEHOLDER VALUES - George, replace MIN. RUN and LEAD TIME with the
-   real numbers before the next deploy. EST. and ORIGIN are correct. */
-const SPECS = [
-    { k: "Est.", v: "1989" },
-    { k: "Origin", v: "Tbilisi, GE" },
-    { k: "Min. run", v: "50 pcs" },
-    { k: "Lead time", v: "10–14 days" },
-];
-
 export default function Hero({ dict }: { dict: Dictionary }) {
     // One screen, no scroll-jacking. The drawing runs on its own clock and
     // is sized by the space it gets: full width on phones, the larger
@@ -23,13 +14,17 @@ export default function Hero({ dict }: { dict: Dictionary }) {
                 <SheetFrame />
 
                 {/* Registration Marks (Top Left) */}
-                <div className="absolute top-20 left-8 z-20 hidden flex-col items-center gap-2 lg:flex">
-                    <span className="material-symbols-outlined text-primary text-base">add</span>
+                <div className="absolute top-20 left-8 z-20 hidden flex-col items-center gap-2 lg:flex" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-primary">
+                        <path d="M7 1v12M1 7h12" />
+                    </svg>
                     <span className="font-mono text-xs text-primary-ink">X:001</span>
                 </div>
                 {/* Registration Marks (Top Right) */}
-                <div className="absolute top-20 right-8 z-20 hidden flex-col items-center gap-2 lg:flex">
-                    <span className="material-symbols-outlined text-primary text-base">add</span>
+                <div className="absolute top-20 right-8 z-20 hidden flex-col items-center gap-2 lg:flex" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-primary">
+                        <path d="M7 1v12M1 7h12" />
+                    </svg>
                     <span className="font-mono text-xs text-primary-ink">Y:001</span>
                 </div>
 
@@ -77,7 +72,7 @@ export default function Hero({ dict }: { dict: Dictionary }) {
                 {/* Sheet notes - answers the first questions a buyer actually has. */}
                 <div className="relative z-10 mx-auto mt-10 flex w-full max-w-[1800px] flex-col gap-6 border-t border-text-heavy/20 pt-5 sm:flex-row sm:items-end sm:justify-between">
                     <dl className="grid w-full grid-cols-2 gap-x-8 gap-y-5 font-mono sm:flex sm:w-auto sm:gap-x-12">
-                        {SPECS.map((s) => (
+                        {dict.hero.specs.map((s) => (
                             <div key={s.k} className="flex flex-col gap-1.5">
                                 <dt className="text-[9px] uppercase tracking-[0.3em] text-text-heavy/40">{s.k}</dt>
                                 <dd className="text-sm uppercase tracking-wide text-text-heavy">{s.v}</dd>
@@ -85,9 +80,11 @@ export default function Hero({ dict }: { dict: Dictionary }) {
                         ))}
                     </dl>
 
-                    <div className="hidden shrink-0 items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] text-text-heavy/50 sm:flex">
-                        <span>Scroll</span>
-                        <span className="material-symbols-outlined animate-pulse text-sm">south</span>
+                    <div className="hidden shrink-0 items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] text-text-heavy/50 sm:flex" aria-hidden="true">
+                        <span>{dict.hero.scroll}</span>
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5" className="animate-pulse">
+                            <path d="M7 2v9M3.5 8L7 11.5 10.5 8" />
+                        </svg>
                     </div>
                 </div>
             </div>

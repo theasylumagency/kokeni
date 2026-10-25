@@ -30,7 +30,14 @@
     "cover": [
       "KOKENI",
       "LLC · SINCE 1989"
-    ]
+    ],
+    "specs": [
+      { "k": "Est.", "v": "1989" },
+      { "k": "Origin", "v": "Tbilisi, GE" },
+      { "k": "Min. run", "v": "50 pcs" },
+      { "k": "Lead time", "v": "10–14 working days" }
+    ],
+    "scroll": "Scroll"
   },
   "capacity": {
     "title1": "01 / HIGH-VOLUME MANUFACTURE",

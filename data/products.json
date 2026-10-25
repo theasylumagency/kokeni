@@ -1,14 +1,1448 @@
 [
   {
+    "id": "3b0ef4aa-4936-4400-9927-b30a432c7212",
+    "slug": "kkn-mc-005",
+    "code": "kkn-mc-005",
+    "categoryId": "05fe5faf-ffb4-4c93-82f9-d42e0d5d21ee",
+    "order": 1,
+    "name": {
+      "ka": "მენიუს ყდა ბრენდირებული",
+      "en": "Branded Menu Cover"
+    },
+    "shortDescription": {
+      "ka": "რესტორან „ბუქნარის“ მენიუს ყდა",
+      "en": "Branded menu cover for Restaurant Buknari"
+    },
+    "price": {
+      "mode": "contact"
+    },
+    "images": [
+      {
+        "id": "590bf225-70d5-4552-80f9-78880f0e5a43",
+        "src": "/uploads/products/590bf225-70d5-4552-80f9-78880f0e5a43.webp",
+        "order": 1,
+        "role": "main",
+        "label": "დახურული მთავარი ხედი",
+        "provenance": {
+          "workflowId": "eaefdb34-9850-4bd2-beba-3d5c319a6a43",
+          "outputId": "bcb270aa-4443-43c3-8a42-c48e32309391",
+          "referenceIds": [
+            "dd173a25-8e22-432c-9dad-e066cbdac289"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-09-22T08:03:54.102Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 1816,
+            "input_tokens_details": {
+              "image_tokens": 1508,
+              "text_tokens": 308
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 4443
+          }
+        }
+      },
+      {
+        "id": "f20b130d-f456-41c3-a4f4-ad961bc455cd",
+        "src": "/uploads/products/f20b130d-f456-41c3-a4f4-ad961bc455cd.webp",
+        "order": 2,
+        "role": "informative",
+        "label": "გახსნილი შიდა ნაწილი",
+        "provenance": {
+          "workflowId": "eaefdb34-9850-4bd2-beba-3d5c319a6a43",
+          "outputId": "7c387e03-dea2-4277-aa2e-08e90236cec2",
+          "referenceIds": [
+            "7e73e88a-c1eb-4916-8d6c-a7809bc74460"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-09-22T08:04:28.461Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 1817,
+            "input_tokens_details": {
+              "image_tokens": 1508,
+              "text_tokens": 309
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 4444
+          }
+        }
+      }
+    ],
+    "isPublished": true,
+    "createdAt": "2026-09-22T08:02:19.788Z",
+    "updatedAt": "2026-09-22T08:06:18.841Z"
+  },
+  {
+    "id": "b6972ce0-c0d7-4298-93a8-1361f24d696f",
+    "slug": "kkn-mc-006",
+    "code": "kkn-mc-006",
+    "categoryId": "05fe5faf-ffb4-4c93-82f9-d42e0d5d21ee",
+    "order": 2,
+    "name": {
+      "ka": "მენიუს ყდა 001",
+      "en": "Menu Cover 001"
+    },
+    "shortDescription": {
+      "ka": "მენიუს ყდა 001",
+      "en": "Menu Cover 001"
+    },
+    "price": {
+      "mode": "contact"
+    },
+    "images": [],
+    "isPublished": false,
+    "createdAt": "2026-09-22T08:06:32.246Z",
+    "updatedAt": "2026-09-22T08:06:32.246Z"
+  },
+  {
+    "id": "648a112e-4874-4d88-bf8f-cbd5bc835204",
+    "slug": "kkn-mc-007",
+    "code": "kkn-mc-007",
+    "categoryId": "05fe5faf-ffb4-4c93-82f9-d42e0d5d21ee",
+    "order": 3,
+    "name": {
+      "ka": "ბრენდირებული ყდა",
+      "en": "Branded Menu Cover"
+    },
+    "shortDescription": {
+      "ka": "ბრენდირებული ყდა ამოტვიფრული ლოგოთი",
+      "en": "Branded cover with debossed logo"
+    },
+    "price": {
+      "mode": "contact"
+    },
+    "images": [
+      {
+        "id": "0198c753-ed97-4d11-ad99-902fb928d140",
+        "src": "/uploads/products/0198c753-ed97-4d11-ad99-902fb928d140.webp",
+        "order": 1,
+        "role": "main",
+        "label": "დახურული მთავარი ხედი",
+        "provenance": {
+          "workflowId": "a1e0fa5a-a6c9-4975-af8b-f75ffe4d37cf",
+          "outputId": "8fb6f731-021a-4905-b784-5ec05a098d35",
+          "referenceIds": [
+            "01bcc5c9-4116-4d0a-b679-9922dc37aef0"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-09-22T08:14:55.354Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 1816,
+            "input_tokens_details": {
+              "image_tokens": 1508,
+              "text_tokens": 308
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 4443
+          }
+        }
+      },
+      {
+        "id": "a035cb38-02b8-4169-8053-a578c4846786",
+        "src": "/uploads/products/a035cb38-02b8-4169-8053-a578c4846786.webp",
+        "order": 2,
+        "role": "informative",
+        "label": "გახსნილი შიდა ნაწილი",
+        "provenance": {
+          "workflowId": "a1e0fa5a-a6c9-4975-af8b-f75ffe4d37cf",
+          "outputId": "3cc5a568-f19e-486b-bcef-1e7cdbe806c7",
+          "referenceIds": [
+            "a8b167bd-e1d9-4f78-85a9-22a8331be52f"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-09-22T08:15:34.045Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 1817,
+            "input_tokens_details": {
+              "image_tokens": 1508,
+              "text_tokens": 309
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 4444
+          }
+        }
+      },
+      {
+        "id": "d7f63e96-7ccd-456a-bdba-c0c07b80c38c",
+        "src": "/uploads/products/d7f63e96-7ccd-456a-bdba-c0c07b80c38c.webp",
+        "order": 3,
+        "role": "detail",
+        "label": "უკანა მხარე",
+        "provenance": {
+          "workflowId": "a1e0fa5a-a6c9-4975-af8b-f75ffe4d37cf",
+          "outputId": "1d5a6234-f589-407e-b3ca-9974f03ba291",
+          "referenceIds": [
+            "38a719e9-587e-4b3e-a118-87f933c6f850"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-09-22T08:16:11.018Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 1815,
+            "input_tokens_details": {
+              "image_tokens": 1508,
+              "text_tokens": 307
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 4442
+          }
+        }
+      }
+    ],
+    "isPublished": true,
+    "createdAt": "2026-09-22T08:13:26.791Z",
+    "updatedAt": "2026-09-22T08:17:23.270Z"
+  },
+  {
+    "id": "184837d5-70a7-43d7-95b0-c19c84744f86",
+    "slug": "kkn-mc-008",
+    "code": "kkn-mc-008",
+    "categoryId": "05fe5faf-ffb4-4c93-82f9-d42e0d5d21ee",
+    "order": 4,
+    "name": {
+      "ka": "მენიუს ყდა",
+      "en": "Menu Cover"
+    },
+    "shortDescription": {
+      "ka": "რესტორან „ბატონთან“ ბრენდირებული მენიუს ყდა",
+      "en": "Branded menu cover for Restaurant Batontan"
+    },
+    "price": {
+      "mode": "contact"
+    },
+    "images": [
+      {
+        "id": "0fa5cd2b-a549-4bff-9db1-6289721b9ed7",
+        "src": "/uploads/products/0fa5cd2b-a549-4bff-9db1-6289721b9ed7.webp",
+        "order": 1,
+        "role": "main",
+        "label": "დახურული მთავარი ხედი",
+        "provenance": {
+          "workflowId": "cb8abcfb-daed-42b3-ab2f-19979c80e0fb",
+          "outputId": "58ec9f85-5025-47de-90cb-f17703736e54",
+          "referenceIds": [
+            "246f06fd-eb12-4e64-9f29-d7a8f095173b"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-09-22T08:20:30.018Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 1815,
+            "input_tokens_details": {
+              "image_tokens": 1508,
+              "text_tokens": 307
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 4442
+          }
+        }
+      },
+      {
+        "id": "5c394582-6aba-4699-87bf-f5e59da63050",
+        "src": "/uploads/products/5c394582-6aba-4699-87bf-f5e59da63050.webp",
+        "order": 2,
+        "role": "informative",
+        "label": "გახსნილი შიდა ნაწილი",
+        "provenance": {
+          "workflowId": "cb8abcfb-daed-42b3-ab2f-19979c80e0fb",
+          "outputId": "0d1ef1f3-f147-47e2-8c03-ecccdc364363",
+          "referenceIds": [
+            "eb6f4f54-666a-4746-b1b2-55ddd9aab505"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-09-22T08:21:04.281Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 1816,
+            "input_tokens_details": {
+              "image_tokens": 1508,
+              "text_tokens": 308
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 4443
+          }
+        }
+      }
+    ],
+    "isPublished": true,
+    "createdAt": "2026-09-22T08:17:55.386Z",
+    "updatedAt": "2026-09-22T08:22:20.272Z"
+  },
+  {
+    "id": "59bc32c3-6c98-442b-94cc-0d493dedc6f4",
+    "slug": "kkn-rp-001",
+    "code": "kkn-rp-001",
+    "categoryId": "16561bbb-2e97-4ae0-92c0-65365b4019cb",
+    "order": 1,
+    "name": {
+      "ka": "რესტორნის ანგარიშის ბრენდირებული ჩასადები",
+      "en": "Branded Restaurant Receipt Presenter"
+    },
+    "shortDescription": {
+      "ka": "რესტორან „ვილა პარკის“ ანგარიშის ბრენდირებული ჩასადები",
+      "en": "Branded receipt presenter for Restaurant Villa Park"
+    },
+    "price": {
+      "mode": "contact"
+    },
+    "images": [
+      {
+        "id": "dc65708a-1b46-4031-bec4-f834a6f1fd1e",
+        "src": "/uploads/products/dc65708a-1b46-4031-bec4-f834a6f1fd1e.webp",
+        "order": 1,
+        "role": "main",
+        "label": "დახურული 3/4 მთავარი ხედი",
+        "provenance": {
+          "workflowId": "6fb751df-760f-43dd-9dbf-7ad75c31038c",
+          "outputId": "92318274-4539-4c9f-8985-978ca2076837",
+          "referenceIds": [
+            "011bff98-e862-43c2-8a39-6501b7665be4",
+            "18ce7953-2edf-45e9-92e2-31c6ae18b062"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-09-22T08:28:38.825Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 3340,
+            "input_tokens_details": {
+              "image_tokens": 3016,
+              "text_tokens": 324
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 5967
+          }
+        }
+      },
+      {
+        "id": "7c4f95a6-c88f-480e-8149-64dda07a8b67",
+        "src": "/uploads/products/7c4f95a6-c88f-480e-8149-64dda07a8b67.webp",
+        "order": 2,
+        "role": "informative",
+        "label": "გახსნილი შიდა ნაწილი",
+        "provenance": {
+          "workflowId": "6fb751df-760f-43dd-9dbf-7ad75c31038c",
+          "outputId": "67ccc69a-8c1c-4df5-9ed8-a444a1addc95",
+          "referenceIds": [
+            "a46cd231-22ff-4050-9afd-c41e5a17ed09"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-09-22T08:29:11.978Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 1817,
+            "input_tokens_details": {
+              "image_tokens": 1508,
+              "text_tokens": 309
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 4444
+          }
+        }
+      },
+      {
+        "id": "12c120f5-ac01-4bde-9447-78f77c18a10e",
+        "src": "/uploads/products/12c120f5-ac01-4bde-9447-78f77c18a10e.webp",
+        "order": 3,
+        "role": "informative",
+        "label": "დახურული წინა ხედი — ბრენდინგი",
+        "provenance": {
+          "workflowId": "6fb751df-760f-43dd-9dbf-7ad75c31038c",
+          "outputId": "ea5ec957-d8ab-4cf1-8117-bcd9f6b513d5",
+          "referenceIds": [
+            "18ce7953-2edf-45e9-92e2-31c6ae18b062"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-09-22T08:29:47.701Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 1823,
+            "input_tokens_details": {
+              "image_tokens": 1508,
+              "text_tokens": 315
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 4450
+          }
+        }
+      }
+    ],
+    "isPublished": true,
+    "createdAt": "2026-09-22T08:27:05.579Z",
+    "updatedAt": "2026-09-22T08:36:43.673Z"
+  },
+  {
+    "id": "ba3de6d4-59a6-4c43-a463-d43b31b881da",
+    "slug": "kkn-rp-002",
+    "code": "kkn-rp-002",
+    "categoryId": "16561bbb-2e97-4ae0-92c0-65365b4019cb",
+    "order": 2,
+    "name": {
+      "ka": "რესტორნის ანგარიშის ჩასადები",
+      "en": "Restaurant Receipt Presenter"
+    },
+    "shortDescription": {
+      "ka": "ივენთ ჰოლი „ტაოს“ ბრენდირებული ანგარიშის ჩასადები",
+      "en": "Branded receipt presenter for Event Hall Tao"
+    },
+    "price": {
+      "mode": "contact"
+    },
+    "images": [
+      {
+        "id": "555888b8-5d05-4295-aa01-02c20a5ae6c1",
+        "src": "/uploads/products/555888b8-5d05-4295-aa01-02c20a5ae6c1.webp",
+        "order": 1,
+        "role": "main",
+        "label": "დახურული მთავარი ხედი",
+        "provenance": {
+          "workflowId": "ae74d542-0107-41a1-9204-22c07f286555",
+          "outputId": "9d8b87ad-e2d3-4a1e-91cb-7489b1ea2eb9",
+          "referenceIds": [
+            "732d0751-b891-4107-bb13-a0c9eb4fcf86"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-09-22T08:39:58.597Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 1815,
+            "input_tokens_details": {
+              "image_tokens": 1508,
+              "text_tokens": 307
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 4442
+          }
+        }
+      },
+      {
+        "id": "61736a50-d3bc-44dd-abd3-2d560ba6e6a6",
+        "src": "/uploads/products/61736a50-d3bc-44dd-abd3-2d560ba6e6a6.webp",
+        "order": 2,
+        "role": "informative",
+        "label": "გახსნილი შიდა ნაწილი",
+        "provenance": {
+          "workflowId": "ae74d542-0107-41a1-9204-22c07f286555",
+          "outputId": "1d85f3a0-61c6-4d36-9cc3-63e576d349c2",
+          "referenceIds": [
+            "2ced30bc-e521-4daa-9b3f-8b39b54f7523"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-09-22T08:40:33.571Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 1816,
+            "input_tokens_details": {
+              "image_tokens": 1508,
+              "text_tokens": 308
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 4443
+          }
+        }
+      }
+    ],
+    "isPublished": true,
+    "createdAt": "2026-09-22T08:37:27.967Z",
+    "updatedAt": "2026-09-22T08:42:52.981Z"
+  },
+  {
+    "id": "4b5782f9-c156-4b86-8f5a-3c6b9611054a",
+    "slug": "kkn-rp-003",
+    "code": "kkn-rp-003",
+    "categoryId": "16561bbb-2e97-4ae0-92c0-65365b4019cb",
+    "order": 3,
+    "name": {
+      "ka": "ბაჩატა გარდენის საჩეკე",
+      "en": "Bachata Garden Receipt Presenter"
+    },
+    "shortDescription": {
+      "ka": "რესტორან „ბაჩატა გარდენის“ ბრენდირებული ანგარიშის ჩასადები",
+      "en": "Branded receipt presenter for Restaurant Bachata Garden"
+    },
+    "price": {
+      "mode": "contact"
+    },
+    "images": [
+      {
+        "id": "bdbf4793-c9ce-4c68-b501-ff599ef32f60",
+        "src": "/uploads/products/bdbf4793-c9ce-4c68-b501-ff599ef32f60.webp",
+        "order": 1,
+        "role": "main",
+        "label": "დახურული მთავარი ხედი",
+        "provenance": {
+          "workflowId": "ee29f36c-5b86-4f50-9385-b8857297708b",
+          "outputId": "f556836c-5e8d-4bf9-bf11-f2bcfc407894",
+          "referenceIds": [
+            "ca8dd7da-6442-45bf-a587-007a00b03af3"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-09-22T08:44:36.205Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 1816,
+            "input_tokens_details": {
+              "image_tokens": 1508,
+              "text_tokens": 308
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 4443
+          }
+        }
+      },
+      {
+        "id": "3b8309a5-6e78-43ce-8f90-2fed1c1cae4f",
+        "src": "/uploads/products/3b8309a5-6e78-43ce-8f90-2fed1c1cae4f.webp",
+        "order": 2,
+        "role": "informative",
+        "label": "გახსნილი შიდა ნაწილი",
+        "provenance": {
+          "workflowId": "ee29f36c-5b86-4f50-9385-b8857297708b",
+          "outputId": "d5545d60-3994-4fe3-8a2c-048218bb392e",
+          "referenceIds": [
+            "6676f3c0-668e-4155-b81f-8f91fe93f0d4",
+            "b8460e7b-4104-4c20-ac0f-e5b915d12a57"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-09-22T08:45:22.149Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 3335,
+            "input_tokens_details": {
+              "image_tokens": 3016,
+              "text_tokens": 319
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 5962
+          }
+        }
+      }
+    ],
+    "isPublished": true,
+    "createdAt": "2026-09-22T08:43:25.727Z",
+    "updatedAt": "2026-09-22T08:47:39.728Z"
+  },
+  {
+    "id": "a0a64fa3-c6d8-440e-9c5a-faa11efa7a9b",
+    "slug": "kkn-nb-001",
+    "code": "kkn-nb-001",
+    "categoryId": "2ee8a456-afb0-4145-9e23-9404475ba438",
+    "order": 1,
+    "name": {
+      "ka": "ბლოკნოტი 001",
+      "en": "Notebook 001"
+    },
+    "shortDescription": {
+      "ka": "ბლოკნოტი 001",
+      "en": "Notebook 001"
+    },
+    "price": {
+      "mode": "contact"
+    },
+    "images": [],
+    "isPublished": false,
+    "createdAt": "2026-09-21T09:41:27.837Z",
+    "updatedAt": "2026-09-21T09:41:27.837Z"
+  },
+  {
+    "id": "635756da-784e-4f0d-acac-d039ecd0ec70",
+    "slug": "kkn-nb-002",
+    "code": "kkn-nb-002",
+    "categoryId": "2ee8a456-afb0-4145-9e23-9404475ba438",
+    "order": 2,
+    "name": {
+      "ka": "ბლოკნოტი 002",
+      "en": "Notebook 002"
+    },
+    "shortDescription": {
+      "ka": "ბლოკნოტი 002",
+      "en": "Notebook 002"
+    },
+    "price": {
+      "mode": "contact"
+    },
+    "images": [],
+    "isPublished": false,
+    "createdAt": "2026-09-21T10:27:43.929Z",
+    "updatedAt": "2026-09-21T10:27:43.929Z"
+  },
+  {
+    "id": "13e79733-4981-492d-89a1-5bc823eeadb9",
+    "slug": "kkn-nb-003",
+    "code": "kkn-nb-003",
+    "categoryId": "2ee8a456-afb0-4145-9e23-9404475ba438",
+    "order": 3,
+    "name": {
+      "ka": "ბლოკნოტი რკინის ჩამკეტით",
+      "en": "Notebook with Metal Clasp"
+    },
+    "shortDescription": {
+      "ka": "ბლოკნოტი რკინის ჩამკეტით",
+      "en": "Notebook with metal clasp"
+    },
+    "price": {
+      "mode": "contact"
+    },
+    "images": [
+      {
+        "id": "5add8e05-f5c8-4a2c-ae82-31b4c6918b6b",
+        "src": "/uploads/products/5add8e05-f5c8-4a2c-ae82-31b4c6918b6b.webp",
+        "order": 1,
+        "role": "main",
+        "label": "დახურული 3/4 მთავარი ხედი",
+        "provenance": {
+          "workflowId": "acf81612-5ed1-463a-acce-a1b8e04a7d1b",
+          "outputId": "8f8b34e4-c615-4cfb-9311-861e7d2705b7",
+          "referenceIds": [
+            "fac71454-6883-4a75-ab85-3c4e434c369c",
+            "4c5d6ed4-1d0d-4428-b315-4fcde7916803"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-09-21T10:41:07.851Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 3340,
+            "input_tokens_details": {
+              "image_tokens": 3016,
+              "text_tokens": 324
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 5967
+          }
+        }
+      },
+      {
+        "id": "035729b6-b1d4-4344-a924-b6cd582a9c71",
+        "src": "/uploads/products/035729b6-b1d4-4344-a924-b6cd582a9c71.webp",
+        "order": 2,
+        "role": "informative",
+        "label": "გახსნილი შიდა ნაწილი",
+        "provenance": {
+          "workflowId": "acf81612-5ed1-463a-acce-a1b8e04a7d1b",
+          "outputId": "3615c3bc-4a42-457c-b6d8-b4b206b76c1f",
+          "referenceIds": [
+            "023fd6ac-947f-4912-b52a-e8887db972a8"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-09-21T10:41:41.763Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 1817,
+            "input_tokens_details": {
+              "image_tokens": 1508,
+              "text_tokens": 309
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 4444
+          }
+        }
+      },
+      {
+        "id": "045a9674-5e1b-4530-a919-5ea404351c34",
+        "src": "/uploads/products/045a9674-5e1b-4530-a919-5ea404351c34.webp",
+        "order": 3,
+        "role": "informative",
+        "label": "დახურული წინა ხედი — ბრენდინგი",
+        "provenance": {
+          "workflowId": "acf81612-5ed1-463a-acce-a1b8e04a7d1b",
+          "outputId": "8ea246d3-cdf6-41ad-9a45-688c0111d4cd",
+          "referenceIds": [
+            "4c5d6ed4-1d0d-4428-b315-4fcde7916803"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-09-21T10:42:19.417Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 1823,
+            "input_tokens_details": {
+              "image_tokens": 1508,
+              "text_tokens": 315
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 4450
+          }
+        }
+      },
+      {
+        "id": "df955e4e-9d3f-4089-acff-8a9d71433a0e",
+        "src": "/uploads/products/df955e4e-9d3f-4089-acff-8a9d71433a0e.webp",
+        "order": 4,
+        "role": "additional",
+        "label": "გვერდითი ხედი / სისქე",
+        "provenance": {
+          "workflowId": "acf81612-5ed1-463a-acce-a1b8e04a7d1b",
+          "outputId": "5ce7cc29-b2e8-4f34-8b79-ced07342fb0a",
+          "referenceIds": [
+            "b62ba684-c7cb-43cc-b336-8294c1c7a200"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-09-21T10:42:57.146Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 1819,
+            "input_tokens_details": {
+              "image_tokens": 1508,
+              "text_tokens": 311
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 4446
+          }
+        }
+      }
+    ],
+    "isPublished": true,
+    "createdAt": "2026-09-21T10:28:25.172Z",
+    "updatedAt": "2026-09-21T10:44:08.275Z"
+  },
+  {
+    "id": "9f87a5f1-a92a-42db-a47d-9f424b70b8cd",
+    "slug": "kkn-nb-004",
+    "code": "kkn-nb-004",
+    "categoryId": "2ee8a456-afb0-4145-9e23-9404475ba438",
+    "order": 4,
+    "name": {
+      "ka": "ბრენდირებული ბლოკნოტი (კრედო)",
+      "en": "Branded Notebook (Credo)"
+    },
+    "shortDescription": {
+      "ka": "ბრენდირებული ბლოკნოტი (კრედო)",
+      "en": "Branded notebook for Credo Bank"
+    },
+    "price": {
+      "mode": "contact"
+    },
+    "images": [
+      {
+        "id": "707bf3a7-dff2-4429-8e2c-9fbae7cf1eed",
+        "src": "/uploads/products/707bf3a7-dff2-4429-8e2c-9fbae7cf1eed.webp",
+        "order": 1,
+        "role": "main",
+        "label": "დახურული 3/4 მთავარი ხედი",
+        "provenance": {
+          "workflowId": "350ab56f-4382-4c60-97b5-cf097ae91f89",
+          "outputId": "60bdb1db-58ba-4484-860a-5d507bd0cf1c",
+          "referenceIds": [
+            "45d1e99f-b1f6-4db2-b173-839382ae98af",
+            "2cc271cf-79eb-4d6a-b47a-d9c9c9f04b1b"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-09-22T05:59:09.708Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 3340,
+            "input_tokens_details": {
+              "image_tokens": 3016,
+              "text_tokens": 324
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 5967
+          }
+        }
+      },
+      {
+        "id": "2a2d58d6-3e55-4910-bbbf-06e88719e37c",
+        "src": "/uploads/products/2a2d58d6-3e55-4910-bbbf-06e88719e37c.webp",
+        "order": 2,
+        "role": "informative",
+        "label": "გახსნილი შიდა ნაწილი",
+        "provenance": {
+          "workflowId": "350ab56f-4382-4c60-97b5-cf097ae91f89",
+          "outputId": "5448ac12-de50-4f14-afcd-f3d83e3c3806",
+          "referenceIds": [
+            "5d87a2c7-060c-42ab-8d51-2737aa223a5b",
+            "7f14115f-49e4-4650-bea1-389491174465"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-09-22T05:59:44.430Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 3335,
+            "input_tokens_details": {
+              "image_tokens": 3016,
+              "text_tokens": 319
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 5962
+          }
+        }
+      },
+      {
+        "id": "c48d6586-3533-45e2-bf95-4138f800f7a0",
+        "src": "/uploads/products/c48d6586-3533-45e2-bf95-4138f800f7a0.webp",
+        "order": 3,
+        "role": "informative",
+        "label": "დახურული წინა ხედი — ბრენდინგი",
+        "provenance": {
+          "workflowId": "350ab56f-4382-4c60-97b5-cf097ae91f89",
+          "outputId": "51dcb929-7878-4b24-8890-df36053a86f3",
+          "referenceIds": [
+            "2cc271cf-79eb-4d6a-b47a-d9c9c9f04b1b"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-09-22T06:00:16.630Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 1823,
+            "input_tokens_details": {
+              "image_tokens": 1508,
+              "text_tokens": 315
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 4450
+          }
+        }
+      }
+    ],
+    "isPublished": true,
+    "createdAt": "2026-09-22T05:55:15.390Z",
+    "updatedAt": "2026-09-22T06:03:59.927Z"
+  },
+  {
+    "id": "68b2c985-c14f-4b93-9bba-e93d8871349b",
+    "slug": "kkn-nb-005",
+    "code": "kkn-nb-005",
+    "categoryId": "2ee8a456-afb0-4145-9e23-9404475ba438",
+    "order": 5,
+    "name": {
+      "ka": "ბრენდირებული ბლოკნოტი რკინის ჩამკეტით",
+      "en": "Branded Notebook with Metal Clasp"
+    },
+    "shortDescription": {
+      "ka": "ბრენდირებული ბლოკნოტი რკინის ჩამკეტით",
+      "en": "Branded notebook with metal clasp"
+    },
+    "price": {
+      "mode": "contact"
+    },
+    "images": [
+      {
+        "id": "a305ae3c-08d7-4139-ae85-100124f2d591",
+        "src": "/uploads/products/a305ae3c-08d7-4139-ae85-100124f2d591.webp",
+        "order": 1,
+        "role": "main",
+        "label": "დახურული მთავარი ხედი",
+        "provenance": {
+          "workflowId": "5c8636bf-94d8-4d78-92dc-37f890675b08",
+          "outputId": "a688ef99-83aa-436b-a7ac-20bd9489c193",
+          "referenceIds": [
+            "3f3b5667-ae27-4828-bbfc-942c7820d16e"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-09-22T06:10:28.265Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 1816,
+            "input_tokens_details": {
+              "image_tokens": 1508,
+              "text_tokens": 308
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 4443
+          }
+        }
+      },
+      {
+        "id": "fcb1ba72-dbef-4ecd-a8db-9fcaf0c5494f",
+        "src": "/uploads/products/fcb1ba72-dbef-4ecd-a8db-9fcaf0c5494f.webp",
+        "order": 2,
+        "role": "informative",
+        "label": "გახსნილი შიდა ნაწილი",
+        "provenance": {
+          "workflowId": "5c8636bf-94d8-4d78-92dc-37f890675b08",
+          "outputId": "4cb81e6a-a54e-457d-816b-c44a3d586a13",
+          "referenceIds": [
+            "ee9c7446-982e-40a3-b868-88c4d74b86be"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-09-22T06:11:03.593Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 1817,
+            "input_tokens_details": {
+              "image_tokens": 1508,
+              "text_tokens": 309
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 4444
+          }
+        }
+      },
+      {
+        "id": "5a02bc0b-d1a3-4621-841e-0d2e7d1b3500",
+        "src": "/uploads/products/5a02bc0b-d1a3-4621-841e-0d2e7d1b3500.webp",
+        "order": 3,
+        "role": "detail",
+        "label": "უკანა ნაწილი",
+        "provenance": {
+          "workflowId": "5c8636bf-94d8-4d78-92dc-37f890675b08",
+          "outputId": "9b6d5543-e831-42ba-8509-3420437e66c8",
+          "referenceIds": [
+            "d49eb154-baa9-42c6-9b37-4e99ee5d73e3"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-09-22T06:11:37.230Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 1814,
+            "input_tokens_details": {
+              "image_tokens": 1508,
+              "text_tokens": 306
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 4441
+          }
+        }
+      }
+    ],
+    "isPublished": true,
+    "createdAt": "2026-09-22T06:05:16.371Z",
+    "updatedAt": "2026-09-22T06:12:18.129Z"
+  },
+  {
+    "id": "360c7e7c-8638-41bd-ae15-71ae74b16271",
+    "slug": "kkn-nb-007",
+    "code": "kkn-nb-007",
+    "categoryId": "2ee8a456-afb0-4145-9e23-9404475ba438",
+    "order": 6,
+    "name": {
+      "ka": "კლასიკური ბრენდირებული ბლოკნოტი",
+      "en": "Classic Branded Notebook"
+    },
+    "shortDescription": {
+      "ka": "ყვითელი ყდა, ლოგოს ტვიფრი",
+      "en": "Yellow cover with debossed logo"
+    },
+    "price": {
+      "mode": "contact"
+    },
+    "images": [
+      {
+        "id": "03b482d8-9e6a-4292-a873-898fd16d3425",
+        "src": "/uploads/products/03b482d8-9e6a-4292-a873-898fd16d3425.webp",
+        "order": 1,
+        "role": "main",
+        "label": "დახურული 3/4 მთავარი ხედი",
+        "provenance": {
+          "workflowId": "1a3e6406-6f4a-460e-8306-b7956ecd88f9",
+          "outputId": "0173a49a-7d86-4077-84bb-22e2cae80cbc",
+          "referenceIds": [
+            "aa35c550-001d-4957-a43c-ae703fe27428",
+            "06174f35-b17a-4597-ac03-f4c0910df3bb"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-10-25T04:29:43.605Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 3228,
+            "input_tokens_details": {
+              "image_tokens": 2904,
+              "text_tokens": 324
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 5855
+          }
+        }
+      },
+      {
+        "id": "27bcdf9d-2651-46e7-94b1-de28d72a0601",
+        "src": "/uploads/products/27bcdf9d-2651-46e7-94b1-de28d72a0601.webp",
+        "order": 2,
+        "role": "informative",
+        "label": "დახურული წინა ხედი — ბრენდინგი",
+        "provenance": {
+          "workflowId": "1a3e6406-6f4a-460e-8306-b7956ecd88f9",
+          "outputId": "f5824acd-6427-4883-a1d4-434a9c64df4a",
+          "referenceIds": [
+            "06174f35-b17a-4597-ac03-f4c0910df3bb"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-10-25T04:30:53.896Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 1767,
+            "input_tokens_details": {
+              "image_tokens": 1452,
+              "text_tokens": 315
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 4394
+          }
+        }
+      },
+      {
+        "id": "3a226aae-c335-409e-8c09-3ddcdd9d69df",
+        "src": "/uploads/products/3a226aae-c335-409e-8c09-3ddcdd9d69df.webp",
+        "order": 3,
+        "role": "informative",
+        "label": "გახსნილი შიდა ნაწილი",
+        "provenance": {
+          "workflowId": "1a3e6406-6f4a-460e-8306-b7956ecd88f9",
+          "outputId": "5f5ac976-7357-418d-b1e3-7a3e5e7f3070",
+          "referenceIds": [
+            "caefb7c7-04a4-4a36-8644-9babbcacd79b"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-10-25T04:30:18.227Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 1761,
+            "input_tokens_details": {
+              "image_tokens": 1452,
+              "text_tokens": 309
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 4388
+          }
+        }
+      }
+    ],
+    "isPublished": true,
+    "createdAt": "2026-10-25T04:06:28.289Z",
+    "updatedAt": "2026-10-25T04:32:57.105Z",
+    "specifications": []
+  },
+  {
+    "id": "ac924c7f-6bd0-4c41-8bee-dfe03293c344",
+    "slug": "kkn-nb-008",
+    "code": "kkn-nb-008",
+    "categoryId": "2ee8a456-afb0-4145-9e23-9404475ba438",
+    "order": 7,
+    "name": {
+      "ka": "ბლოკნოტი 003",
+      "en": "Notebook 003"
+    },
+    "shortDescription": {
+      "ka": "ბლოკნოტი 003",
+      "en": "Notebook 003"
+    },
+    "price": {
+      "mode": "contact"
+    },
+    "images": [],
+    "isPublished": false,
+    "createdAt": "2026-10-25T04:37:04.572Z",
+    "updatedAt": "2026-10-25T04:37:04.572Z"
+  },
+  {
+    "id": "c32d4f34-93fe-4c43-93ee-1ff9b59e7813",
+    "slug": "kkn-nb-009",
+    "code": "kkn-nb-009",
+    "categoryId": "2ee8a456-afb0-4145-9e23-9404475ba438",
+    "order": 8,
+    "name": {
+      "ka": "რკინის ჩამკეტიანი ბლოკნოტი ტექსტურირებული ყდით",
+      "en": "Textured-Cover Notebook with Metal Clasp"
+    },
+    "shortDescription": {
+      "ka": "კონსტრუქციულად განსხვავებული მოდელი",
+      "en": "Distinctive structural design with textured cover and metal clasp"
+    },
+    "price": {
+      "mode": "contact"
+    },
+    "images": [
+      {
+        "id": "8b61919c-93c5-45df-adf1-9c06875356a8",
+        "src": "/uploads/products/8b61919c-93c5-45df-adf1-9c06875356a8.webp",
+        "order": 1,
+        "role": "main",
+        "label": "დახურული 3/4 მთავარი ხედი",
+        "provenance": {
+          "workflowId": "ec7ae462-eead-4032-b5c7-fdd25db55fba",
+          "outputId": "07ceeba8-d05e-491a-8f28-6c5639dc7f4a",
+          "referenceIds": [
+            "d029f924-bb57-4c80-bc94-5383bee08446",
+            "e94a3967-2ea4-4579-84dc-6468feb0d1a0"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-10-25T04:45:26.306Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 3228,
+            "input_tokens_details": {
+              "image_tokens": 2904,
+              "text_tokens": 324
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 5855
+          }
+        }
+      },
+      {
+        "id": "ed15ebe4-c033-41af-89d3-f18d3295f217",
+        "src": "/uploads/products/ed15ebe4-c033-41af-89d3-f18d3295f217.webp",
+        "order": 2,
+        "role": "informative",
+        "label": "გახსნილი შიდა ნაწილი",
+        "provenance": {
+          "workflowId": "ec7ae462-eead-4032-b5c7-fdd25db55fba",
+          "outputId": "9fffc80c-85c3-4309-a1cc-b66893c7bb1f",
+          "referenceIds": [
+            "fc32fe9c-012c-4fe4-915a-48c76e0fd20b",
+            "59031099-fae8-49b4-a039-f3128bc7f818"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-10-25T04:46:02.670Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 3223,
+            "input_tokens_details": {
+              "image_tokens": 2904,
+              "text_tokens": 319
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 5850
+          }
+        }
+      },
+      {
+        "id": "1db0be2c-f378-48c8-86f8-4d13da65e722",
+        "src": "/uploads/products/1db0be2c-f378-48c8-86f8-4d13da65e722.webp",
+        "order": 3,
+        "role": "informative",
+        "label": "დახურული წინა ხედი — ბრენდინგი",
+        "provenance": {
+          "workflowId": "ec7ae462-eead-4032-b5c7-fdd25db55fba",
+          "outputId": "7faaab08-9c95-45a8-a2b8-85d6f4c77d58",
+          "referenceIds": [
+            "e94a3967-2ea4-4579-84dc-6468feb0d1a0"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-10-25T04:46:40.285Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 1767,
+            "input_tokens_details": {
+              "image_tokens": 1452,
+              "text_tokens": 315
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 4394
+          }
+        }
+      }
+    ],
+    "isPublished": true,
+    "createdAt": "2026-10-25T04:39:51.197Z",
+    "updatedAt": "2026-10-25T04:49:29.885Z",
+    "specifications": []
+  },
+  {
+    "id": "80c3aac9-ed46-4b1e-b200-c7dd2e735d6a",
+    "slug": "kkn-nb-010",
+    "code": "kkn-nb-010",
+    "categoryId": "2ee8a456-afb0-4145-9e23-9404475ba438",
+    "order": 9,
+    "name": {
+      "ka": "ბლოკნოტი ინდივიდუალური გრაფიკით",
+      "en": "Notebook with Custom Artwork"
+    },
+    "shortDescription": {
+      "ka": "ყდაზე შენობის გამოსახულება, ბრენდირებული შიდა გვერდები",
+      "en": "Architectural illustration on cover with branded interior pages"
+    },
+    "price": {
+      "mode": "contact"
+    },
+    "images": [
+      {
+        "id": "44092acd-8063-4fb0-a18b-b959dbbb4688",
+        "src": "/uploads/products/44092acd-8063-4fb0-a18b-b959dbbb4688.webp",
+        "order": 1,
+        "role": "main",
+        "label": "დახურული 3/4 მთავარი ხედი",
+        "provenance": {
+          "workflowId": "1a3f68aa-8085-4c28-959f-275c37e8ba02",
+          "outputId": "56421f33-b38b-44ab-b119-390cce25ea80",
+          "referenceIds": [
+            "c45880e1-dd0a-4317-a2b9-50c73361ad03"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-10-25T04:55:38.204Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 1766,
+            "input_tokens_details": {
+              "image_tokens": 1452,
+              "text_tokens": 314
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 4393
+          }
+        }
+      },
+      {
+        "id": "a58c235a-f93a-42cf-99bc-aec441cf6a97",
+        "src": "/uploads/products/a58c235a-f93a-42cf-99bc-aec441cf6a97.webp",
+        "order": 2,
+        "role": "informative",
+        "label": "გახსნილი შიდა ნაწილი",
+        "provenance": {
+          "workflowId": "1a3f68aa-8085-4c28-959f-275c37e8ba02",
+          "outputId": "efcaa525-416a-4a6d-a70a-85073a989d6a",
+          "referenceIds": [
+            "c23a477a-99b8-4549-88fc-36d3bc27f105",
+            "b3c62f3e-3284-42f9-b899-7b163fe427e8"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-10-25T04:56:14.417Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 3223,
+            "input_tokens_details": {
+              "image_tokens": 2904,
+              "text_tokens": 319
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 5850
+          }
+        }
+      }
+    ],
+    "isPublished": true,
+    "createdAt": "2026-10-25T04:52:17.749Z",
+    "updatedAt": "2026-10-25T04:57:25.474Z",
+    "specifications": []
+  },
+  {
     "id": "d3e7779e-d695-4670-b3df-93209d525cd2",
     "slug": "kkn-dc-001",
     "categoryId": "3a29a1af-983e-4ab2-ad53-a8c8bde46e6f",
     "order": 1,
     "name": {
-      "ka": "დიპლომის ყდები 001"
+      "ka": "დიპლომის ყდები 001",
+      "en": "Diploma Cover 001"
     },
     "shortDescription": {
-      "ka": "დიპლომის ყდები 001"
+      "ka": "დიპლომის ყდები 001",
+      "en": "Diploma Cover 001"
     },
     "price": {
       "mode": "contact"
@@ -33,9 +1467,9 @@
         "kind": "detail_spine"
       }
     ],
-    "isPublished": true,
+    "isPublished": false,
     "createdAt": "2026-03-20T09:08:36.594Z",
-    "updatedAt": "2026-03-20T12:34:37.118Z",
+    "updatedAt": "2026-09-22T05:54:02.631Z",
     "legacySlugs": [
       "დიპლომის-ყდები-001"
     ],
@@ -47,10 +1481,12 @@
     "categoryId": "3a29a1af-983e-4ab2-ad53-a8c8bde46e6f",
     "order": 2,
     "name": {
-      "ka": "დიპლომის ყდები 002"
+      "ka": "დიპლომის ყდები 002",
+      "en": "Diploma Cover 002"
     },
     "shortDescription": {
-      "ka": "დიპლომის ყდები 002"
+      "ka": "დიპლომის ყდები 002",
+      "en": "Diploma Cover 002"
     },
     "price": {
       "mode": "contact"
@@ -75,9 +1511,9 @@
         "kind": "detail_spine"
       }
     ],
-    "isPublished": true,
+    "isPublished": false,
     "createdAt": "2026-03-20T09:49:07.341Z",
-    "updatedAt": "2026-03-20T12:38:32.465Z",
+    "updatedAt": "2026-09-22T05:53:58.118Z",
     "legacySlugs": [
       "დიპლომის-ყდები-002"
     ],
@@ -89,10 +1525,12 @@
     "categoryId": "3a29a1af-983e-4ab2-ad53-a8c8bde46e6f",
     "order": 3,
     "name": {
-      "ka": "დიპლომის ყდები 003"
+      "ka": "დიპლომის ყდები 003",
+      "en": "Diploma Cover 003"
     },
     "shortDescription": {
-      "ka": "დიპლომის ყდები 003"
+      "ka": "დიპლომის ყდები 003",
+      "en": "Diploma Cover 003"
     },
     "price": {
       "mode": "contact"
@@ -126,15 +1564,789 @@
     "code": "kkn-dc-003"
   },
   {
-    "id": "56416c56-a721-4d9d-8597-5da29ab052e8",
-    "slug": "kkn-oc-001",
+    "id": "9af418b4-477d-445b-bcc8-07d9656f0ef6",
+    "slug": "kkn-dc-004",
+    "code": "kkn-dc-004",
+    "categoryId": "3a29a1af-983e-4ab2-ad53-a8c8bde46e6f",
+    "order": 4,
+    "name": {
+      "ka": "ყდა A4 ფორმატის დიპლომისთვის",
+      "en": "A4 Format Diploma Cover"
+    },
+    "shortDescription": {
+      "ka": "ყდა A4 ფორმატის დიპლომისთვის",
+      "en": "Hardcover folder for A4 format diplomas"
+    },
+    "price": {
+      "mode": "contact"
+    },
+    "images": [
+      {
+        "id": "661d8386-dbcd-47d6-bcef-0c770f98da82",
+        "src": "/uploads/products/661d8386-dbcd-47d6-bcef-0c770f98da82.webp",
+        "order": 1,
+        "role": "main",
+        "label": "დახურული მთავარი ხედი",
+        "provenance": {
+          "workflowId": "e1971a28-9b8f-4c4e-b06e-8689e75bd473",
+          "outputId": "40507429-f27f-4794-8616-ee3be3e3723d",
+          "referenceIds": [
+            "1fdb7467-5752-438a-be12-2068a41f80cf"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-09-22T06:29:10.953Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 1815,
+            "input_tokens_details": {
+              "image_tokens": 1508,
+              "text_tokens": 307
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 4442
+          }
+        }
+      },
+      {
+        "id": "8277f5a3-4da1-4e72-93de-c33474aef380",
+        "src": "/uploads/products/8277f5a3-4da1-4e72-93de-c33474aef380.webp",
+        "order": 2,
+        "role": "informative",
+        "label": "გახსნილი შიდა ნაწილი",
+        "provenance": {
+          "workflowId": "e1971a28-9b8f-4c4e-b06e-8689e75bd473",
+          "outputId": "4b8225dc-fb72-4c24-b3e1-c7a34300bf86",
+          "referenceIds": [
+            "913aef7b-15d6-4b6e-a449-2b171f6dfcaf"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-09-22T06:29:41.245Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 1816,
+            "input_tokens_details": {
+              "image_tokens": 1508,
+              "text_tokens": 308
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 4443
+          }
+        }
+      }
+    ],
+    "isPublished": true,
+    "createdAt": "2026-09-22T06:26:55.467Z",
+    "updatedAt": "2026-09-22T06:30:10.011Z"
+  },
+  {
+    "id": "7998a524-5b98-4442-a310-bdcf352003ed",
+    "slug": "kkn-dc-005",
+    "code": "kkn-dc-005",
+    "categoryId": "3a29a1af-983e-4ab2-ad53-a8c8bde46e6f",
+    "order": 5,
+    "name": {
+      "ka": "ლაურეატის დიპლომი",
+      "en": "Laureate Diploma Cover"
+    },
+    "shortDescription": {
+      "ka": "სახელმწიფო ჯილდოს ლაურეატის დიპლომის ყდა",
+      "en": "Cover of the State Award Laureate Diploma"
+    },
+    "price": {
+      "mode": "contact"
+    },
+    "images": [
+      {
+        "id": "4ca54778-53b9-4e1f-95f3-f8dc4ddc6fed",
+        "src": "/uploads/products/4ca54778-53b9-4e1f-95f3-f8dc4ddc6fed.webp",
+        "order": 1,
+        "role": "main",
+        "label": "დახურული მთავარი ხედი",
+        "provenance": {
+          "workflowId": "fea03f2f-465b-44bf-8625-6121e885f756",
+          "outputId": "45f4f60d-c18b-459d-b087-3fc7fb230a55",
+          "referenceIds": [
+            "2f38a779-ced0-4b19-8f27-c4d008b13125"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-09-22T06:32:34.191Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 1815,
+            "input_tokens_details": {
+              "image_tokens": 1508,
+              "text_tokens": 307
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 4442
+          }
+        }
+      },
+      {
+        "id": "89b82ff6-c80c-4468-b89f-4a90488597d6",
+        "src": "/uploads/products/89b82ff6-c80c-4468-b89f-4a90488597d6.webp",
+        "order": 2,
+        "role": "informative",
+        "label": "გახსნილი შიდა ნაწილი",
+        "provenance": {
+          "workflowId": "fea03f2f-465b-44bf-8625-6121e885f756",
+          "outputId": "122c0fed-9436-4857-a233-db87abb60a7b",
+          "referenceIds": [
+            "8d0194f4-e095-4523-a93c-008f4533673e"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-09-22T06:33:06.311Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 1816,
+            "input_tokens_details": {
+              "image_tokens": 1508,
+              "text_tokens": 308
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 4443
+          }
+        }
+      }
+    ],
+    "isPublished": true,
+    "createdAt": "2026-09-22T06:31:15.861Z",
+    "updatedAt": "2026-09-22T07:03:22.771Z"
+  },
+  {
+    "id": "4c3eb07f-52bc-4abb-9cb9-137a01c0efaf",
+    "slug": "kkn-nb-006",
+    "code": "kkn-nb-006",
+    "categoryId": "3a29a1af-983e-4ab2-ad53-a8c8bde46e6f",
+    "order": 6,
+    "name": {
+      "ka": "ბრენდირებული დიპლომი",
+      "en": "Branded Diploma Cover"
+    },
+    "shortDescription": {
+      "ka": "ბრენდირებული დიპლომის ყდა",
+      "en": "Custom branded diploma cover"
+    },
+    "price": {
+      "mode": "contact"
+    },
+    "images": [
+      {
+        "id": "dcb2ec05-7ea4-4eab-8a96-bc5d3a25bdd5",
+        "src": "/uploads/products/dcb2ec05-7ea4-4eab-8a96-bc5d3a25bdd5.webp",
+        "order": 1,
+        "role": "main",
+        "label": "დახურული მთავარი ხედი",
+        "provenance": {
+          "workflowId": "9bb091ad-7a00-47fc-bc76-f6749aec08d1",
+          "outputId": "4e50fa84-15b2-4b4e-b441-8293d650f471",
+          "referenceIds": [
+            "6fd58577-8942-47ae-8c2f-a0159db02a2d"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-09-22T07:10:33.162Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 2,
+          "usage": {
+            "input_tokens": 1851,
+            "input_tokens_details": {
+              "image_tokens": 1508,
+              "text_tokens": 343
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 4478
+          }
+        }
+      },
+      {
+        "id": "c4e17fea-29fd-4b58-a480-f33215563d5b",
+        "src": "/uploads/products/c4e17fea-29fd-4b58-a480-f33215563d5b.webp",
+        "order": 2,
+        "role": "informative",
+        "label": "გახსნილი შიდა ნაწილი",
+        "provenance": {
+          "workflowId": "9bb091ad-7a00-47fc-bc76-f6749aec08d1",
+          "outputId": "a3353987-bb10-4f6d-940e-5b1fcaf9a71b",
+          "referenceIds": [
+            "c9a36cba-69c4-411e-a7c0-8f547aacfde3",
+            "54cc66a4-ffe2-46e2-b6db-c17a309715e3"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-09-22T07:11:37.235Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 2,
+          "usage": {
+            "input_tokens": 3356,
+            "input_tokens_details": {
+              "image_tokens": 3016,
+              "text_tokens": 340
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 5983
+          }
+        }
+      }
+    ],
+    "isPublished": true,
+    "createdAt": "2026-09-22T07:03:50.905Z",
+    "updatedAt": "2026-10-25T04:05:23.748Z",
+    "specifications": []
+  },
+  {
+    "id": "e5a1610b-fae2-4b32-b193-d16fb2ddb702",
+    "slug": "kkn-dc-006",
+    "code": "kkn-dc-006",
+    "categoryId": "3a29a1af-983e-4ab2-ad53-a8c8bde46e6f",
+    "order": 7,
+    "name": {
+      "ka": "დიპლომის ყდა შინდისფერი",
+      "en": "Burgundy Diploma Cover"
+    },
+    "shortDescription": {
+      "ka": "დიპლომის ყდა შინდისფერი",
+      "en": "Burgundy hardcover diploma folder"
+    },
+    "price": {
+      "mode": "contact"
+    },
+    "images": [
+      {
+        "id": "c22f1774-ad3a-48c5-9f99-d198f83ececd",
+        "src": "/uploads/products/c22f1774-ad3a-48c5-9f99-d198f83ececd.webp",
+        "order": 1,
+        "role": "main",
+        "label": "დახურული მთავარი ხედი",
+        "provenance": {
+          "workflowId": "3b450c80-fcd0-46bd-8a46-3e0259112fcd",
+          "outputId": "7c3a0360-6d59-4acc-9ded-d18b3e3017f7",
+          "referenceIds": [
+            "9b940a50-c7c6-4c77-bb72-e4ba97274569"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-09-22T06:43:47.434Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 1816,
+            "input_tokens_details": {
+              "image_tokens": 1508,
+              "text_tokens": 308
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 4443
+          }
+        }
+      },
+      {
+        "id": "5a2ccdc6-b6b3-4728-8a1b-9f6a50e94f0c",
+        "src": "/uploads/products/5a2ccdc6-b6b3-4728-8a1b-9f6a50e94f0c.webp",
+        "order": 2,
+        "role": "informative",
+        "label": "გახსნილი შიდა ნაწილი",
+        "provenance": {
+          "workflowId": "3b450c80-fcd0-46bd-8a46-3e0259112fcd",
+          "outputId": "c02f5c1b-860b-4ccf-8ffc-a57b482d208d",
+          "referenceIds": [
+            "faae18ef-f911-428b-9d50-3247ba1e5477",
+            "90976e99-1c62-487e-b84a-aed166d6e264"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-09-22T06:44:21.965Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 3335,
+            "input_tokens_details": {
+              "image_tokens": 3016,
+              "text_tokens": 319
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 5962
+          }
+        }
+      }
+    ],
+    "isPublished": true,
+    "createdAt": "2026-09-22T06:39:30.806Z",
+    "updatedAt": "2026-09-22T06:55:54.573Z"
+  },
+  {
+    "id": "aa9ca800-4024-4513-ba48-89c2e9c34d2d",
+    "slug": "kkn-mc-001",
+    "code": "kkn-mc-001",
+    "categoryId": "4ad157de-8979-49e4-833c-3cb41b4343c8",
+    "order": 1,
+    "name": {
+      "ka": "მედლის ჩასადები 001",
+      "en": "Medal Case 001"
+    },
+    "shortDescription": {
+      "ka": "მედლის ჩასადები 001",
+      "en": "Medal Case 001"
+    },
+    "price": {
+      "mode": "contact"
+    },
+    "images": [],
+    "isPublished": false,
+    "createdAt": "2026-09-20T16:42:15.958Z",
+    "updatedAt": "2026-09-20T16:42:15.958Z"
+  },
+  {
+    "id": "a4b72353-0218-47fb-8aa9-3485771c619b",
+    "slug": "kkn-mc-002",
+    "code": "kkn-mc-002",
+    "categoryId": "4ad157de-8979-49e4-833c-3cb41b4343c8",
+    "order": 2,
+    "name": {
+      "ka": "მედლის ჩასადები 002",
+      "en": "Medal Case 002"
+    },
+    "shortDescription": {
+      "ka": "მედლის ჩასადები 002",
+      "en": "Medal Case 002"
+    },
+    "price": {
+      "mode": "contact"
+    },
+    "images": [],
+    "isPublished": false,
+    "createdAt": "2026-09-20T16:50:54.406Z",
+    "updatedAt": "2026-09-20T16:50:54.406Z"
+  },
+  {
+    "id": "182c4a6c-455f-493a-895e-65132cb84c43",
+    "slug": "kkn-mc-003",
+    "code": "kkn-mc-003",
+    "categoryId": "4ad157de-8979-49e4-833c-3cb41b4343c8",
+    "order": 3,
+    "name": {
+      "ka": "ბრენდირებული მედლის ჩასადები",
+      "en": "Branded Medal Case"
+    },
+    "shortDescription": {
+      "ka": "საქნახშირის ბრენდირებული მედლის ჩასადები",
+      "en": "Branded medal case for Saknakhshiri"
+    },
+    "price": {
+      "mode": "contact"
+    },
+    "images": [
+      {
+        "id": "1e6586ea-5de3-4ca7-bfdd-a4038ff19ff3",
+        "src": "/uploads/products/1e6586ea-5de3-4ca7-bfdd-a4038ff19ff3.webp",
+        "order": 1,
+        "role": "main",
+        "label": "დახურული 3/4 მთავარი ხედი",
+        "provenance": {
+          "workflowId": "452283a1-7e64-46a6-b2ef-e733a4aae170",
+          "outputId": "d77dcab4-44dd-4191-a352-7ece63ba44aa",
+          "referenceIds": [
+            "bcb190ac-08ab-41dc-958e-c38202f28a91"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-09-21T08:47:21.208Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 1822,
+            "input_tokens_details": {
+              "image_tokens": 1508,
+              "text_tokens": 314
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 4449
+          }
+        }
+      },
+      {
+        "id": "2508992b-9fd2-419f-8eb5-63c9fd237f94",
+        "src": "/uploads/products/2508992b-9fd2-419f-8eb5-63c9fd237f94.webp",
+        "order": 2,
+        "role": "informative",
+        "label": "გახსნილი შიდა ნაწილი",
+        "provenance": {
+          "workflowId": "452283a1-7e64-46a6-b2ef-e733a4aae170",
+          "outputId": "23f8caa7-0d28-459c-a190-295f5cc4bf2d",
+          "referenceIds": [
+            "5551c8f7-5665-45a2-afe9-238a49b5af7b",
+            "f85ac04f-75f8-4a25-9f04-ebc7e7f79621"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-09-21T08:47:57.140Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 3335,
+            "input_tokens_details": {
+              "image_tokens": 3016,
+              "text_tokens": 319
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 5962
+          }
+        }
+      },
+      {
+        "id": "57ad4900-4742-4ec4-af6b-1863de07ab5c",
+        "src": "/uploads/products/57ad4900-4742-4ec4-af6b-1863de07ab5c.webp",
+        "order": 3,
+        "role": "informative",
+        "label": "ბრენდის დეტალები",
+        "provenance": {
+          "workflowId": "452283a1-7e64-46a6-b2ef-e733a4aae170",
+          "outputId": "017282ef-b6cc-42a0-b1bd-be7b2e53238e",
+          "referenceIds": [
+            "96fdab08-d30e-4e9e-aa90-56c5b4c2404f"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-09-21T08:48:30.846Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 1817,
+            "input_tokens_details": {
+              "image_tokens": 1508,
+              "text_tokens": 309
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 4444
+          }
+        }
+      }
+    ],
+    "isPublished": true,
+    "createdAt": "2026-09-21T08:34:49.887Z",
+    "updatedAt": "2026-09-22T07:17:03.580Z"
+  },
+  {
+    "id": "d37585a2-b066-4e95-8412-d5207a66da9b",
+    "slug": "kkn-mc-004",
+    "code": "kkn-mc-004",
+    "categoryId": "4ad157de-8979-49e4-833c-3cb41b4343c8",
+    "order": 4,
+    "name": {
+      "ka": "მედლის ჩასადები",
+      "en": "Medal Case"
+    },
+    "shortDescription": {
+      "ka": "ფინანსთა სამინისტროს საგამოიძიებო სამსახურის მედლის ჩასადები",
+      "en": "Medal case for the Investigative Service of the Ministry of Finance"
+    },
+    "price": {
+      "mode": "contact"
+    },
+    "images": [
+      {
+        "id": "45a7b906-a433-45a0-9d99-ad6a3d3b09a1",
+        "src": "/uploads/products/45a7b906-a433-45a0-9d99-ad6a3d3b09a1.webp",
+        "order": 1,
+        "role": "main",
+        "label": "დახურული 3/4 მთავარი ხედი",
+        "provenance": {
+          "workflowId": "ae91d756-5dfb-41c8-834a-4497bcbb78f3",
+          "outputId": "8605aadc-acc3-4025-8bb5-fd39edd1b2f0",
+          "referenceIds": [
+            "9ecbd7ab-1567-4c61-9619-edbc4517cc5d",
+            "2f9bc09d-1236-46cf-9bcf-8e5c95ebef53"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-09-22T07:14:03.727Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 3340,
+            "input_tokens_details": {
+              "image_tokens": 3016,
+              "text_tokens": 324
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 5967
+          }
+        }
+      },
+      {
+        "id": "5c31d231-127b-406f-9768-194113b34a39",
+        "src": "/uploads/products/5c31d231-127b-406f-9768-194113b34a39.webp",
+        "order": 2,
+        "role": "informative",
+        "label": "გახსნილი შიდა ნაწილი",
+        "provenance": {
+          "workflowId": "ae91d756-5dfb-41c8-834a-4497bcbb78f3",
+          "outputId": "2a61eab3-b5df-46d8-8a0f-362806b392ff",
+          "referenceIds": [
+            "d8fc6022-5f93-48d2-833c-f41517919d6a"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-09-22T07:14:34.393Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 1817,
+            "input_tokens_details": {
+              "image_tokens": 1508,
+              "text_tokens": 309
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 4444
+          }
+        }
+      },
+      {
+        "id": "c4e22790-af12-4433-b4ac-4a860f1f3010",
+        "src": "/uploads/products/c4e22790-af12-4433-b4ac-4a860f1f3010.webp",
+        "order": 3,
+        "role": "informative",
+        "label": "დახურული წინა ხედი — ბრენდინგი",
+        "provenance": {
+          "workflowId": "ae91d756-5dfb-41c8-834a-4497bcbb78f3",
+          "outputId": "f6de7216-dc5d-4cdc-8d42-7fa8773183c4",
+          "referenceIds": [
+            "2f9bc09d-1236-46cf-9bcf-8e5c95ebef53"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-09-22T07:15:09.411Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 1823,
+            "input_tokens_details": {
+              "image_tokens": 1508,
+              "text_tokens": 315
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 4450
+          }
+        }
+      }
+    ],
+    "isPublished": true,
+    "createdAt": "2026-09-22T07:12:28.404Z",
+    "updatedAt": "2026-09-22T07:18:23.947Z"
+  },
+  {
+    "id": "8550e685-f9ed-4668-943c-9f004487f607",
+    "slug": "kkn-b-001",
+    "code": "kkn-b-001",
     "categoryId": "5878b95d-69ef-4d8c-812c-93dd41cca3b4",
     "order": 1,
     "name": {
-      "ka": "ოფიციალური დოკუმენტის ყდები 001"
+      "ka": "საქაღალდე (დიდი ზომის)",
+      "en": "Folder (for a large number of documents)"
     },
     "shortDescription": {
-      "ka": "ოფიციალური დოკუმენტის ყდები 001"
+      "ka": "დიდი ტევადობის ბრენდირებული საქაღალდე",
+      "en": "Large-capacity branded document folder"
+    },
+    "price": {
+      "mode": "contact"
+    },
+    "images": [
+      {
+        "id": "70cd7f16-09e2-4ec1-8ee7-a49e0477f42d",
+        "src": "/uploads/products/70cd7f16-09e2-4ec1-8ee7-a49e0477f42d.webp",
+        "order": 1,
+        "role": "main",
+        "label": "დახურული 3/4 მთავარი ხედი",
+        "provenance": {
+          "workflowId": "a24b3468-512d-4a4d-9ea5-ef808a733491",
+          "outputId": "4aca3d70-9705-477d-b4c1-d0e2a6acbe13",
+          "referenceIds": [
+            "dbfebb91-87fc-438d-be93-dd3c0e4db102",
+            "8a80f7a1-7a55-4abb-9042-f1ed4a2b4454"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-09-22T05:49:48.799Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 3340,
+            "input_tokens_details": {
+              "image_tokens": 3016,
+              "text_tokens": 324
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 5967
+          }
+        }
+      },
+      {
+        "id": "8243859a-6105-42e0-a84e-479f7c9dbf67",
+        "src": "/uploads/products/8243859a-6105-42e0-a84e-479f7c9dbf67.webp",
+        "order": 2,
+        "role": "informative",
+        "label": "დახურული წინა ხედი — ბრენდინგი",
+        "provenance": {
+          "workflowId": "a24b3468-512d-4a4d-9ea5-ef808a733491",
+          "outputId": "a0e28970-5bab-4a5e-adfe-a5beb28ad3fc",
+          "referenceIds": [
+            "8a80f7a1-7a55-4abb-9042-f1ed4a2b4454"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-09-22T05:50:23.455Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 1823,
+            "input_tokens_details": {
+              "image_tokens": 1508,
+              "text_tokens": 315
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 4450
+          }
+        }
+      },
+      {
+        "id": "5c3d3b00-f554-48b8-83fc-fc4f2e907006",
+        "src": "/uploads/products/5c3d3b00-f554-48b8-83fc-fc4f2e907006.webp",
+        "order": 3,
+        "role": "additional",
+        "label": "გვერდითი ხედი / სისქე",
+        "provenance": {
+          "workflowId": "a24b3468-512d-4a4d-9ea5-ef808a733491",
+          "outputId": "a5709f5e-02d3-4e01-a1ed-d4a39ff16f9b",
+          "referenceIds": [
+            "002af77b-5ce9-4d08-a0b3-83f452f89247"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-09-22T05:50:55.969Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 1819,
+            "input_tokens_details": {
+              "image_tokens": 1508,
+              "text_tokens": 311
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 4446
+          }
+        }
+      }
+    ],
+    "isPublished": true,
+    "createdAt": "2026-09-22T05:47:43.357Z",
+    "updatedAt": "2026-09-22T05:54:25.914Z"
+  },
+  {
+    "id": "56416c56-a721-4d9d-8597-5da29ab052e8",
+    "slug": "kkn-oc-001",
+    "categoryId": "5878b95d-69ef-4d8c-812c-93dd41cca3b4",
+    "order": 2,
+    "name": {
+      "ka": "ოფიციალური დოკუმენტის ყდები 001",
+      "en": "Official Document Cover 001"
+    },
+    "shortDescription": {
+      "ka": "ოფიციალური დოკუმენტის ყდები 001",
+      "en": "Official Document Cover 001"
     },
     "price": {
       "mode": "contact"
@@ -159,9 +2371,9 @@
         "kind": "detail_spine"
       }
     ],
-    "isPublished": true,
+    "isPublished": false,
     "createdAt": "2026-03-20T10:49:56.217Z",
-    "updatedAt": "2026-03-20T12:39:14.904Z",
+    "updatedAt": "2026-09-22T05:54:12.930Z",
     "legacySlugs": [
       "ოფიციალური-დოკუმენტის-ყდები-001"
     ],
@@ -171,12 +2383,14 @@
     "id": "d8d5f7b4-2104-46e7-aed5-594fc01d0106",
     "slug": "kkn-oc-002",
     "categoryId": "5878b95d-69ef-4d8c-812c-93dd41cca3b4",
-    "order": 2,
+    "order": 3,
     "name": {
-      "ka": "ოფიციალური დოკუმენტის ყდები 002"
+      "ka": "ოფიციალური დოკუმენტის ყდები 002",
+      "en": "Official Document Cover 002"
     },
     "shortDescription": {
-      "ka": "ოფიციალური დოკუმენტის ყდები 002"
+      "ka": "ოფიციალური დოკუმენტის ყდები 002",
+      "en": "Official Document Cover 002"
     },
     "price": {
       "mode": "contact"
@@ -201,13 +2415,169 @@
         "kind": "detail_spine"
       }
     ],
-    "isPublished": true,
+    "isPublished": false,
     "createdAt": "2026-03-20T11:30:56.424Z",
-    "updatedAt": "2026-03-20T12:34:57.398Z",
+    "updatedAt": "2026-09-22T05:54:14.262Z",
     "legacySlugs": [
       "ოფიციალური-დოკუმენტის-ყდები-002"
     ],
     "code": "kkn-oc-002"
+  },
+  {
+    "id": "348a0552-d419-4122-8467-18d86335111a",
+    "slug": "kkn-b-002",
+    "code": "kkn-b-002",
+    "categoryId": "9f8876d8-a54f-4d3d-9b97-258496c27f0a",
+    "order": 1,
+    "name": {
+      "ka": "ბრენდირებული ბაინდერი",
+      "en": "Branded Binder"
+    },
+    "shortDescription": {
+      "ka": "ბრენდირებული ბაინდერი",
+      "en": "Custom branded ring binder"
+    },
+    "price": {
+      "mode": "contact"
+    },
+    "images": [
+      {
+        "id": "4d06b982-da63-4d0d-a2d1-e24db1a88090",
+        "src": "/uploads/products/4d06b982-da63-4d0d-a2d1-e24db1a88090.webp",
+        "order": 1,
+        "role": "main",
+        "label": "დახურული 3/4 მთავარი ხედი",
+        "provenance": {
+          "workflowId": "3276ebf0-0886-4f7d-b3c3-dacb2ec72460",
+          "outputId": "4f97dd61-93fa-466f-b0ea-51324def530d",
+          "referenceIds": [
+            "bbab2d6c-ff65-4407-8322-a28cbae714e3",
+            "8e849a7d-e961-4409-8dbc-a3f4e7185eca"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-09-22T06:22:59.440Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 3340,
+            "input_tokens_details": {
+              "image_tokens": 3016,
+              "text_tokens": 324
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 5967
+          }
+        }
+      },
+      {
+        "id": "84e27eee-c154-4d11-b23a-48a31335eb71",
+        "src": "/uploads/products/84e27eee-c154-4d11-b23a-48a31335eb71.webp",
+        "order": 2,
+        "role": "informative",
+        "label": "გახსნილი შიდა ნაწილი",
+        "provenance": {
+          "workflowId": "3276ebf0-0886-4f7d-b3c3-dacb2ec72460",
+          "outputId": "06d3b326-8937-4e27-9ff1-956a135b1596",
+          "referenceIds": [
+            "4fd100dd-74c1-4c67-b21a-be91dacb8214"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-09-22T06:23:35.431Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 1817,
+            "input_tokens_details": {
+              "image_tokens": 1508,
+              "text_tokens": 309
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 4444
+          }
+        }
+      },
+      {
+        "id": "abad5a80-e09a-4e7d-baeb-1b42c512d1fb",
+        "src": "/uploads/products/abad5a80-e09a-4e7d-baeb-1b42c512d1fb.webp",
+        "order": 3,
+        "role": "informative",
+        "label": "დახურული წინა ხედი — ბრენდინგი",
+        "provenance": {
+          "workflowId": "3276ebf0-0886-4f7d-b3c3-dacb2ec72460",
+          "outputId": "d96d3db1-928f-4210-bf10-710138b1a53b",
+          "referenceIds": [
+            "8e849a7d-e961-4409-8dbc-a3f4e7185eca"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-09-22T06:24:11.043Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 1823,
+            "input_tokens_details": {
+              "image_tokens": 1508,
+              "text_tokens": 315
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 4450
+          }
+        }
+      },
+      {
+        "id": "205db7b8-e06d-434a-98f5-22b63438fd0d",
+        "src": "/uploads/products/205db7b8-e06d-434a-98f5-22b63438fd0d.webp",
+        "order": 4,
+        "role": "additional",
+        "label": "გვერდითი ხედი / სისქე",
+        "provenance": {
+          "workflowId": "3276ebf0-0886-4f7d-b3c3-dacb2ec72460",
+          "outputId": "4932a2a9-d01a-46ab-9d63-92d8f7da8e6f",
+          "referenceIds": [
+            "9dee8842-1925-4a66-9f65-25ca9eeeac90"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-09-22T06:24:44.780Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 1819,
+            "input_tokens_details": {
+              "image_tokens": 1508,
+              "text_tokens": 311
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 4446
+          }
+        }
+      }
+    ],
+    "isPublished": true,
+    "createdAt": "2026-09-22T06:13:04.590Z",
+    "updatedAt": "2026-09-22T06:25:24.456Z"
   },
   {
     "id": "b75c7557-5bcb-4c7b-a6b0-04098fdcd85d",
@@ -219,12 +2589,8 @@
       "en": "Diary"
     },
     "shortDescription": {
-      "ka": "ლორემ იპსუმ",
-      "en": "lorem ipsum"
-    },
-    "longDescription": {
-      "ka": "ლორემ იპსუმ",
-      "en": "lorem ipsum"
+      "ka": "ყოველდღიური 001",
+      "en": "Diary 001"
     },
     "price": {
       "mode": "contact"
@@ -236,12 +2602,90 @@
         "order": 1
       }
     ],
-    "isPublished": true,
+    "isPublished": false,
     "createdAt": "2026-03-20T05:59:38.649Z",
-    "updatedAt": "2026-03-20T05:59:38.649Z",
+    "updatedAt": "2026-09-22T05:54:18.013Z",
     "legacySlugs": [
       "diary"
     ],
     "code": "kkn-dy-001"
+  },
+  {
+    "id": "c77ba486-86d4-4e4d-9019-2a8a14aca454",
+    "slug": "kkn-wn-001",
+    "code": "kkn-wn-001",
+    "categoryId": "e83bd10d-4b67-488a-8a8b-1843961e62c3",
+    "order": 1,
+    "name": {
+      "ka": "მიმტანის ბლოკნოტი 001",
+      "en": "Waiter's Notebook 001"
+    },
+    "shortDescription": {
+      "ka": "მიმტანის ბლოკნოტი 001",
+      "en": "Waiter's Notebook 001"
+    },
+    "price": {
+      "mode": "contact"
+    },
+    "images": [],
+    "isPublished": false,
+    "createdAt": "2026-09-22T08:22:48.557Z",
+    "updatedAt": "2026-09-22T08:22:48.557Z"
+  },
+  {
+    "id": "af7e0179-fee6-431f-8a02-22d8244dcfc9",
+    "slug": "kkn-wn-002",
+    "code": "kkn-wn-002",
+    "categoryId": "e83bd10d-4b67-488a-8a8b-1843961e62c3",
+    "order": 2,
+    "name": {
+      "ka": "მიმტანის ბლოკნოტი",
+      "en": "Waiter's Notebook"
+    },
+    "shortDescription": {
+      "ka": "მიმტანის ბრენდირებული ბლოკნოტი",
+      "en": "Branded waiter's notebook"
+    },
+    "price": {
+      "mode": "contact"
+    },
+    "images": [
+      {
+        "id": "82561df7-f69e-43c3-bab6-ca7e926a469a",
+        "src": "/uploads/products/82561df7-f69e-43c3-bab6-ca7e926a469a.webp",
+        "order": 1,
+        "role": "main",
+        "label": "დახურული მთავარი ხედი",
+        "provenance": {
+          "workflowId": "f6968798-f34d-49c9-9bf8-0f3a7d59c652",
+          "outputId": "f57cff86-634b-4780-b103-54a2bc356aaa",
+          "referenceIds": [
+            "df21afb2-bd43-480d-9a76-d088db20dfef"
+          ],
+          "provider": "openai",
+          "model": "gpt-image-2.5-sunburst",
+          "generatedAt": "2026-09-22T08:26:03.614Z",
+          "quality": "high",
+          "size": "1600x1600",
+          "attempt": 1,
+          "usage": {
+            "input_tokens": 1815,
+            "input_tokens_details": {
+              "image_tokens": 1508,
+              "text_tokens": 307
+            },
+            "output_tokens": 2627,
+            "output_tokens_details": {
+              "image_tokens": 2627,
+              "text_tokens": 0
+            },
+            "total_tokens": 4442
+          }
+        }
+      }
+    ],
+    "isPublished": true,
+    "createdAt": "2026-09-22T08:24:42.729Z",
+    "updatedAt": "2026-09-22T08:26:28.457Z"
   }
 ]
